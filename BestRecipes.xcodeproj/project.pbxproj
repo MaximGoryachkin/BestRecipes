@@ -11,6 +11,8 @@
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
 		5743D2712A9D2F6C00FCC596 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */; };
 		5743D2732A9D339A00FCC596 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2722A9D339A00FCC596 /* HomeViewController.swift */; };
+		5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2742A9D52F800FCC596 /* UIImage+BGColor.swift */; };
+		5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */; };
 		57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */; };
 		8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */; };
 		8982B1602A9B4E0800C471E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15F2A9B4E0800C471E6 /* ViewController.swift */; };
@@ -37,6 +39,8 @@
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
 		5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5743D2722A9D339A00FCC596 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		5743D2742A9D52F800FCC596 /* UIImage+BGColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+BGColor.swift"; sourceTree = "<group>"; };
+		5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+ Extension.swift"; sourceTree = "<group>"; };
 		57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		8982B1582A9B4E0800C471E6 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 				8982B17A2A9B504A00C471E6 /* UIColor */,
 				8982B1772A9B504A00C471E6 /* UIFont */,
 				8982B19D2A9BA27700C471E6 /* UIImage */,
+				5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 			children = (
 				8982B18E2A9B594300C471E6 /* UIImage+Base.swift */,
 				8982B1902A9B5C3F00C471E6 /* UIImage+TabBar.swift */,
+				5743D2742A9D52F800FCC596 /* UIImage+BGColor.swift */,
 			);
 			path = UIImage;
 			sourceTree = "<group>";
@@ -331,11 +337,13 @@
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
 				8982B1912A9B5C3F00C471E6 /* UIImage+TabBar.swift in Sources */,
+				5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */,
 				8982B1602A9B4E0800C471E6 /* ViewController.swift in Sources */,
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
+				5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */,
 				8982B1852A9B504A00C471E6 /* UIColor+Green.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
