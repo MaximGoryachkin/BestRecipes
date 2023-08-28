@@ -62,8 +62,7 @@ class HomeViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupSearchBar()
-        
-
+        hideKeyboardWhenTappedAround()
     }
     
     
