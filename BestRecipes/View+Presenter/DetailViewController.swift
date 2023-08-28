@@ -269,7 +269,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = ingredientsTableView.dequeueReusableCell(withIdentifier: "ingredientsCell", for: indexPath) as! IngredientsTableViewCell
-            print(cell.contentView.bounds.height)
             return cell
         }
     }
