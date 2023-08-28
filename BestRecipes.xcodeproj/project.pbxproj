@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */; };
 		8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */; };
 		8982B1602A9B4E0800C471E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15F2A9B4E0800C471E6 /* ViewController.swift */; };
 		8982B1652A9B4E0900C471E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8982B1642A9B4E0900C471E6 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		8982B1582A9B4E0800C471E6 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8982B15F2A9B4E0800C471E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				8982B1A02A9BA87F00C471E6 /* Main */,
 				8982B1922A9B761100C471E6 /* Onboarding */,
 				8982B15F2A9B4E0800C471E6 /* ViewController.swift */,
+				57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */,
 			);
 			path = "View+Presenter";
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
 				8982B1762A9B4E8400C471E6 /* AppDelegate.swift in Sources */,
+				57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */,
 				8982B1882A9B504A00C471E6 /* UIColor+Secondary.swift in Sources */,
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
