@@ -289,6 +289,7 @@ class HomeViewController: UIViewController {
     private func setupCollections() {
         trendingCollection.delegate = self
         trendingCollection.dataSource = self
+        trendingCollection.register(TrendingNowCollectionViewCell.self, forCellWithReuseIdentifier: "TrendingCell")
         
         categoryesNamesCollection.delegate = self
         categoryesNamesCollection.dataSource = self
@@ -326,7 +327,9 @@ extension HomeViewController : UISearchBarDelegate {
 extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == categoryesNamesCollection {
+        if collectionView == trendingCollection {
+            return 10
+        } else if collectionView == categoryesNamesCollection {
             return 10
         } else if collectionView == categoryesItemsCollection {
             return 10
@@ -341,7 +344,12 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionView == categoryesNamesCollection {
+        if collectionView == trendingCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingCell", for: indexPath) as! TrendingNowCollectionViewCell
+            
+            return cell
+            
+        } else if collectionView == categoryesNamesCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryNamesCell", for: indexPath) as! CategoryesNamesCollectionViewCell
             
             return cell
