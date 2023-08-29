@@ -6,7 +6,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     private let itemImage : UIImageView = {
         let img = UIImageView()
-        img.image = .profileActive
+        img.image = .plusBorder
         img.contentMode = .scaleToFill
         img.layer.cornerRadius = 55
         img.clipsToBounds = true
@@ -92,7 +92,6 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         configure()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

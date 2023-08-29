@@ -4,7 +4,7 @@ class HomeViewController: UIViewController {
     // MARK: - Data
     
     private var contentSize : CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 400)
+        CGSize(width: view.frame.width, height: view.frame.height + 560)
     }
     
     // MARK: - UI Elements
@@ -82,6 +82,17 @@ class HomeViewController: UIViewController {
         return bt
     }()
     
+    private let trendingCollection : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 280, height: 254)
+        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        c.heightAnchor.constraint(equalToConstant: 260).isActive = true
+        c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        c.translatesAutoresizingMaskIntoConstraints = false
+        return c
+    }()
+    
     private lazy var popularTitleLabel : UILabel = {
         let lb = UILabel()
         lb.font = .poppinsBold20
@@ -107,7 +118,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 150, height: 231)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 240).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 245).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -146,7 +157,46 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 124, height: 190)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 205).isActive = true
+        c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        c.translatesAutoresizingMaskIntoConstraints = false
+        return c
+    }()
+    
+    private lazy var creatorsTitlesStack : UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.alignment = .center
+        return stack
+    }()
+    
+    private lazy var creatorsTitleLabel : UILabel = {
+        let lb = UILabel()
+        lb.font = .poppinsBold20
+        lb.textColor = .neutral100
+        lb.textAlignment = .left
+        lb.text = "Popular creators"
+        return lb
+    }()
+    
+    private lazy var creatorsSeeAllButton : UIButton = {
+        let bt = UIButton()
+        bt.setTitle("See all", for: .normal)
+        bt.setTitleColor(.primary50, for: .normal)
+        bt.setImage(.arrowRight, for: .normal)
+        bt.titleLabel?.font = .poppinsRegular16
+        bt.semanticContentAttribute = .forceRightToLeft
+        bt.addTarget(self, action: #selector(creatorsSeeAllTaped(_:)), for: .touchUpInside)
+        return bt
+    }()
+    
+    private let creatorsCollection : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 110, height: 136)
+        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        c.heightAnchor.constraint(equalToConstant: 142).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -182,6 +232,14 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @objc private func creatorsSeeAllTaped(_ sender: UIButton) {
+        sender.alpha = 0.5
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1
+        }
+    }
+    
     // MARK: - ConfigureUI
 
     private func addSubviews() {
@@ -193,6 +251,7 @@ class HomeViewController: UIViewController {
         contentStackView.addArrangedSubview(trendingMainStack)
         trendingMainStack.addArrangedSubview(trendingTitleLabel)
         trendingMainStack.addArrangedSubview(trendingSeeAllButton)
+        contentStackView.addArrangedSubview(trendingCollection)
         contentStackView.addArrangedSubview(popularTitleLabel)
         contentStackView.addArrangedSubview(categoryesNamesCollection)
         contentStackView.addArrangedSubview(categoryesItemsCollection)
@@ -200,6 +259,10 @@ class HomeViewController: UIViewController {
         recentTitlesStack.addArrangedSubview(recentTitleLabel)
         recentTitlesStack.addArrangedSubview(recentSeeAllButton)
         contentStackView.addArrangedSubview(recentRecipeCollection)
+        contentStackView.addArrangedSubview(creatorsTitlesStack)
+        creatorsTitlesStack.addArrangedSubview(creatorsTitleLabel)
+        creatorsTitlesStack.addArrangedSubview(creatorsSeeAllButton)
+        contentStackView.addArrangedSubview(creatorsCollection)
     }
     
     private func setupConstraints() {
@@ -213,6 +276,8 @@ class HomeViewController: UIViewController {
             popularTitleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             recentTitlesStack.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             recentTitlesStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
+            creatorsTitlesStack.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            creatorsTitlesStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
         ])
     }
     
@@ -222,6 +287,9 @@ class HomeViewController: UIViewController {
     }
     
     private func setupCollections() {
+        trendingCollection.delegate = self
+        trendingCollection.dataSource = self
+        
         categoryesNamesCollection.delegate = self
         categoryesNamesCollection.dataSource = self
         categoryesNamesCollection.register(CategoryesNamesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryNamesCell")
@@ -233,16 +301,15 @@ class HomeViewController: UIViewController {
         recentRecipeCollection.delegate = self
         recentRecipeCollection.dataSource = self
         recentRecipeCollection.register(RecentRecipeCollectionViewCell.self, forCellWithReuseIdentifier: "RecentCell")
+        
+        creatorsCollection.delegate = self
+        creatorsCollection.dataSource = self
+        creatorsCollection.register(CreatorsCollectionViewCell.self, forCellWithReuseIdentifier: "CreatorsCell")
     }
     
     
     
 }
-
-
-// MARK: - TableView Delegate & DataSource
-
-
 
 // MARK: - SearchBar Delegates
 
@@ -264,6 +331,8 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesItemsCollection {
             return 10
         } else if collectionView == recentRecipeCollection {
+            return 10
+        } else if collectionView == creatorsCollection {
             return 10
         } else {
             return 0
@@ -287,7 +356,11 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
             
             return cell
-        } else {
+        } else if collectionView == creatorsCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreatorsCell", for: indexPath) as! CreatorsCollectionViewCell
+            return cell
+        }
+        else {
             return UICollectionViewCell()
         }
     }
