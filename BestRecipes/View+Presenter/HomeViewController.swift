@@ -102,6 +102,17 @@ class HomeViewController: UIViewController {
         return c
     }()
     
+    private let categoryesItemsCollection : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 150, height: 231)
+        let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        c.heightAnchor.constraint(equalToConstant: 240).isActive = true
+        c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        c.translatesAutoresizingMaskIntoConstraints = false
+        return c
+    }()
+    
     // MARK: - LifeCycle Methods
     
     override func viewDidLoad() {
@@ -137,6 +148,7 @@ class HomeViewController: UIViewController {
         trendingMainStack.addArrangedSubview(trendingSeeAllButton)
         contentStackView.addArrangedSubview(popularTitleLabel)
         contentStackView.addArrangedSubview(categoryesNamesCollection)
+        contentStackView.addArrangedSubview(categoryesItemsCollection)
 
     }
     
@@ -161,6 +173,10 @@ class HomeViewController: UIViewController {
         categoryesNamesCollection.delegate = self
         categoryesNamesCollection.dataSource = self
         categoryesNamesCollection.register(CategoryesNamesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryNamesCell")
+        
+        categoryesItemsCollection.delegate = self
+        categoryesItemsCollection.dataSource = self
+        categoryesItemsCollection.register(CategoryesItemsCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryItemsCell")
     }
     
     
@@ -189,6 +205,8 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == categoryesNamesCollection {
             return 10
+        } else if collectionView == categoryesItemsCollection {
+            return 10
         } else {
             return 0
         }
@@ -198,6 +216,12 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         
         if collectionView == categoryesNamesCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryNamesCell", for: indexPath) as! CategoryesNamesCollectionViewCell
+            
+            return cell
+            
+        } else if collectionView == categoryesItemsCollection {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryItemsCell", for: indexPath) as! CategoryesItemsCollectionViewCell
             
             return cell
         } else {
