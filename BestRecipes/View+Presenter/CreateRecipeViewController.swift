@@ -2,6 +2,15 @@ import UIKit
 
 class CreateRecipeViewController: UIViewController {
     
+    // MARK: - Data
+    
+    private var countOfSettingsCells : Int = 2
+    
+    private var heightForSettingTV : CGFloat {
+        let result = 72 * countOfSettingsCells
+        return CGFloat(result)
+    }
+    
     // MARK: - UI Elements
     
     private lazy var contentStackView : UIStackView = {
@@ -62,16 +71,60 @@ class CreateRecipeViewController: UIViewController {
         return piker
     }()
     
+    private let recipeNameTextView : UITextView = {
+        let text = UITextView()
+        text.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        text.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        text.layer.cornerRadius = 8
+        text.layer.borderColor = UIColor.primary50.cgColor
+        text.layer.borderWidth = 1
+        text.textAlignment = .center
+        text.font = .poppinsRegularLabel
+        text.textColor = .neutral100
+        text.text = "Enter Recipe Name"
+        text.returnKeyType = .done
+        text.translatesAutoresizingMaskIntoConstraints = false
+        return text
+    }()
+    
+    private let settingTableView : UITableView = {
+        let tb = UITableView()
+        tb.separatorStyle = .none
+        tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        tb.translatesAutoresizingMaskIntoConstraints = false
+        return tb
+    }()
+    
+    private lazy var ingredientsTitleLabel : UILabel = {
+        let lb = UILabel()
+        lb.font = .poppinsBold20
+        lb.textColor = .neutral100
+        lb.textAlignment = .left
+        lb.text = "Ingredients"
+        return lb
+    }()
+    
+    private let ingredientsTableView : UITableView = {
+        let tb = UITableView()
+        tb.separatorStyle = .none
+        tb.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        tb.translatesAutoresizingMaskIntoConstraints = false
+        return tb
+    }()
     
     // MARK: - LifeCycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
         addSubviews()
         setupConstraints()
         setupPicker()
-
+        setupTextView()
+        setupTableViews()
+        
     }
     
     // MARK: - Buttons Methods
@@ -93,6 +146,10 @@ class CreateRecipeViewController: UIViewController {
         contentStackView.addArrangedSubview(imageBubleView)
         imageBubleView.addSubview(recipeImage)
         imageBubleView.addSubview(additButton)
+        contentStackView.addArrangedSubview(recipeNameTextView)
+        contentStackView.addArrangedSubview(settingTableView)
+        contentStackView.addArrangedSubview(ingredientsTitleLabel)
+        contentStackView.addArrangedSubview(ingredientsTableView)
     }
     
     private func setupConstraints() {
@@ -109,6 +166,9 @@ class CreateRecipeViewController: UIViewController {
             
             additButton.topAnchor.constraint(equalTo: imageBubleView.topAnchor, constant: 8),
             additButton.trailingAnchor.constraint(equalTo: imageBubleView.trailingAnchor, constant: -8),
+            
+            settingTableView.heightAnchor.constraint(equalToConstant: heightForSettingTV),
+            ingredientsTitleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
         ])
     }
     
@@ -117,6 +177,19 @@ class CreateRecipeViewController: UIViewController {
         photoPikerView.sourceType = .photoLibrary
     }
     
+    private func setupTextView() {
+        recipeNameTextView.delegate = self
+    }
+    
+    private func setupTableViews() {
+        settingTableView.delegate = self
+        settingTableView.dataSource = self
+        settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: "SettingsCell")
+        
+        ingredientsTableView.delegate = self
+        ingredientsTableView.dataSource = self
+        ingredientsTableView.register(CreateIngredientsTableViewCell.self, forCellReuseIdentifier: "ingredients")
+    }
 }
 
 // MARK: - PickerView Delegate
@@ -132,4 +205,41 @@ extension CreateRecipeViewController : UIImagePickerControllerDelegate & UINavig
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
-    }}
+    }
+}
+
+// MARK: - UITextView Delegate
+
+extension CreateRecipeViewController : UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+}
+
+ // MARK: - UITableView Delegate & DataSource
+
+extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == settingTableView {
+            return 2
+        } else {
+            return 3
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == settingTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",for: indexPath) as! SettingTableViewCell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
+            
+            return cell
+        }
+    }
+}
