@@ -13,7 +13,7 @@ class DataManager {
     
     let baseURL = "https://api.spoonacular.com/recipes/"
     
-    init() {}
+    private init() {}
 }
 
 enum GetRecipe: String {
