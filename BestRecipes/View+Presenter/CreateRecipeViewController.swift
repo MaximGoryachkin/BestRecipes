@@ -157,6 +157,11 @@ class CreateRecipeViewController: UIViewController {
         setupTextFields()
         setupTableViews()
         setupButton()
+        registerForKeyBoardNotifications()
+    }
+    
+    deinit {
+        removeKeyBoardNotification()
     }
     
     // MARK: - Buttons Methods
@@ -242,6 +247,35 @@ class CreateRecipeViewController: UIViewController {
     private func setupButton () {
         createButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         createButton.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
+    }
+    
+    private func registerForKeyBoardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyBoardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func kbWillShow(_ notification: Notification) {
+        if recipeNameTextField.isEditing {
+        } else {
+            let userInfo = notification.userInfo
+            let keyBoardFrameSize = ( userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            scrollView.contentOffset = CGPoint(x: 0, y: keyBoardFrameSize.height)
+        }
+
+    }
+    
+    @objc private func kbWillHide() {
+        if recipeNameTextField.isEditing {
+        } else {
+            scrollView.contentOffset = CGPoint.zero
+        }
     }
 }
 
