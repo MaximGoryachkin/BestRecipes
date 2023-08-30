@@ -12,18 +12,18 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
-    let apiKey = ""
+    let apiKey = "96e9dcad31254d1fb414fd818ca07ad0"
     let number = 1
     let id = 100
     
     private init() {}
     
     var randomRecipe: String {
-        baseURL + GetRecipe.random.rawValue + apiKey + "&number=\(number)"
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=\(number)"
     }
     
     var recipeURL: String {
-        baseURL + "\(id)/" + GetRecipe.information.rawValue + apiKey
+        baseURL + "\(id)/" + GetRecipe.information.rawValue + "?apiKey=" + apiKey
     }
 }
 

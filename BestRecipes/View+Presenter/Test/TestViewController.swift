@@ -29,9 +29,13 @@ class TestViewController: UIViewController {
         label.font = .systemFont(ofSize: 20)
         
         Task {
-            if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.randomRecipe) {
-                presenter = TestPresenter(view: self, recipe: recipes.recipes[0])
-                presenter.showTitle()
+            do {
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.randomRecipe) {
+                    presenter = TestPresenter(view: self, recipe: recipes.recipes[0])
+                    presenter.showTitle()
+                }
+            } catch {
+                print(error)
             }
         }
         
