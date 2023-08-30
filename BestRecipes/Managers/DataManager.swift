@@ -12,8 +12,19 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
+    let apiKey = ""
+    let number = 1
+    let id = 100
     
     private init() {}
+    
+    var randomRecipe: String {
+        baseURL + GetRecipe.random.rawValue + apiKey + "&number=\(number)"
+    }
+    
+    var recipeURL: String {
+        baseURL + "\(id)/" + GetRecipe.information.rawValue + apiKey
+    }
 }
 
 enum GetRecipe: String {

@@ -24,7 +24,6 @@ class NetworkManager {
             guard let data = data else { return }
             do {
                 let recipes = try JSONDecoder().decode(Recipe.self, from: data)
-                print(recipes.id)
                 DispatchQueue.main.async {
                     complition(recipes)
                 }
@@ -53,5 +52,21 @@ class NetworkManager {
             }
         }.resume()
     }
-
+    
+    func fetchData(from url: String?) async throws -> Recipe? {
+        guard let stringURL = url else { return nil }
+        guard let url = URL(string: stringURL) else { return nil }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let recipe = try JSONDecoder().decode(Recipe.self, from: data)
+        return recipe
+    }
+    
+    func fetchArrayData(from url: String?) async throws -> Recipes? {
+        guard let stringURL = url else { return nil }
+        guard let url = URL(string: stringURL) else { return nil }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let recipes = try JSONDecoder().decode(Recipes.self, from: data)
+        return recipes
+    }
+    
 }
