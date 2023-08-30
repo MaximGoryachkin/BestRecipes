@@ -52,6 +52,8 @@
 		8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B02A9D176E00C471E6 /* Ingridients.swift */; };
 		8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B22A9D178700C471E6 /* Instruction.swift */; };
 		8982B1B52A9D179B00C471E6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B42A9D179B00C471E6 /* Step.swift */; };
+		D5D534162A9F875B008B733C /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D534152A9F875B008B733C /* TrendingViewController.swift */; };
+		D5D534182A9F879E008B733C /* TrendingNowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D534172A9F879E008B733C /* TrendingNowCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +104,8 @@
 		8982B1B02A9D176E00C471E6 /* Ingridients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingridients.swift; sourceTree = "<group>"; };
 		8982B1B22A9D178700C471E6 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		8982B1B42A9D179B00C471E6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		D5D534152A9F875B008B733C /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingViewController.swift; path = "BestRecipes/View+Presenter/TrendingViewController.swift"; sourceTree = SOURCE_ROOT; };
+		D5D534172A9F879E008B733C /* TrendingNowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingNowCell.swift; path = "BestRecipes/View+Presenter/TrendingNowCell.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +324,8 @@
 		8982B1A32A9BA8D000C471E6 /* Tranding */ = {
 			isa = PBXGroup;
 			children = (
+				D5D534152A9F875B008B733C /* TrendingViewController.swift */,
+				D5D534172A9F879E008B733C /* TrendingNowCell.swift */,
 			);
 			path = Tranding;
 			sourceTree = "<group>";
@@ -444,6 +450,8 @@
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
 				8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */,
 				8982B1AF2A9D175900C471E6 /* Recipe.swift in Sources */,
+				D5D534182A9F879E008B733C /* TrendingNowCell.swift in Sources */,
+				D5D534162A9F875B008B733C /* TrendingViewController.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
