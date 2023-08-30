@@ -2,9 +2,11 @@ import UIKit
 
 class CategoryesNamesCollectionViewCell: UICollectionViewCell {
     
+    private var itemeSelected : Bool = false
+    
     private let mainTitle : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsRegular16
+        lb.font = .poppinsBoldSmall
         lb.textColor = .primary20
         lb.textAlignment = .left
         lb.text = "Breakfast"
@@ -33,8 +35,18 @@ class CategoryesNamesCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func changesForSelected() {
+    private func changesForSelected() {
         contentView.backgroundColor = .primary50
         mainTitle.textColor = .white
+    }
+    
+    private func resotreCleanUI() {
+        contentView.backgroundColor = .clear
+        mainTitle.textColor = .primary20
+    }
+    
+    func didSelectedRow() {
+        itemeSelected = !itemeSelected
+        itemeSelected == true ? changesForSelected() : resotreCleanUI()
     }
 }

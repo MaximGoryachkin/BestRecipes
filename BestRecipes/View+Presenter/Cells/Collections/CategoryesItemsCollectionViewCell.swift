@@ -28,7 +28,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     private lazy var itemTitleLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        lb.font = .poppinsBoldLabel
         lb.textColor = .neutral100
         lb.textAlignment = .center
         lb.text = "Chicken and Vegetable wrap"
@@ -49,7 +49,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     private lazy var timeTitleLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        lb.font = .poppinsRegularSmall
         lb.textColor = .neutral30
         lb.textAlignment = .left
         lb.text = "Time"
@@ -68,7 +68,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     private lazy var timeCountLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        lb.font = .poppinsBoldSmall
         lb.textColor = .neutral100
         lb.textAlignment = .left
         lb.text = "5 Mins"
@@ -78,11 +78,11 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     private lazy var favoriteButton : UIButton = {
         let btn = UIButton()
-        btn.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        btn.layer.cornerRadius = 17
+        btn.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        btn.layer.cornerRadius = 12
         btn.backgroundColor = .white
-        btn.setImage(.bookmarkInactive, for: .normal)
+        btn.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(favoriteTaped(_:)), for: .touchUpInside)
         return btn
@@ -129,6 +129,6 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     @objc private func favoriteTaped(_ sender: UIButton) {
         itemSaved = !itemSaved
         
-        itemSaved == true ? sender.setImage(.bookmarkActive, for: .normal) : sender.setImage(.bookmarkInactive, for: .normal)
+        itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
     }
 }
