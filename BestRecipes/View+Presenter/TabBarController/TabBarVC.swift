@@ -16,7 +16,6 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         setupTabBar()
         setupTabBarBG()
         setupItems()
-        setupCreateRecipeButton()
     }
     
     private func setupTabBar() {
@@ -24,7 +23,7 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupItems() {
-        let home = UIViewController()
+        let home = HomeViewController()
         home.tabBarItem.image = UIImage(named: "Home/Inactive")
         home.tabBarItem.selectedImage = UIImage(named: "Home/Active")
         
@@ -32,7 +31,8 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         bookmarks.tabBarItem.image = UIImage(named: "Bookmark/Inactive")
         bookmarks.tabBarItem.selectedImage = UIImage(named: "Bookmark/Active")
         
-        let createRecipe = UIViewController()
+        let createRecipe = CreateRecipeViewController()
+        createRecipe.tabBarItem.image = UIImage(named: "createRecipeButton")
         
         let notifications = UIViewController()
         notifications.tabBarItem.image = UIImage(named: "Notification/Inactive")
@@ -44,22 +44,12 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         
         home.tabBarItem.imageInsets = UIEdgeInsets(top: -7, left: 0, bottom: 7, right: 0)
         bookmarks.tabBarItem.imageInsets = UIEdgeInsets(top: -7, left: 0, bottom: 7, right: 0)
+        createRecipe.tabBarItem.imageInsets = UIEdgeInsets(top: -37, left: 0, bottom: 37, right: 0)
         notifications.tabBarItem.imageInsets = UIEdgeInsets(top: -7, left: 0, bottom: 7, right: 0)
         profile.tabBarItem.imageInsets = UIEdgeInsets(top: -7, left: 0, bottom: 7, right: 0)
         
+        
         setViewControllers([home, bookmarks, createRecipe, notifications, profile], animated: true)
-    }
-    
-    private func setupCreateRecipeButton() {
-        let middleButton = UIButton(frame: CGRect(x: (self.view.bounds.width / 2) - 24, y: -37, width: 48, height: 48))        
-        middleButton.setImage(UIImage(named: "createRecipeButton"), for: .normal)
-        self.tabBar.addSubview(middleButton)
-        middleButton.addTarget(self, action: #selector(createRecipeButtonPressed), for: .touchUpInside)
-        self.view.layoutIfNeeded()
-    }
-    
-    @objc func createRecipeButtonPressed(sender: UIButton) {
-        print("createRecipeButtonPressed")
     }
     
     private func setupTabBarBG() {
