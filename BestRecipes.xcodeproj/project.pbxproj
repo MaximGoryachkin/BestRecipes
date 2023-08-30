@@ -43,6 +43,14 @@
 		8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B18E2A9B594300C471E6 /* UIImage+Base.swift */; };
 		8982B1912A9B5C3F00C471E6 /* UIImage+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1902A9B5C3F00C471E6 /* UIImage+TabBar.swift */; };
 		8982B1A52A9BAA6E00C471E6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8982B1A42A9BAA6E00C471E6 /* README.md */; };
+		8982B1A72A9CDBEC00C471E6 /* Recipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1A62A9CDBEC00C471E6 /* Recipes.swift */; };
+		8982B1A92A9D05E100C471E6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1A82A9D05E100C471E6 /* NetworkManager.swift */; };
+		8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1AA2A9D069600C471E6 /* ImageManager.swift */; };
+		8982B1AD2A9D070200C471E6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1AC2A9D070200C471E6 /* DataManager.swift */; };
+		8982B1AF2A9D175900C471E6 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1AE2A9D175900C471E6 /* Recipe.swift */; };
+		8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B02A9D176E00C471E6 /* Ingridients.swift */; };
+		8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B22A9D178700C471E6 /* Instruction.swift */; };
+		8982B1B52A9D179B00C471E6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B42A9D179B00C471E6 /* Step.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +92,14 @@
 		8982B18E2A9B594300C471E6 /* UIImage+Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Base.swift"; sourceTree = "<group>"; };
 		8982B1902A9B5C3F00C471E6 /* UIImage+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TabBar.swift"; sourceTree = "<group>"; };
 		8982B1A42A9BAA6E00C471E6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		8982B1A62A9CDBEC00C471E6 /* Recipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipes.swift; sourceTree = "<group>"; };
+		8982B1A82A9D05E100C471E6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		8982B1AA2A9D069600C471E6 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		8982B1AC2A9D070200C471E6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8982B1AE2A9D175900C471E6 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		8982B1B02A9D176E00C471E6 /* Ingridients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingridients.swift; sourceTree = "<group>"; };
+		8982B1B22A9D178700C471E6 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		8982B1B42A9D179B00C471E6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +210,7 @@
 		8982B1722A9B4E4600C471E6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8982B1B62A9D293800C471E6 /* Recipes */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +277,9 @@
 		8982B19F2A9BA78800C471E6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				8982B1A82A9D05E100C471E6 /* NetworkManager.swift */,
+				8982B1AA2A9D069600C471E6 /* ImageManager.swift */,
+				8982B1AC2A9D070200C471E6 /* DataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -291,6 +311,18 @@
 			children = (
 			);
 			path = Tranding;
+			sourceTree = "<group>";
+		};
+		8982B1B62A9D293800C471E6 /* Recipes */ = {
+			isa = PBXGroup;
+			children = (
+				8982B1A62A9CDBEC00C471E6 /* Recipes.swift */,
+				8982B1AE2A9D175900C471E6 /* Recipe.swift */,
+				8982B1B02A9D176E00C471E6 /* Ingridients.swift */,
+				8982B1B22A9D178700C471E6 /* Instruction.swift */,
+				8982B1B42A9D179B00C471E6 /* Step.swift */,
+			);
+			path = Recipes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,13 +401,17 @@
 				5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */,
 				5743D2712A9D2F6C00FCC596 /* DetailViewController.swift in Sources */,
 				8982B1842A9B504A00C471E6 /* UIColor+Nautral.swift in Sources */,
+				8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */,
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
+				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
 				5743D2732A9D339A00FCC596 /* HomeViewController.swift in Sources */,
 				579DA5BD2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift in Sources */,
 				8982B1762A9B4E8400C471E6 /* AppDelegate.swift in Sources */,
+				8982B1A92A9D05E100C471E6 /* NetworkManager.swift in Sources */,
 				57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */,
+				8982B1AD2A9D070200C471E6 /* DataManager.swift in Sources */,
 				57C9B2422A9EBC6C000F298B /* CreateIngredientsTableViewCell.swift in Sources */,
 				8982B1882A9B504A00C471E6 /* UIColor+Secondary.swift in Sources */,
 				57CC8CD52A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift in Sources */,
@@ -383,8 +419,10 @@
 				57C9B2442A9EC0E6000F298B /* UITextField+ Extension.swift in Sources */,
 				57C9B23C2A9E9642000F298B /* CreateRecipeViewController.swift in Sources */,
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
+				8982B1B52A9D179B00C471E6 /* Step.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
 				8982B1912A9B5C3F00C471E6 /* UIImage+TabBar.swift in Sources */,
+				8982B1A72A9CDBEC00C471E6 /* Recipes.swift in Sources */,
 				5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */,
 				8982B1602A9B4E0800C471E6 /* ViewController.swift in Sources */,
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
@@ -392,6 +430,8 @@
 				5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */,
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
+				8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */,
+				8982B1AF2A9D175900C471E6 /* Recipe.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
