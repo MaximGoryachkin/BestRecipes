@@ -11,7 +11,24 @@ class CreateRecipeViewController: UIViewController {
         return CGFloat(result)
     }
     
+    private var contentSize : CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height + 100)
+    }
+    
     // MARK: - UI Elements
+    
+    private lazy var scrollView : UIScrollView = {
+        let s = UIScrollView()
+        s.contentSize = contentSize
+        s.frame = view.bounds
+        return s
+    }()
+    
+    private lazy var contentView : UIView = {
+        let content = UIView()
+        content.frame.size = contentSize
+        return content
+    }()
     
     private lazy var contentStackView : UIStackView = {
         let stack = UIStackView()
@@ -107,11 +124,24 @@ class CreateRecipeViewController: UIViewController {
     private let ingredientsTableView : UITableView = {
         let tb = UITableView()
         tb.separatorStyle = .none
-        tb.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        tb.heightAnchor.constraint(equalToConstant: 165).isActive = true
         tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         tb.translatesAutoresizingMaskIntoConstraints = false
         return tb
     }()
+    
+    private lazy var addNewIngrButton : UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Add new Ingredient", for: .normal)
+        btn.setTitleColor(.neutral100, for: .normal)
+        btn.titleLabel?.font = .poppinsBold16
+        btn.setImage(.plus, for: .normal)
+        btn.addTarget(self, action: #selector(addIngredientTaped(_:)), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    private lazy var createButton = CustomButton(style: .squareTextRed , title: "Create recipe")
     
     // MARK: - LifeCycle Methods
 
@@ -124,7 +154,7 @@ class CreateRecipeViewController: UIViewController {
         setupPicker()
         setupTextView()
         setupTableViews()
-        
+        setupButton()
     }
     
     // MARK: - Buttons Methods
@@ -138,10 +168,23 @@ class CreateRecipeViewController: UIViewController {
         }
     }
     
+    @objc private func addIngredientTaped(_ sender: UIButton) {
+        sender.alpha = 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1
+        }
+    }
+    
+    @objc private func createTapped() {
+        
+    }
+    
     // MARK: - Configure UI
     
     private func addSubviews() {
-        view.addSubview(contentStackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(imageBubleView)
         imageBubleView.addSubview(recipeImage)
@@ -150,13 +193,15 @@ class CreateRecipeViewController: UIViewController {
         contentStackView.addArrangedSubview(settingTableView)
         contentStackView.addArrangedSubview(ingredientsTitleLabel)
         contentStackView.addArrangedSubview(ingredientsTableView)
+        contentStackView.addArrangedSubview(addNewIngrButton)
+        contentStackView.addArrangedSubview(createButton)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            contentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            contentStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 80),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             titleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             recipeImage.topAnchor.constraint(equalTo: imageBubleView.topAnchor),
@@ -169,6 +214,7 @@ class CreateRecipeViewController: UIViewController {
             
             settingTableView.heightAnchor.constraint(equalToConstant: heightForSettingTV),
             ingredientsTitleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            addNewIngrButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
         ])
     }
     
@@ -189,6 +235,11 @@ class CreateRecipeViewController: UIViewController {
         ingredientsTableView.delegate = self
         ingredientsTableView.dataSource = self
         ingredientsTableView.register(CreateIngredientsTableViewCell.self, forCellReuseIdentifier: "ingredients")
+    }
+    
+    private func setupButton () {
+        createButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        createButton.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
     }
 }
 
