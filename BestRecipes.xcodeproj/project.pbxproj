@@ -18,6 +18,7 @@
 		579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5B82A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift */; };
 		579DA5BB2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5BA2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift */; };
 		579DA5BD2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5BC2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift */; };
+		579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */; };
 		57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */; };
 		57CC8CD52A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CC8CD42A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift */; };
 		8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */; };
@@ -52,6 +53,7 @@
 		579DA5B82A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipeCollectionViewCell.swift; sourceTree = "<group>"; };
 		579DA5BA2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		579DA5BC2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingNowCollectionViewCell.swift; sourceTree = "<group>"; };
+		579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = "BestRecipes/View+Presenter/Cells/Collections/DiscoverViewController.swift"; sourceTree = SOURCE_ROOT; };
 		57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		57CC8CD42A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryesNamesCollectionViewCell.swift; sourceTree = "<group>"; };
 		8982B1582A9B4E0800C471E6 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +262,7 @@
 		8982B1A12A9BA88600C471E6 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */,
 				8982B1602A9B4E0800C471E6 /* ViewController.swift in Sources */,
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
+				579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */,
 				5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */,
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
