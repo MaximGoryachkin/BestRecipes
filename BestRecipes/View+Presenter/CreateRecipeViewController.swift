@@ -268,7 +268,6 @@ class CreateRecipeViewController: UIViewController {
             let keyBoardFrameSize = ( userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             scrollView.contentOffset = CGPoint(x: 0, y: keyBoardFrameSize.height)
         }
-
     }
     
     @objc private func kbWillHide() {
@@ -324,7 +323,8 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
-            
+            cell.ingredientName.delegate = self
+            cell.weightName.delegate = self
             return cell
         }
     }
