@@ -8,12 +8,12 @@
 import UIKit
 
 protocol TestViewProtocol: AnyObject {
-    func setLabel(_ text: String)
+    func setImage(_ url: String)
 }
 
 class TestViewController: UIViewController {
-    var label = UILabel(frame: CGRect(x: 100, y: 100, width: 300, height: 100))
-    var button = UIButton(frame: CGRect(x: 100, y: 200, width: 200, height: 50))
+    var image = UIImageView(frame: CGRect(x: 100, y: 100, width: 200, height: 200))
+    var button = UIButton(frame: CGRect(x: 100, y: 300, width: 200, height: 50))
     
     var presenter: TestViewPresenter!
     
@@ -21,36 +21,40 @@ class TestViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .primary20
-        view.addSubview(label)
+        view.addSubview(image)
         view.addSubview(button)
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.setTitle("tap me", for: .normal)
-        label.text = ""
-        label.font = .systemFont(ofSize: 20)
+        image.image = .add
         
-        Task {
-            do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.randomRecipe) {
-                    presenter = TestPresenter(view: self, recipe: recipes.recipes[0])
-                    presenter.showTitle()
-                }
-            } catch {
-                print(error)
-            }
-        }
+        presenter = TestPresenter(view: self)
+        presenter.showImage()
+        
         
     }
     
     @objc func didTapButton() {
-        presenter.showNewTitle()
+        presenter.showNewImage()
     }
     
 }
 
 extension TestViewController: TestViewProtocol {
-    func setLabel(_ text: String) {
-        DispatchQueue.main.async {
-            self.label.text = text
+    func setImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        // если картинка в кэше есть, то он их покажет
+        if let data = presenter.getDataFromCache(from: url) {
+            DispatchQueue.main.async {
+                self.image.image = UIImage(data: data)
+            }
+        }
+        // если нет, то возьмет из интернета и сохранит в кэш
+        ImageManager.shared.fetchImage(from: url) { data, response in
+            DispatchQueue.main.async {
+                self.image.image = UIImage(data: data)
+                self.presenter.saveDataToCache(with: data, and: response)
+            }
         }
     }
 }
