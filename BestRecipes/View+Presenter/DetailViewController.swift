@@ -27,26 +27,26 @@ class DetailViewController: UIViewController {
     // MARK: - UI Elements
     
     private lazy var scrollView : UIScrollView = {
-            let s = UIScrollView()
-            s.contentSize = contentSize
-            s.frame = view.bounds
-            return s
-     }()
+        let s = UIScrollView()
+        s.contentSize = contentSize
+        s.frame = view.bounds
+        return s
+    }()
     
     private lazy var contentView : UIView = {
-            let content = UIView()
-            content.frame.size = contentSize
-            return content
-        }()
+        let content = UIView()
+        content.frame.size = contentSize
+        return content
+    }()
     
     private lazy var contentStackView : UIStackView = {
-            let stack = UIStackView()
-            stack.axis = .vertical
-            stack.alignment = .center
-            stack.spacing = 20
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            return stack
-        }()
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 20
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
     
     private lazy var titleLabel : UILabel = {
         let lb = UILabel()
@@ -74,7 +74,6 @@ class DetailViewController: UIViewController {
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        img.widthAnchor.constraint(equalToConstant: 343).isActive = true
         return img
     }()
     
@@ -89,10 +88,10 @@ class DetailViewController: UIViewController {
     
     private lazy var ratingbutton : UIButton = {
         let btn = UIButton()
-        btn.setImage(UIImage.star, for: .normal)
+        btn.setImage(UIImage.star?.imageResized(to: CGSize(width: 16, height: 16)), for: .normal)
         btn.setTitle("4.5", for: .normal)
         btn.setTitleColor(.neutral100, for: .normal)
-        btn.titleLabel?.font = .poppinsBold16
+        btn.titleLabel?.font = .poppinsBoldLabel
         btn.tintColor = .neutral100
         return btn
     }()
@@ -100,7 +99,7 @@ class DetailViewController: UIViewController {
     private lazy var reviewsLabel : UILabel = {
         let lb = UILabel()
         lb.textColor = UIColor.neutral50
-        lb.font = .poppinsRegular16
+        lb.font = .poppinsRegularLabel
         lb.textAlignment = .center
         lb.text = "(300 Reviews)"
         return lb
@@ -108,7 +107,7 @@ class DetailViewController: UIViewController {
     
     private lazy var instructionsLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsBold24
+        lb.font = .poppinsBold20
         lb.textColor = .neutral100
         lb.textAlignment = .left
         lb.text = "Instructions"
@@ -134,7 +133,7 @@ class DetailViewController: UIViewController {
     
     private lazy var ingredientsMainLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsBold24
+        lb.font = .poppinsBold20
         lb.textColor = .neutral100
         lb.textAlignment = .left
         lb.text = "Ingredients"
@@ -152,7 +151,7 @@ class DetailViewController: UIViewController {
     
     private lazy var itemCountLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsRegular16
+        lb.font = .poppinsRegularLabel
         lb.textColor = .neutral50
         lb.textAlignment = .center
         lb.text = "5"
@@ -161,7 +160,7 @@ class DetailViewController: UIViewController {
     
     private lazy var itemTitleLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsRegular16
+        lb.font = .poppinsRegularLabel
         lb.textColor = .neutral50
         lb.textAlignment = .center
         lb.text = "items"
@@ -214,6 +213,8 @@ class DetailViewController: UIViewController {
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             contentStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24),
             contentStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24),
+            reciptImage.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            reciptImage.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             instructionsLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
@@ -273,4 +274,3 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-

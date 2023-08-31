@@ -88,20 +88,22 @@ class CreateRecipeViewController: UIViewController {
         return piker
     }()
     
-    private let recipeNameTextView : UITextView = {
-        let text = UITextView()
-        text.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        text.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
-        text.layer.cornerRadius = 8
-        text.layer.borderColor = UIColor.primary50.cgColor
-        text.layer.borderWidth = 1
-        text.textAlignment = .center
-        text.font = .poppinsRegularLabel
-        text.textColor = .neutral100
-        text.text = "Enter Recipe Name"
-        text.returnKeyType = .done
-        text.translatesAutoresizingMaskIntoConstraints = false
-        return text
+    private let recipeNameTextField : UITextField = {
+        let field = UITextField()
+        field.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
+        field.layer.cornerRadius = 8
+        field.layer.borderColor = UIColor.primary50.cgColor
+        field.layer.borderWidth = 1
+        field.textAlignment = .left
+        field.font = .poppinsRegularLabel
+        field.textColor = .neutral100
+        field.placeholder = "Enter Recipe Name"
+        field.returnKeyType = .done
+        field.setLeftPaddingPoints(15)
+        field.clearButtonMode = .whileEditing
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
     }()
     
     private let settingTableView : UITableView = {
@@ -152,9 +154,14 @@ class CreateRecipeViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupPicker()
-        setupTextView()
+        setupTextFields()
         setupTableViews()
         setupButton()
+        registerForKeyBoardNotifications()
+    }
+    
+    deinit {
+        removeKeyBoardNotification()
     }
     
     // MARK: - Buttons Methods
@@ -189,7 +196,7 @@ class CreateRecipeViewController: UIViewController {
         contentStackView.addArrangedSubview(imageBubleView)
         imageBubleView.addSubview(recipeImage)
         imageBubleView.addSubview(additButton)
-        contentStackView.addArrangedSubview(recipeNameTextView)
+        contentStackView.addArrangedSubview(recipeNameTextField)
         contentStackView.addArrangedSubview(settingTableView)
         contentStackView.addArrangedSubview(ingredientsTitleLabel)
         contentStackView.addArrangedSubview(ingredientsTableView)
@@ -223,8 +230,8 @@ class CreateRecipeViewController: UIViewController {
         photoPikerView.sourceType = .photoLibrary
     }
     
-    private func setupTextView() {
-        recipeNameTextView.delegate = self
+    private func setupTextFields() {
+        recipeNameTextField.delegate = self
     }
     
     private func setupTableViews() {
@@ -240,6 +247,34 @@ class CreateRecipeViewController: UIViewController {
     private func setupButton () {
         createButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         createButton.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
+    }
+    
+    private func registerForKeyBoardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyBoardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func kbWillShow(_ notification: Notification) {
+        if recipeNameTextField.isEditing {
+        } else {
+            let userInfo = notification.userInfo
+            let keyBoardFrameSize = ( userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            scrollView.contentOffset = CGPoint(x: 0, y: keyBoardFrameSize.height)
+        }
+    }
+    
+    @objc private func kbWillHide() {
+        if recipeNameTextField.isEditing {
+        } else {
+            scrollView.contentOffset = CGPoint.zero
+        }
     }
 }
 
@@ -261,12 +296,11 @@ extension CreateRecipeViewController : UIImagePickerControllerDelegate & UINavig
 
 // MARK: - UITextView Delegate
 
-extension CreateRecipeViewController : UITextViewDelegate {
+extension CreateRecipeViewController : UITextFieldDelegate {
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if (text == "\n") {
-            textView.resignFirstResponder()
-        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        textField.resignFirstResponder()
         return true
     }
 }
@@ -289,7 +323,8 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
-            
+            cell.ingredientName.delegate = self
+            cell.weightName.delegate = self
             return cell
         }
     }

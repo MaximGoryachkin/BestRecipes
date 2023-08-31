@@ -60,7 +60,7 @@ final class CustomButton : UIButton {
             setTitleColor(.white, for: .normal)
             setImage(UIImage.arrowRight, for: .normal)
             semanticContentAttribute = .forceRightToLeft
-            titleLabel?.font = .poppinsBold24
+            titleLabel?.font = .poppinsBold16
             if style == .textPlusArrowRed {
                 backgroundColor = .primary50
             } else if style == .textPlusArrowDarkRed {
@@ -77,7 +77,7 @@ final class CustomButton : UIButton {
             layer.cornerRadius = 8
             setTitle(title, for: .normal)
             setTitleColor(.white, for: .normal)
-            titleLabel?.font = .poppinsBold24
+            titleLabel?.font = .poppinsBold16
             if style == .squareTextRed {
                 backgroundColor = .primary50
             } else if style == .squareTextDarkRed {
@@ -92,12 +92,12 @@ final class CustomButton : UIButton {
             layer.cornerRadius = 22
             setTitle(title, for: .normal)
             setTitleColor(.white, for: .normal)
-            titleLabel?.font = .poppinsBold24
+            titleLabel?.font = .poppinsBold20
             backgroundColor = .primary50
         } else {
             setTitle(title, for: .normal)
             setTitleColor(.white, for: .normal)
-            titleLabel?.font = .poppinsBold16
+            titleLabel?.font = .poppinsBoldTiny
         }
     }
     

@@ -16,7 +16,7 @@ class RecentRecipeCollectionViewCell: UICollectionViewCell {
     
     private lazy var receptNameLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        lb.font = .poppinsBoldLabel
         lb.textAlignment = .left
         lb.text = "Kelewele Ghanian Recipe"
         lb.numberOfLines = 0
@@ -27,7 +27,7 @@ class RecentRecipeCollectionViewCell: UICollectionViewCell {
     
     private lazy var authorLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        lb.font = .poppinsBoldTiny
         lb.textAlignment = .left
         lb.text = "By Zeelicious Foods"
         lb.textColor = .neutral50

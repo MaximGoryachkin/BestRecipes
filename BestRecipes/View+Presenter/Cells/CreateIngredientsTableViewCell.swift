@@ -14,7 +14,7 @@ class CreateIngredientsTableViewCell: UITableViewCell {
         return stack
     }()
     
-    private let ingredientName : UITextField = {
+   let ingredientName : UITextField = {
         let field = UITextField()
         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
         field.widthAnchor.constraint(equalToConstant: 164).isActive = true
@@ -24,11 +24,12 @@ class CreateIngredientsTableViewCell: UITableViewCell {
         field.layer.borderColor = UIColor.neutral20.cgColor
         field.layer.borderWidth = 1
         field.layer.cornerRadius = 12
+        field.returnKeyType = .done
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     
-    private let weightName : UITextField = {
+   let weightName : UITextField = {
         let field = UITextField()
         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
         field.widthAnchor.constraint(equalToConstant: 115).isActive = true
@@ -38,6 +39,7 @@ class CreateIngredientsTableViewCell: UITableViewCell {
         field.layer.borderColor = UIColor.neutral20.cgColor
         field.layer.borderWidth = 1
         field.layer.cornerRadius = 12
+        field.returnKeyType = .done
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()

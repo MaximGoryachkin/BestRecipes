@@ -10,26 +10,26 @@ class HomeViewController: UIViewController {
     // MARK: - UI Elements
     
     private lazy var scrollView : UIScrollView = {
-            let s = UIScrollView()
-            s.contentSize = contentSize
-            s.frame = view.bounds
-            return s
-     }()
+        let s = UIScrollView()
+        s.contentSize = contentSize
+        s.frame = view.bounds
+        return s
+    }()
     
     private lazy var contentView : UIView = {
-            let content = UIView()
-            content.frame.size = contentSize
-            return content
-        }()
+        let content = UIView()
+        content.frame.size = contentSize
+        return content
+    }()
     
     private lazy var contentStackView : UIStackView = {
-            let stack = UIStackView()
-            stack.axis = .vertical
-            stack.alignment = .center
-            stack.spacing = 20
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            return stack
-        }()
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 20
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
     
     private lazy var titleLabel : UILabel = {
         let lb = UILabel()
@@ -50,7 +50,10 @@ class HomeViewController: UIViewController {
         bar.searchTextField.layer.borderWidth = 2
         bar.searchTextField.layer.cornerRadius = 8
         bar.searchTextField.leftView?.tintColor = .neutral100
-        bar.searchTextField.font = .poppinsRegular16
+        bar.searchTextField.font = .poppinsRegularLabel
+        bar.searchTextPositionAdjustment = UIOffset(horizontal: 5.0, vertical: 0.0);
+        bar.setPositionAdjustment(UIOffset(horizontal: 10, vertical: 0), for: UISearchBar.Icon.search)
+        bar.setImage(.search, for: .search, state: .normal)
         return bar
     }()
     
@@ -76,12 +79,12 @@ class HomeViewController: UIViewController {
         bt.setTitle("See all", for: .normal)
         bt.setTitleColor(.primary50, for: .normal)
         bt.setImage(.arrowRight, for: .normal)
-        bt.titleLabel?.font = .poppinsRegular16
+        bt.titleLabel?.font = .poppinsBoldLabel
         bt.semanticContentAttribute = .forceRightToLeft
         bt.addTarget(self, action: #selector(trendingSeeAllTaped(_:)), for: .touchUpInside)
         return bt
     }()
-    
+   
     private let trendingCollection : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -102,6 +105,7 @@ class HomeViewController: UIViewController {
         return lb
     }()
     
+    //
     private let categoryesNamesCollection : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -146,7 +150,7 @@ class HomeViewController: UIViewController {
         bt.setTitle("See all", for: .normal)
         bt.setTitleColor(.primary50, for: .normal)
         bt.setImage(.arrowRight, for: .normal)
-        bt.titleLabel?.font = .poppinsRegular16
+        bt.titleLabel?.font = .poppinsBoldLabel
         bt.semanticContentAttribute = .forceRightToLeft
         bt.addTarget(self, action: #selector(recentSeeAllTaped(_:)), for: .touchUpInside)
         return bt
@@ -185,7 +189,7 @@ class HomeViewController: UIViewController {
         bt.setTitle("See all", for: .normal)
         bt.setTitleColor(.primary50, for: .normal)
         bt.setImage(.arrowRight, for: .normal)
-        bt.titleLabel?.font = .poppinsRegular16
+        bt.titleLabel?.font = .poppinsBoldLabel
         bt.semanticContentAttribute = .forceRightToLeft
         bt.addTarget(self, action: #selector(creatorsSeeAllTaped(_:)), for: .touchUpInside)
         return bt
@@ -376,7 +380,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == categoryesNamesCollection {
             let currentCell = collectionView.cellForItem(at: indexPath) as! CategoryesNamesCollectionViewCell
-            currentCell.changesForSelected()
+            currentCell.didSelectedRow()
         }
     }
     

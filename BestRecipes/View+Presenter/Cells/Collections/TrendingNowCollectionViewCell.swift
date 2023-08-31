@@ -25,15 +25,19 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var starButton : UIButton = {
-        let btn = UIButton()
-        btn.setImage(.star, for: .normal)
-        btn.setTitle("4,5", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .neutral30.withAlphaComponent(0.5)
-        btn.tintColor = .neutral100
-        btn.titleLabel?.font = .poppinsBoldLabel
-        btn.heightAnchor.constraint(equalToConstant: 30.6).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        var filled = UIButton.Configuration.filled()
+        filled.title = "4,5"
+        filled.subtitle = nil
+        filled.baseBackgroundColor = .neutral90.withAlphaComponent(0.3)
+        filled.image = .star!.imageResized(to: CGSize(width: 16, height: 16))
+        filled.imagePadding = 5
+        filled.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -5, bottom: 0, trailing: 0)
+        filled.imagePlacement = .leading
+        filled.attributedTitle = AttributedString("4,5", attributes: AttributeContainer([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.poppinsBoldLabel!]))
+        
+        let btn = UIButton(configuration: filled)
+        btn.heightAnchor.constraint(equalToConstant: 27.6).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 58).isActive = true
         btn.layer.cornerRadius = 8
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -41,11 +45,11 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     private lazy var favoriteButton : UIButton = {
         let btn = UIButton()
-        btn.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        btn.layer.cornerRadius = 17
+        btn.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        btn.layer.cornerRadius = 16
         btn.backgroundColor = .white
-        btn.setImage(.bookmarkInactive, for: .normal)
+        btn.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(favoriteTaped(_:)), for: .touchUpInside)
         return btn
@@ -57,7 +61,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         btn.widthAnchor.constraint(equalToConstant: 48).isActive = true
         btn.layer.cornerRadius = 24
         btn.setImage(.play, for: .normal)
-        btn.backgroundColor = .neutral30.withAlphaComponent(0.5)
+        btn.backgroundColor = .neutral90.withAlphaComponent(0.3)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(playTapped(_:)), for: .touchUpInside)
         return btn
@@ -68,7 +72,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         view.heightAnchor.constraint(equalToConstant: 25).isActive = true
         view.widthAnchor.constraint(equalToConstant: 50).isActive = true
         view.layer.cornerRadius = 8
-        view.backgroundColor = .neutral30.withAlphaComponent(0.5)
+        view.backgroundColor = .neutral90.withAlphaComponent(0.3)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -94,7 +98,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsBoldLabel
+        lb.font = .poppinsBold16
         lb.textColor = .neutral100
         lb.textAlignment = .left
         lb.text = "How to sharwama at home"
@@ -106,6 +110,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         let btn = UIButton()
         btn.setImage(.moreVertical, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(dotsTaped(_:)), for: .touchUpInside)
         return btn
     }()
     
@@ -132,7 +137,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     private lazy var authorNameLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsRegularLabel
+        lb.font = .poppinsRegularSmall
         lb.textColor = .neutral50
         lb.textAlignment = .left
         lb.text = "By Zeelicious foods"
@@ -188,16 +193,12 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
             authStack.topAnchor.constraint(equalTo: firstStackView.bottomAnchor, constant: 8),
             authStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
         ])
-        
-        
-        
-        
     }
     
     @objc private func favoriteTaped(_ sender: UIButton) {
         itemSaved = !itemSaved
         
-        itemSaved == true ? sender.setImage(.bookmarkActive, for: .normal) : sender.setImage(.bookmarkInactive, for: .normal)
+        itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
     }
     
     @objc private func playTapped (_ sender: UIButton) {
@@ -208,4 +209,11 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    @objc private func dotsTaped(_ sender: UIButton) {
+        sender.alpha = 0.5
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1
+        }
+    }
 }

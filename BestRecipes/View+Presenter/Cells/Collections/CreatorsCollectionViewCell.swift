@@ -16,7 +16,7 @@ class CreatorsCollectionViewCell: UICollectionViewCell {
     
     private lazy var authorNameLabel : UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        lb.font = .poppinsBoldSmall
         lb.textColor = .neutral100
         lb.textAlignment = .center
         lb.text = "Kathryn Murphy"

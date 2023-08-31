@@ -4,7 +4,7 @@ class IngredientsTableViewCell: UITableViewCell {
     
     private var isChoosen : Bool = false
     
-    private let unselectedItemImage : UIImage = (UIImage.tickCircle?.withTintColor(.black))!
+    private let unselectedItemImage : UIImage = (UIImage.tickCircle?.withTintColor(.black))!.imageResized(to: CGSize(width: 23.08, height: 23.08))
     
     private let imageBubleView : UIView = {
         let view = UIView()
@@ -37,7 +37,7 @@ class IngredientsTableViewCell: UITableViewCell {
     
     private lazy var weightLabel : UILabel = {
         let lb = UILabel()
-        lb.font = .poppinsRegular16
+        lb.font = .poppinsRegularLabel
         lb.textColor = .neutral50
         lb.textAlignment = .center
         lb.text = "250g"
@@ -136,7 +136,7 @@ class IngredientsTableViewCell: UITableViewCell {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
-            self.isChoosen == true ? sender.setImage(UIImage.tickCircle, for: .normal) : sender.setImage(self.unselectedItemImage, for: .normal)
+            self.isChoosen == true ? sender.setImage(UIImage.tickCircle?.imageResized(to: CGSize(width: 23.08, height: 23.08)), for: .normal) : sender.setImage(self.unselectedItemImage, for: .normal)
         }
     }
     
