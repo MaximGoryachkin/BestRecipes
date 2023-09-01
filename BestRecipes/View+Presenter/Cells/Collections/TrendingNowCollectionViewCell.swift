@@ -16,12 +16,23 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     private var itemSaved : Bool = false
     var recipeStringUrl : String = ""
     
+    private let imageBubble : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        view.layer.cornerRadius = 12
+        view.backgroundColor = .neutral20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let pickture : UIImageView = {
         let img = UIImageView()
         img.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        img.widthAnchor.constraint(equalToConstant: 240).isActive = true
+        img.widthAnchor.constraint(equalToConstant: 280).isActive = true
         img.image = .plus
         img.clipsToBounds = true
+        img.contentMode = .scaleAspectFit
         img.layer.cornerRadius = 12
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
@@ -64,18 +75,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         btn.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(favoriteTaped(_:)), for: .touchUpInside)
-        return btn
-    }()
-    
-    private lazy var playButton : UIButton = {
-        let btn = UIButton()
-        btn.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        btn.layer.cornerRadius = 24
-        btn.setImage(.play, for: .normal)
-        btn.backgroundColor = .neutral90.withAlphaComponent(0.3)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(playTapped(_:)), for: .touchUpInside)
         return btn
     }()
     
@@ -171,7 +170,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(rateStack)
         rateStack.addArrangedSubview(starButton)
         rateStack.addArrangedSubview(favoriteButton)
-        contentView.addSubview(playButton)
         contentView.addSubview(videoDurationBuble)
         videoDurationBuble.addSubview(duratuinLabel)
         contentView.addSubview(firstStackView)
@@ -188,9 +186,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
             rateStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             rateStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             rateStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            playButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 66),
-            playButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
             videoDurationBuble.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 147),
             videoDurationBuble.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
