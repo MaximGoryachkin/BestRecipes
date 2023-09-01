@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol TabBarViewProtocol: AnyObject {
+    func updateRecipeStorage(with recipe: Int)
+}
+
 class TabBarVC: UITabBarController, UITabBarControllerDelegate {
+    
+    private var recipesID = Set<Int>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +33,8 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         home.tabBarItem.image = UIImage(named: "Home/Inactive")
         home.tabBarItem.selectedImage = UIImage(named: "Home/Active")
         
-        let bookmarks = UIViewController()
+        let bookmarks = DiscoverViewController()
+        let discoverPresenter = DiscoverPresenter(recipesID: recipesID)
         bookmarks.tabBarItem.image = UIImage(named: "Bookmark/Inactive")
         bookmarks.tabBarItem.selectedImage = UIImage(named: "Bookmark/Active")
         
@@ -59,5 +66,11 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         tabBarBG.frame = tabBar.bounds
         tabBar.addSubview(tabBarBG)
         tabBar.sendSubviewToBack(tabBarBG)
+    }
+}
+
+extension TabBarVC: TabBarViewProtocol {
+    func updateRecipeStorage(with recipe: Int) {
+        recipesID.insert(recipe)
     }
 }

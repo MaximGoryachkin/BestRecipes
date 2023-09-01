@@ -1,6 +1,12 @@
 import UIKit
 
+protocol DiscoverViewProtocol: AnyObject {
+    func updateCollection(with recipes: [Recipe])
+}
+
 class DiscoverViewController: UIViewController {
+    
+    private var recipes = [Recipe]()
     
     // MARK: - UI Elements
     
@@ -14,7 +20,7 @@ class DiscoverViewController: UIViewController {
         return lb
     }()
     
-    private let collectionView : UICollectionView = {
+    private lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 34, height: 258)

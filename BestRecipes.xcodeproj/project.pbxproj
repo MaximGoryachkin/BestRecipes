@@ -28,6 +28,8 @@
 		57C9B2422A9EBC6C000F298B /* CreateIngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C9B2412A9EBC6C000F298B /* CreateIngredientsTableViewCell.swift */; };
 		57C9B2442A9EC0E6000F298B /* UITextField+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C9B2432A9EC0E6000F298B /* UITextField+ Extension.swift */; };
 		57CC8CD52A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CC8CD42A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift */; };
+		890A2CAC2AA2035800CA2533 /* DiscoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A2CAB2AA2035800CA2533 /* DiscoverPresenter.swift */; };
+		890A2CAE2AA2038700CA2533 /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A2CAD2AA2038700CA2533 /* DiscoverModel.swift */; };
 		8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */; };
 		8982B1602A9B4E0800C471E6 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15F2A9B4E0800C471E6 /* TestViewController.swift */; };
 		8982B1652A9B4E0900C471E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8982B1642A9B4E0900C471E6 /* Assets.xcassets */; };
@@ -81,6 +83,8 @@
 		57C9B2412A9EBC6C000F298B /* CreateIngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		57C9B2432A9EC0E6000F298B /* UITextField+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+ Extension.swift"; sourceTree = "<group>"; };
 		57CC8CD42A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryesNamesCollectionViewCell.swift; sourceTree = "<group>"; };
+		890A2CAB2AA2035800CA2533 /* DiscoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPresenter.swift; sourceTree = "<group>"; };
+		890A2CAD2AA2038700CA2533 /* DiscoverModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverModel.swift; sourceTree = "<group>"; };
 		8982B1582A9B4E0800C471E6 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8982B15F2A9B4E0800C471E6 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -317,7 +321,9 @@
 		8982B1A12A9BA88600C471E6 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				890A2CAD2AA2038700CA2533 /* DiscoverModel.swift */,
 				579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */,
+				890A2CAB2AA2035800CA2533 /* DiscoverPresenter.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -442,6 +448,7 @@
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
 				5743D2732A9D339A00FCC596 /* HomeViewController.swift in Sources */,
+				890A2CAE2AA2038700CA2533 /* DiscoverModel.swift in Sources */,
 				579DA5BD2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift in Sources */,
 				8982B1762A9B4E8400C471E6 /* AppDelegate.swift in Sources */,
 				8982B1A92A9D05E100C471E6 /* NetworkManager.swift in Sources */,
@@ -472,6 +479,7 @@
 				8982B1AF2A9D175900C471E6 /* Recipe.swift in Sources */,
 				D5D534182A9F879E008B733C /* TrendingNowCell.swift in Sources */,
 				D5D534162A9F875B008B733C /* TrendingViewController.swift in Sources */,
+				890A2CAC2AA2035800CA2533 /* DiscoverPresenter.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
