@@ -30,6 +30,10 @@ class DataManager {
     var trendingsRecipes: String {
         baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=15"
     }
+    
+    var mainCoursePopulars: String {
+        baseURL + "complexSearch?" + "type=main course" + "&sort=popularity" + "&sortDirection=desc" + "&apiKey=" + apiKey + "&number=5" + "&addRecipeInformation=true"
+    }
 }
 
 enum GetRecipe: String {

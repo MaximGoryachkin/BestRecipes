@@ -21,18 +21,16 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         view.heightAnchor.constraint(equalToConstant: 180).isActive = true
         view.widthAnchor.constraint(equalToConstant: 280).isActive = true
         view.layer.cornerRadius = 12
-        view.backgroundColor = .neutral20
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private let pickture : UIImageView = {
         let img = UIImageView()
-        img.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        img.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        img.image = .plus
+        img.image = UIImage(systemName: "questionmark.folder")
         img.clipsToBounds = true
-        img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleToFill
         img.layer.cornerRadius = 12
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
@@ -117,14 +115,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         return lb
     }()
     
-    private lazy var dotsButton : UIButton = {
-        let btn = UIButton()
-        btn.setImage(.moreVertical, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(dotsTaped(_:)), for: .touchUpInside)
-        return btn
-    }()
-    
     private lazy var authStack : UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -166,30 +156,35 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure() {
-        contentView.addSubview(pickture)
-        contentView.addSubview(rateStack)
+        contentView.addSubview(imageBubble)
+        imageBubble.addSubview(pickture)
+        imageBubble.addSubview(rateStack)
         rateStack.addArrangedSubview(starButton)
         rateStack.addArrangedSubview(favoriteButton)
-        contentView.addSubview(videoDurationBuble)
+        imageBubble.addSubview(videoDurationBuble)
         videoDurationBuble.addSubview(duratuinLabel)
         contentView.addSubview(firstStackView)
         firstStackView.addArrangedSubview(titleLabel)
-        firstStackView.addArrangedSubview(dotsButton)
         contentView.addSubview(authStack)
         authStack.addArrangedSubview(avatarImage)
         authStack.addArrangedSubview(authorNameLabel)
         
         NSLayoutConstraint.activate([
-            pickture.topAnchor.constraint(equalTo: contentView.topAnchor),
-            pickture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imageBubble.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageBubble.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            rateStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            rateStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            rateStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            videoDurationBuble.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 147),
-            videoDurationBuble.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
+            pickture.topAnchor.constraint(equalTo: imageBubble.topAnchor),
+            pickture.leadingAnchor.constraint(equalTo: imageBubble.leadingAnchor),
+            pickture.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor),
+            pickture.bottomAnchor.constraint(equalTo: imageBubble.bottomAnchor),
+
+            rateStack.topAnchor.constraint(equalTo: imageBubble.topAnchor, constant: 8),
+            rateStack.leadingAnchor.constraint(equalTo: imageBubble.leadingAnchor, constant: 8),
+            rateStack.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
+
+            videoDurationBuble.topAnchor.constraint(equalTo: imageBubble.topAnchor, constant: 147),
+            videoDurationBuble.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
+
             duratuinLabel.centerXAnchor.constraint(equalTo: videoDurationBuble.centerXAnchor),
             duratuinLabel.centerYAnchor.constraint(equalTo: videoDurationBuble.centerYAnchor),
             
@@ -227,33 +222,16 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     func loadRecipeImage(_ url: String) {
         guard let url = URL(string: url) else { return }
         
-        if let data = getDataFromCache(from: url) {
+        if let data = NetworkManager.shared.getDataFromCache(from: url) {
             self.pickture.image = UIImage(data: data)
         } else {
             ImageManager.shared.fetchImage(from: url) { data, response in
                 DispatchQueue.main.async {
                     self.pickture.image = UIImage(data: data)
-                    self.saveDataToCache(with: data, and: response)
+                    NetworkManager.shared.saveDataToCache(with: data, and: response)
                 }
             }
         }
     }
-    
-    func getDataFromCache(from url: URL) -> Data? {
-        let request = URLRequest(url: url)
-        if let cachedResponce = URLCache.shared.cachedResponse(for: request) {
-            return cachedResponce.data
-        } else {
-            return nil
-        }
-    }
-    
-    func saveDataToCache(with data: Data, and responce: URLResponse) {
-        guard let url = responce.url else { return }
-        let request = URLRequest(url: url)
-        let cachedResponce = CachedURLResponse(response: responce, data: data)
-        URLCache.shared.storeCachedResponse(cachedResponce, for: request)
-    }
-
 }
 

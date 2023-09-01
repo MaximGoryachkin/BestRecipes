@@ -2,7 +2,6 @@ import UIKit
 
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
-    
     func setImage(_ url: String)
 }
 
@@ -17,6 +16,23 @@ class HomeViewController: UIViewController {
     var presenter: HomeViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
+    
+    private var categoryesNamesData : [CategoryNameDataModel] = [
+        .init(categoryName: "main course", isSelected: true),
+        .init(categoryName: "side dish", isSelected: false),
+        .init(categoryName: "dessert", isSelected: false),
+        .init(categoryName: "appetizer", isSelected: false),
+        .init(categoryName: "salad", isSelected: false),
+        .init(categoryName: "bread", isSelected: false),
+        .init(categoryName: "breakfast", isSelected: false),
+        .init(categoryName: "soup", isSelected: false),
+        .init(categoryName: "beverage", isSelected: false),
+        .init(categoryName: "sauce", isSelected: false),
+        .init(categoryName: "marinade", isSelected: false),
+        .init(categoryName: "finger food", isSelected: false),
+        .init(categoryName: "snack", isSelected: false),
+        .init(categoryName: "drink", isSelected: false)
+    ]
     
     // MARK: - UI Elements
     
@@ -229,14 +245,13 @@ class HomeViewController: UIViewController {
         setupCollections()
         
         presenter = HomePresenter(view: self)
-       // presenter.showImage()
-//        presenter.loadTrendindsData()
+        presenter.loadTrendindsData()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.loadTrendindsData()
-
+        trendingCollection.reloadData()
     }
     // MARK: - Buttons Methods
     
@@ -331,9 +346,6 @@ class HomeViewController: UIViewController {
         creatorsCollection.dataSource = self
         creatorsCollection.register(CreatorsCollectionViewCell.self, forCellWithReuseIdentifier: "CreatorsCell")
     }
-    
-    
-    
 }
 
 // MARK: - SearchBar Delegates
@@ -354,9 +366,9 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         if collectionView == trendingCollection {
             return trendingsData.count
         } else if collectionView == categoryesNamesCollection {
-            return 10
+            return categoryesNamesData.count
         } else if collectionView == categoryesItemsCollection {
-            return 10
+            return 5
         } else if collectionView == recentRecipeCollection {
             return 10
         } else if collectionView == creatorsCollection {
@@ -379,6 +391,9 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesNamesCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryNamesCell", for: indexPath) as! CategoryesNamesCollectionViewCell
             
+            let currentCell = categoryesNamesData[indexPath.row]
+            cell.cellData = currentCell
+            cell.didSelectedRow(bool: currentCell.isSelected)
             return cell
             
         } else if collectionView == categoryesItemsCollection {
@@ -401,16 +416,19 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if collectionView == categoryesNamesCollection {
-            let currentCell = collectionView.cellForItem(at: indexPath) as! CategoryesNamesCollectionViewCell
-            currentCell.didSelectedRow()
+            let selectionStatus = categoryesNamesData[indexPath.row].isSelected
+            categoryesNamesData[indexPath.row].isSelected = !selectionStatus
+            categoryesItemsCollection.reloadData()
+            collectionView.reloadData()
         }
     }
 }
 
 
 extension HomeViewController: HomeViewProtocol {
-    
+        
     func setTrendingsData(_ array : [RecipeDataModel]) {
         DispatchQueue.main.async {
                 self.trendingsData = array

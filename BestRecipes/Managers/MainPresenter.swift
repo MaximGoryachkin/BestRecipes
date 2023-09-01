@@ -34,13 +34,14 @@ class HomePresenter: HomeViewPresenter {
             }
         }
     }
+
     
     private func figureRatingValue(isPopular: Bool) -> String {
         if isPopular {
-            let result = Float.random(in: 3.8 ... 5.0)
+            let result = Float.random(in: 3.800 ... 5.000)
             return String(format: "%.1f", result)
         } else {
-            let result = Float.random(in: 1.0 ... 3.7)
+            let result = Float.random(in: 1.000 ... 3.700)
             return String(format: "%.1f", result)
         }
     }
