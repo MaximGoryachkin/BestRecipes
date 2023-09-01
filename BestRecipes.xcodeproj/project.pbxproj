@@ -15,6 +15,7 @@
 		5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2742A9D52F800FCC596 /* UIImage+BGColor.swift */; };
 		5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */; };
 		5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2782A9D562C00FCC596 /* UIViewController+ Extesnion.swift */; };
+		5799551B2AA117E100AAA410 /* RecipeDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799551A2AA117E100AAA410 /* RecipeDataModel.swift */; };
 		579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5B62A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift */; };
 		579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5B82A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift */; };
 		579DA5BB2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5BA2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift */; };
@@ -67,6 +68,7 @@
 		5743D2742A9D52F800FCC596 /* UIImage+BGColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+BGColor.swift"; sourceTree = "<group>"; };
 		5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+ Extension.swift"; sourceTree = "<group>"; };
 		5743D2782A9D562C00FCC596 /* UIViewController+ Extesnion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ Extesnion.swift"; sourceTree = "<group>"; };
+		5799551A2AA117E100AAA410 /* RecipeDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDataModel.swift; sourceTree = "<group>"; };
 		579DA5B62A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryesItemsCollectionViewCell.swift; sourceTree = "<group>"; };
 		579DA5B82A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipeCollectionViewCell.swift; sourceTree = "<group>"; };
 		579DA5BA2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				8982B1B62A9D293800C471E6 /* Recipes */,
+				5799551A2AA117E100AAA410 /* RecipeDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				8982B1912A9B5C3F00C471E6 /* UIImage+TabBar.swift in Sources */,
 				8982B1A72A9CDBEC00C471E6 /* Recipes.swift in Sources */,
 				5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */,
+				5799551B2AA117E100AAA410 /* RecipeDataModel.swift in Sources */,
 				8982B1602A9B4E0800C471E6 /* TestViewController.swift in Sources */,
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
 				579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */,
