@@ -371,6 +371,9 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         if collectionView == trendingCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingCell", for: indexPath) as! TrendingNowCollectionViewCell
             
+            let currentCell = trendingsData[indexPath.row]
+            cell.cellData = currentCell
+            cell.loadRecipeImage(cell.recipeStringUrl)
             return cell
             
         } else if collectionView == categoryesNamesCollection {
@@ -410,12 +413,8 @@ extension HomeViewController: HomeViewProtocol {
     
     func setTrendingsData(_ array : [RecipeDataModel]) {
         DispatchQueue.main.async {
-            if self.trendingsData.count > 0 {
-                print("data already loaded")
-            } else {
                 self.trendingsData = array
                 self.trendingCollection.reloadData()
-            }
         }
     }
     

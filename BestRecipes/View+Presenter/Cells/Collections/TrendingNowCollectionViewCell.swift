@@ -2,7 +2,19 @@ import UIKit
 
 class TrendingNowCollectionViewCell: UICollectionViewCell {
     
+    var cellData : RecipeDataModel? {
+        didSet {
+            self.itemSaved = cellData!.isSavedToFavorite!
+            self.starButton.titleLabel?.text = cellData?.recipeRating
+            self.duratuinLabel.text = cellData?.cookDuration
+            self.titleLabel.text = cellData?.recipeTitle
+            self.authorNameLabel.text = cellData?.authorName
+            self.recipeStringUrl = (cellData?.recipeImage)!
+        }
+    }
+    
     private var itemSaved : Bool = false
+    var recipeStringUrl : String = ""
     
     private let pickture : UIImageView = {
         let img = UIImageView()
@@ -216,4 +228,37 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
             sender.alpha = 1
         }
     }
+    
+    func loadRecipeImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        if let data = getDataFromCache(from: url) {
+            self.pickture.image = UIImage(data: data)
+        } else {
+            ImageManager.shared.fetchImage(from: url) { data, response in
+                DispatchQueue.main.async {
+                    self.pickture.image = UIImage(data: data)
+                    self.saveDataToCache(with: data, and: response)
+                }
+            }
+        }
+    }
+    
+    func getDataFromCache(from url: URL) -> Data? {
+        let request = URLRequest(url: url)
+        if let cachedResponce = URLCache.shared.cachedResponse(for: request) {
+            return cachedResponce.data
+        } else {
+            return nil
+        }
+    }
+    
+    func saveDataToCache(with data: Data, and responce: URLResponse) {
+        guard let url = responce.url else { return }
+        let request = URLRequest(url: url)
+        let cachedResponce = CachedURLResponse(response: responce, data: data)
+        URLCache.shared.storeCachedResponse(cachedResponce, for: request)
+    }
+
 }
+
