@@ -1,11 +1,22 @@
 import UIKit
 
+protocol HomeViewProtocol: AnyObject {
+    func setTrendingsData(_ array : [RecipeDataModel])
+    
+    func setImage(_ url: String)
+}
+
 class HomeViewController: UIViewController {
+    
     // MARK: - Data
     
     private var contentSize : CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 560)
     }
+    
+    var presenter: HomeViewPresenter!
+    
+    private var trendingsData : [RecipeDataModel] = []
     
     // MARK: - UI Elements
     
@@ -216,8 +227,17 @@ class HomeViewController: UIViewController {
         setupSearchBar()
         hideKeyboardWhenTappedAround()
         setupCollections()
+        
+        presenter = HomePresenter(view: self)
+       // presenter.showImage()
+//        presenter.loadTrendindsData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.loadTrendindsData()
+
+    }
     // MARK: - Buttons Methods
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
@@ -332,7 +352,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingCollection {
-            return 10
+            return trendingsData.count
         } else if collectionView == categoryesNamesCollection {
             return 10
         } else if collectionView == categoryesItemsCollection {
@@ -383,7 +403,40 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             currentCell.didSelectedRow()
         }
     }
-    
-    
 }
 
+
+extension HomeViewController: HomeViewProtocol {
+    
+    func setTrendingsData(_ array : [RecipeDataModel]) {
+        DispatchQueue.main.async {
+            if self.trendingsData.count > 0 {
+                print("data already loaded")
+            } else {
+                self.trendingsData = array
+                self.trendingCollection.reloadData()
+            }
+        }
+    }
+    
+    
+    func setImage(_ url: String) {
+//        guard let url = URL(string: url) else { return }
+//
+//        // если картинка в кэше есть, то он их покажет
+//        if let data = presenter.getDataFromCache(from: url) {
+//            DispatchQueue.main.async {
+//                self.image.image = UIImage(data: data)
+//            }
+//        }
+//        // если нет, то возьмет из интернета и сохранит в кэш
+//        ImageManager.shared.fetchImage(from: url) { data, response in
+//            DispatchQueue.main.async {
+//                self.image.image = UIImage(data: data)
+//                self.presenter.saveDataToCache(with: data, and: response)
+//            }
+//        }
+    }
+    
+
+}
