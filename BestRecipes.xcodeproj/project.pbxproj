@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */; };
+		5296B3DC2AA20D5900B043C5 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D62AA20D5900B043C5 /* OnboardingPageViewController.swift */; };
+		5296B3DD2AA20D5900B043C5 /* OnboardingFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */; };
+		5296B3DE2AA20D5900B043C5 /* OnboardingThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */; };
+		5296B3DF2AA20D5900B043C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3DA2AA20D5900B043C5 /* OnboardingView.swift */; };
+		5296B3E02AA20D5900B043C5 /* OnboardingSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */; };
 		5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */; };
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
 		5743D2712A9D2F6C00FCC596 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */; };
@@ -61,6 +66,11 @@
 
 /* Begin PBXFileReference section */
 		43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		5296B3D62AA20D5900B043C5 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingFirstViewController.swift; sourceTree = "<group>"; };
+		5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingThirdViewController.swift; sourceTree = "<group>"; };
+		5296B3DA2AA20D5900B043C5 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingSecondViewController.swift; sourceTree = "<group>"; };
 		5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
 		5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +141,34 @@
 				43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */,
 			);
 			path = TabBarController;
+			sourceTree = "<group>";
+		};
+		5296B3D42AA20D5900B043C5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3D52AA20D5900B043C5 /* UIPageViewController */,
+				5296B3D72AA20D5900B043C5 /* Views */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		5296B3D52AA20D5900B043C5 /* UIPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3D62AA20D5900B043C5 /* OnboardingPageViewController.swift */,
+			);
+			path = UIPageViewController;
+			sourceTree = "<group>";
+		};
+		5296B3D72AA20D5900B043C5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */,
+				5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */,
+				5296B3DA2AA20D5900B043C5 /* OnboardingView.swift */,
+				5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		5743D26B2A9D2EFE00FCC596 /* Cells */ = {
@@ -205,7 +243,7 @@
 				8982B1A22A9BA89300C471E6 /* Detail */,
 				8982B1A12A9BA88600C471E6 /* Discover */,
 				8982B1A02A9BA87F00C471E6 /* Main */,
-				8982B1922A9B761100C471E6 /* Onboarding */,
+				5296B3D42AA20D5900B043C5 /* Onboarding */,
 				89F5EB582A9F818900A249A5 /* Test */,
 				57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */,
 				5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */,
@@ -277,15 +315,6 @@
 				8982B18B2A9B507500C471E6 /* Poppins-Bold.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		8982B1922A9B761100C471E6 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				52F8D7062AA1FCED0049886C /* UIPageViewController */,
-				52748B152A9CAB6B00597884 /* Views */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		8982B19D2A9BA27700C471E6 /* UIImage */ = {
@@ -439,7 +468,9 @@
 				8982B1842A9B504A00C471E6 /* UIColor+Nautral.swift in Sources */,
 				8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */,
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
+				5296B3DD2AA20D5900B043C5 /* OnboardingFirstViewController.swift in Sources */,
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */,
+				5296B3DC2AA20D5900B043C5 /* OnboardingPageViewController.swift in Sources */,
 				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
@@ -457,6 +488,7 @@
 				57C9B23C2A9E9642000F298B /* CreateRecipeViewController.swift in Sources */,
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
 				8982B1B52A9D179B00C471E6 /* Step.swift in Sources */,
+				5296B3E02AA20D5900B043C5 /* OnboardingSecondViewController.swift in Sources */,
 				89F5EB5A2A9F81A400A249A5 /* TestPresenter.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
 				57B5E0582A9F9F9600E36DED /* UIImage+Resize.swift in Sources */,
@@ -467,6 +499,7 @@
 				8982B1602A9B4E0800C471E6 /* TestViewController.swift in Sources */,
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
 				579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */,
+				5296B3DE2AA20D5900B043C5 /* OnboardingThirdViewController.swift in Sources */,
 				5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */,
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
@@ -479,6 +512,7 @@
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
 				5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */,
 				8982B1852A9B504A00C471E6 /* UIColor+Green.swift in Sources */,
+				5296B3DF2AA20D5900B043C5 /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
