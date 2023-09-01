@@ -337,6 +337,8 @@
 		8982B1922A9B761100C471E6 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				52F8D7062AA1FCED0049886C /* UIPageViewController */,
+				52748B152A9CAB6B00597884 /* Views */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
