@@ -9,10 +9,9 @@ import UIKit
 
 class OnboardingCollectionViewCell: UICollectionViewCell {
     
-    //MARK: - Properties
+    //MARK: - UIElements
     private let backgroundImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "mainPage")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -20,7 +19,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     private let topTitleImage: UIImageView = {
         let image = UIImageView()
-        image.image = .star
         image.tintColor = .neutral100
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -28,7 +26,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
 
     private let topTitle: UILabel = {
         let label = UILabel()
-        label.text = "100k+ premium recipes"
         label.font = .poppinsRegular20
         label.tintColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +35,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     private let mainTitle: UILabel = {
         let label = UILabel()
         label.font = .poppinsBoldHeading
-        label.text = "Best Recipe"
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
@@ -49,7 +45,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     private let bottomLabel: UILabel = {
         let label = UILabel()
-        label.text = "Find best recipes for cooking"
         label.font = .poppinsRegular20
         label.tintColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +53,7 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Initialize
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         
         setupViews()
         setConstraints()
@@ -80,9 +75,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     public func cellConfigure(model: OnboardingStruct) {
         backgroundImage.image = model.backgroundImage
         mainTitle.text = model.mainTitle
-        topTitle.text = model.topTitle
-        topTitleImage.image = model.topTitleImage
-        bottomLabel.text = model.bottomTitle
     }
 }
 

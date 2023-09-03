@@ -10,10 +10,6 @@
 		4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */; };
 		43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */; };
 		5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */; };
-		5296B3DD2AA20D5900B043C5 /* OnboardingFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */; };
-		5296B3DE2AA20D5900B043C5 /* OnboardingThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */; };
-		5296B3DF2AA20D5900B043C5 /* OnboardingMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3DA2AA20D5900B043C5 /* OnboardingMainViewController.swift */; };
-		5296B3E02AA20D5900B043C5 /* OnboardingSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */; };
 		5296B3E32AA4E95900B043C5 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */; };
 		5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */; };
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
@@ -82,10 +78,6 @@
 		4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingFirstViewController.swift; sourceTree = "<group>"; };
-		5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingThirdViewController.swift; sourceTree = "<group>"; };
-		5296B3DA2AA20D5900B043C5 /* OnboardingMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingMainViewController.swift; sourceTree = "<group>"; };
-		5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingSecondViewController.swift; sourceTree = "<group>"; };
 		5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
@@ -200,10 +192,6 @@
 		5296B3D72AA20D5900B043C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5296B3DA2AA20D5900B043C5 /* OnboardingMainViewController.swift */,
-				5296B3D82AA20D5900B043C5 /* OnboardingFirstViewController.swift */,
-				5296B3DB2AA20D5900B043C5 /* OnboardingSecondViewController.swift */,
-				5296B3D92AA20D5900B043C5 /* OnboardingThirdViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -576,7 +564,6 @@
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
 				895093E82AA4510500370420 /* Constants.swift in Sources */,
 				8982B1B52A9D179B00C471E6 /* Step.swift in Sources */,
-				5296B3E02AA20D5900B043C5 /* OnboardingSecondViewController.swift in Sources */,
 				89F5EB5A2A9F81A400A249A5 /* TestPresenter.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
 				57B5E0582A9F9F9600E36DED /* UIImage+Resize.swift in Sources */,
@@ -588,7 +575,6 @@
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
 				5799551F2AA14EBD00AAA410 /* MainPresenter.swift in Sources */,
 				579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */,
-				5296B3DE2AA20D5900B043C5 /* OnboardingThirdViewController.swift in Sources */,
 				5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */,
 				D5605A132AA75ECB00EF6F86 /* LaunchViewController.swift in Sources */,
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
@@ -607,7 +593,6 @@
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
 				5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */,
 				8982B1852A9B504A00C471E6 /* UIColor+Green.swift in Sources */,
-				5296B3DF2AA20D5900B043C5 /* OnboardingMainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
