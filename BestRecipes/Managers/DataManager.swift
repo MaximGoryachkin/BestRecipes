@@ -32,7 +32,11 @@ class DataManager {
     }
     
     var mainCoursePopulars: String {
-        baseURL + "complexSearch?" + "type=main course" + "&sort=popularity" + "&sortDirection=desc" + "&apiKey=" + apiKey + "&number=5" + "&addRecipeInformation=true"
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=5" + "&tags=main%20course"
+    }
+    
+    var popularCategoryes: String {
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey
     }
 }
 

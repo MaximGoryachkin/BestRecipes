@@ -2,7 +2,8 @@ import UIKit
 
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
-    func setImage(_ url: String)
+    func preloadSetupPopulars(_ array : [RecipeDataModel])
+    func updatePopulars(_ array : [RecipeDataModel])
 }
 
 class HomeViewController: UIViewController {
@@ -16,22 +17,24 @@ class HomeViewController: UIViewController {
     var presenter: HomeViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
+    private var popularsPreloadData : [RecipeDataModel] = []
+    private var choosenPopularCategoryes : String = ""
     
     private var categoryesNamesData : [CategoryNameDataModel] = [
-        .init(categoryName: "main course", isSelected: true),
-        .init(categoryName: "side dish", isSelected: false),
-        .init(categoryName: "dessert", isSelected: false),
-        .init(categoryName: "appetizer", isSelected: false),
-        .init(categoryName: "salad", isSelected: false),
-        .init(categoryName: "bread", isSelected: false),
-        .init(categoryName: "breakfast", isSelected: false),
-        .init(categoryName: "soup", isSelected: false),
-        .init(categoryName: "beverage", isSelected: false),
-        .init(categoryName: "sauce", isSelected: false),
-        .init(categoryName: "marinade", isSelected: false),
-        .init(categoryName: "finger food", isSelected: false),
-        .init(categoryName: "snack", isSelected: false),
-        .init(categoryName: "drink", isSelected: false)
+        .init(categoryName: "main course", nameForRequest: "main%20course", isSelected: true),
+        .init(categoryName: "side dish", nameForRequest: "side%20dish", isSelected: false),
+        .init(categoryName: "dessert", nameForRequest: "dessert", isSelected: false),
+        .init(categoryName: "appetizer", nameForRequest: "appetizer", isSelected: false),
+        .init(categoryName: "salad", nameForRequest: "salad", isSelected: false),
+        .init(categoryName: "bread", nameForRequest: "bread", isSelected: false),
+        .init(categoryName: "breakfast", nameForRequest: "breakfast", isSelected: false),
+        .init(categoryName: "soup", nameForRequest: "soup", isSelected: false),
+        .init(categoryName: "beverage", nameForRequest: "beverage", isSelected: false),
+        .init(categoryName: "sauce", nameForRequest: "sauce", isSelected: false),
+        .init(categoryName: "marinade", nameForRequest: "marinade", isSelected: false),
+        .init(categoryName: "finger food", nameForRequest: "fingerfood", isSelected: false),
+        .init(categoryName: "snack", nameForRequest: "snack", isSelected: false),
+        .init(categoryName: "drink", nameForRequest: "drink", isSelected: false)
     ]
     
     // MARK: - UI Elements
@@ -246,18 +249,19 @@ class HomeViewController: UIViewController {
         
         presenter = HomePresenter(view: self)
         presenter.loadTrendindsData()
-        
+        presenter.loadMainCourseData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         trendingCollection.reloadData()
+        categoryesItemsCollection.reloadData()
     }
     // MARK: - Buttons Methods
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
-        
+                
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
@@ -368,7 +372,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesNamesCollection {
             return categoryesNamesData.count
         } else if collectionView == categoryesItemsCollection {
-            return 5
+            return popularsPreloadData.count
         } else if collectionView == recentRecipeCollection {
             return 10
         } else if collectionView == creatorsCollection {
@@ -399,8 +403,11 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesItemsCollection {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryItemsCell", for: indexPath) as! CategoryesItemsCollectionViewCell
-            
+            let currentCell = popularsPreloadData[indexPath.row]
+            cell.cellData = currentCell
+            cell.loadRecipeImage(currentCell.recipeImage!)
             return cell
+            
         } else if collectionView == recentRecipeCollection {
              
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
@@ -418,16 +425,61 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == categoryesNamesCollection {
+            var categoryName : String = ""
+            var categoryesCount : Int = 0
             let selectionStatus = categoryesNamesData[indexPath.row].isSelected
+            
             categoryesNamesData[indexPath.row].isSelected = !selectionStatus
             categoryesItemsCollection.reloadData()
             collectionView.reloadData()
+            
+          
+            for category in categoryesNamesData.dropLast() {
+                if category.isSelected == true {
+                    categoryName += "\(category.nameForRequest),"
+                    categoryesCount += 1
+                }
+            }
+            
+            if let lastCategory = categoryesNamesData.last {
+                if lastCategory.isSelected == true {
+                    categoryName += lastCategory.nameForRequest
+                    categoryesCount += 1
+                }
+            }
+            
+            presenter.loadPopularsWithCategoryes(categoryes: categoryName, categoryCount: categoryesCount)
+            
+//            for category in categoryesNamesData {
+//                if category.isSelected == true {
+//                    categoryName += categoryName
+//                }
+//            }
+                        
+            //            presenter.loadPopularsWithCategoryes(categoryes: categoryName)
+
         }
     }
 }
 
 
 extension HomeViewController: HomeViewProtocol {
+    
+    func updatePopulars(_ array: [RecipeDataModel]) {
+        self.popularsPreloadData = array
+        DispatchQueue.main.async {
+            self.categoryesItemsCollection.reloadData()
+        }
+    }
+    
+    
+    func preloadSetupPopulars(_ array: [RecipeDataModel]) {
+        DispatchQueue.main.async {
+            self.popularsPreloadData = array
+            self.categoryesItemsCollection.reloadData()
+        }
+    }
+    
         
     func setTrendingsData(_ array : [RecipeDataModel]) {
         DispatchQueue.main.async {
@@ -435,25 +487,4 @@ extension HomeViewController: HomeViewProtocol {
                 self.trendingCollection.reloadData()
         }
     }
-    
-    
-    func setImage(_ url: String) {
-//        guard let url = URL(string: url) else { return }
-//
-//        // если картинка в кэше есть, то он их покажет
-//        if let data = presenter.getDataFromCache(from: url) {
-//            DispatchQueue.main.async {
-//                self.image.image = UIImage(data: data)
-//            }
-//        }
-//        // если нет, то возьмет из интернета и сохранит в кэш
-//        ImageManager.shared.fetchImage(from: url) { data, response in
-//            DispatchQueue.main.async {
-//                self.image.image = UIImage(data: data)
-//                self.presenter.saveDataToCache(with: data, and: response)
-//            }
-//        }
-    }
-    
-
 }

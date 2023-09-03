@@ -2,12 +2,22 @@ import UIKit
 
 class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
+    var cellData : RecipeDataModel? {
+        didSet {
+            self.itemSaved = cellData!.isSavedToFavorite!
+            self.recipeStringUrl =  (cellData?.recipeImage)!
+            self.itemTitleLabel.text = cellData?.recipeTitle
+            self.timeCountLabel.text = "\(cellData?.cookDuration ?? "0") Mins"
+        }
+    }
+    
     private var itemSaved : Bool = false
+    private var recipeStringUrl : String = ""
     
     private let itemImage : UIImageView = {
         let img = UIImageView()
         img.image = .plusBorder
-        img.contentMode = .scaleToFill
+        img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 55
         img.clipsToBounds = true
         img.heightAnchor.constraint(equalToConstant: 110).isActive = true
@@ -117,6 +127,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
             itemTitleLabel.topAnchor.constraint(equalTo: itemImage.bottomAnchor, constant: 12),
             itemTitleLabel.leadingAnchor.constraint(equalTo: contentBubbleView.leadingAnchor, constant: 12),
             itemTitleLabel.trailingAnchor.constraint(equalTo: contentBubbleView.trailingAnchor, constant: -12),
+            itemTitleLabel.bottomAnchor.constraint(equalTo: contentBubbleView.bottomAnchor, constant: -57),
           
             timeStack.bottomAnchor.constraint(equalTo: contentBubbleView.bottomAnchor, constant: -11),
             timeStack.leadingAnchor.constraint(equalTo: contentBubbleView.leadingAnchor, constant: 12),
@@ -130,5 +141,20 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
         itemSaved = !itemSaved
         
         itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
+    }
+    
+    func loadRecipeImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        if let data = NetworkManager.shared.getDataFromCache(from: url) {
+            self.itemImage.image = UIImage(data: data)
+        } else {
+            ImageManager.shared.fetchImage(from: url) { data, response in
+                DispatchQueue.main.async {
+                    self.itemImage.image = UIImage(data: data)
+                    NetworkManager.shared.saveDataToCache(with: data, and: response)
+                }
+            }
+        }
     }
 }

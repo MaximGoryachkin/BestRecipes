@@ -4,7 +4,7 @@ class CategoryesNamesCollectionViewCell: UICollectionViewCell {
     
     var cellData : CategoryNameDataModel? {
         didSet {
-            self.mainTitle.text = cellData?.categoryName
+            self.mainTitle.text = cellData?.categoryName.capitalized
             self.itemeSelected = cellData!.isSelected
         }
     }
