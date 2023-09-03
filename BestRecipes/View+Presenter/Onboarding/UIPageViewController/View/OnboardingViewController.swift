@@ -11,19 +11,21 @@ import UIKit
 struct OnboardingStruct {
     let backgroundImage: UIImage
     let mainTitle: String
-    let topTitle: String?
-    let topTitleImage: UIImage?
-    let bottomTitle: String?
-    let nextButton: CustomButton?
-    let skipButton: CustomButton?
 }
 
 //MARK: - OnboardingViewController
 class OnboardingViewController: UIViewController {
     
-    //MARK: - Properties
-    private lazy var nextButton = CustomButton(style: .squareTextRed, title: "Get Started")
+    //MARK: - UIElements
+    private lazy var nextButton = CustomButton(style: .circleTextRed, title: "Continue")
     private lazy var skipButton = CustomButton(style: .skip, title: "Skip")
+    
+    private var mainBackgroundImage: UIImageView = {
+       let image = UIImageView()
+        image.image = UIImage(named: "mainPage")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
@@ -47,6 +49,7 @@ class OnboardingViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: - Properties
     private let idOnboardingCell = "idOnboardingCell"
     
     private var onboardingArray = [OnboardingStruct]()
@@ -64,26 +67,29 @@ class OnboardingViewController: UIViewController {
     
     //MARK: - SetupViews
     private func setupViews() {
-        view.addSubview(nextButton)
-        view.addSubview(pageControl)
+        view.addSubview(mainBackgroundImage)
         view.addSubview(collectionView)
+        view.addSubview(pageControl)
+        view.addSubview(nextButton)
+        nextButton.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+        view.addSubview(skipButton)
+        skipButton.addTarget(self, action: #selector(skipButtonPressed), for: .touchUpInside)
         collectionView.register(OnboardingCollectionViewCell.self, forCellWithReuseIdentifier: idOnboardingCell)
         
         guard let imageMain = UIImage(named: "mainPage"),
-              let starImage = UIImage(named: "star"),
               let imageFirst = UIImage(named: "page1"),
               let imageSecond = UIImage(named: "page2"),
               let imageThird = UIImage(named: "page3") else {
                 return
         }
         
-        let mainScreen = OnboardingStruct(backgroundImage: imageMain, mainTitle: "Best Recipe", topTitle: "100k+ premium recipes", topTitleImage: starImage, bottomTitle: "Find best recipes for cooking", nextButton: CustomButton(style: .squareTextRed, title: "Get Started"), skipButton: nil)
+        let mainScreen = OnboardingStruct(backgroundImage: imageMain, mainTitle: "Best Recipe")
         
-        let firstScreen = OnboardingStruct(backgroundImage: imageFirst, mainTitle: "Recipes from all over the World", topTitle: nil, topTitleImage: nil, bottomTitle: nil, nextButton: CustomButton(style: .circleTextRed, title: "Continue"), skipButton: CustomButton(style: .skip, title: "Skip"))
+        let firstScreen = OnboardingStruct(backgroundImage: imageFirst, mainTitle: "Recipes from all over the World")
         
-        let secondScreen = OnboardingStruct(backgroundImage: imageSecond, mainTitle: "Recipes with each and every detail", topTitle: nil, topTitleImage: nil, bottomTitle: nil, nextButton: CustomButton(style: .circleTextRed, title: "Continue"), skipButton: CustomButton(style: .skip, title: "Skip"))
+        let secondScreen = OnboardingStruct(backgroundImage: imageSecond, mainTitle: "Recipes with each and every detail")
         
-        let thirdScreen = OnboardingStruct(backgroundImage: imageThird, mainTitle: "Cook it now or save it for later", topTitle: nil, topTitleImage: nil, bottomTitle: nil, nextButton: CustomButton(style: .circleTextRed, title: "Continue"), skipButton: nil)
+        let thirdScreen = OnboardingStruct(backgroundImage: imageThird, mainTitle: "Cook it now or save it for later")
         
         onboardingArray = [mainScreen, firstScreen, secondScreen, thirdScreen]
     }
@@ -95,6 +101,11 @@ class OnboardingViewController: UIViewController {
     }
     
     @objc private func nextButtonPressed() {
+        if collectionItem == 2 {
+            nextButton.setTitle("Start Cooking", for: .normal)
+            skipButton.isHidden = true
+            
+        }
         if collectionItem == 3 {
             saveUserDefaults()
             present(HomeViewController(), animated: true)
@@ -108,6 +119,7 @@ class OnboardingViewController: UIViewController {
     
     @objc private func skipButtonPressed() {
         saveUserDefaults()
+        HomeViewController().modalPresentationStyle = .fullScreen
         present(HomeViewController(), animated: true)
     }
     
@@ -143,18 +155,29 @@ extension OnboardingViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             
+            mainBackgroundImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            mainBackgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            mainBackgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            mainBackgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -20),
+            
             pageControl.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -35),
-            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            pageControl.heightAnchor.constraint(equalToConstant: 30),
             
             nextButton.bottomAnchor.constraint(equalTo: skipButton.topAnchor, constant: -10),
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nextButton.heightAnchor.constraint(equalToConstant: 44),
             nextButton.widthAnchor.constraint(equalToConstant: 193),
             
             skipButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             skipButton.heightAnchor.constraint(equalToConstant: 25),
-            skipButton.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
 }
