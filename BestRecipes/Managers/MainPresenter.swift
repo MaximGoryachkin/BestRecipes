@@ -49,18 +49,7 @@ class HomePresenter: HomeViewPresenter {
     }
     
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
-        
-//        var categoryesNames: String = ""
-//        
-//        if categoryes.count != 0 {
-//            for string in categoryes.dropLast() {
-//                categoryesNames += "\(string),"
-//            }
-//            if let lastString = categoryes.last {
-//                categoryesNames += lastString
-//            }
-//        }
-//            
+         
         Task {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){

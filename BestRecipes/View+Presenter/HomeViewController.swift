@@ -449,15 +449,6 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             }
             
             presenter.loadPopularsWithCategoryes(categoryes: categoryName, categoryCount: categoryesCount)
-            
-//            for category in categoryesNamesData {
-//                if category.isSelected == true {
-//                    categoryName += categoryName
-//                }
-//            }
-                        
-            //            presenter.loadPopularsWithCategoryes(categoryes: categoryName)
-
         }
     }
 }
