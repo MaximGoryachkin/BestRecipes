@@ -61,7 +61,10 @@ class OnboardingThirdViewController: UIViewController {
     
     //MARK: - Methods
     @objc private func startCookingGetPressed() {
-        
+        let mainVC = HomeViewController()
+        mainVC.modalPresentationStyle = .fullScreen
+        mainVC.modalTransitionStyle = .partialCurl
+        present(mainVC, animated: true)
     }
 }
 //MARK: - OnboardingViewControllerDelegate
