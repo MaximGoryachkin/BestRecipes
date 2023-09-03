@@ -85,7 +85,7 @@ class OnboardingFirstViewController: UIViewController {
     }
     
     @objc private func skipButtonGetPressed() {
-        let mainVC = ViewController()
+        let mainVC = HomeViewController()
         mainVC.modalPresentationStyle = .fullScreen
         mainVC.modalTransitionStyle = .partialCurl
         present(mainVC, animated: true)

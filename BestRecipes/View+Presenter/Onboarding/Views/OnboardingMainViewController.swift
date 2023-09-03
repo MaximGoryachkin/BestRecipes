@@ -1,5 +1,5 @@
 //
-//  OnboardingView.swift
+//  OnboardingMainViewController.swift
 //  BestRecipes
 //
 //  Created by Evgenii Mazrukho on 28.08.2023.
