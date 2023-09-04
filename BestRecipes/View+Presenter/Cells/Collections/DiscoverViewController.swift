@@ -1,6 +1,13 @@
 import UIKit
 
+protocol DiscoverViewProtocol: AnyObject {
+    func updateCollection(with recipes: [Recipe])
+}
+
 class DiscoverViewController: UIViewController {
+    
+    var presenter: DiscoverPresenter!
+    var recipes = [Recipe]()
     
     // MARK: - UI Elements
     
@@ -14,7 +21,7 @@ class DiscoverViewController: UIViewController {
         return lb
     }()
     
-    private let collectionView : UICollectionView = {
+    private lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 34, height: 258)
@@ -33,6 +40,9 @@ class DiscoverViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupCollection()
+        
+        presenter = DiscoverPresenter(view: self)
+        presenter.updateRecipes()
     }
     
     // MARK: - Configure UI
@@ -65,7 +75,7 @@ class DiscoverViewController: UIViewController {
 extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return recipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -73,5 +83,13 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         return cell
     }
     
-    
+}
+
+extension DiscoverViewController: DiscoverViewProtocol {
+    func updateCollection(with recipes: [Recipe]) {
+        DispatchQueue.main.async {
+            self.recipes = recipes
+            self.collectionView.reloadData()
+        }
+    }
 }
