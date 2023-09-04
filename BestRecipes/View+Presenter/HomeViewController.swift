@@ -2,8 +2,8 @@ import UIKit
 
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
-    func preloadSetupPopulars(_ array : [RecipeDataModel])
-    func updatePopulars(_ array : [RecipeDataModel])
+    func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
+    func updatePopulars(_ array : [PopularsRecipesDataModel])
 }
 
 class HomeViewController: UIViewController {
@@ -17,7 +17,8 @@ class HomeViewController: UIViewController {
     var presenter: HomeViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
-    private var popularsPreloadData : [RecipeDataModel] = []
+    private var popularsPreloadData : [PopularsRecipesDataModel] = []
+    private var popularsCollectionSeletedCellCount : Int = 1
     private var choosenPopularCategoryes : String = ""
     
     private var categoryesNamesData : [CategoryNameDataModel] = [
@@ -422,33 +423,32 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if collectionView == categoryesNamesCollection {
-            var categoryName : String = ""
-            var categoryesCount : Int = 0
-            let selectionStatus = categoryesNamesData[indexPath.row].isSelected
+        if collectionView == categoryesNamesCollection{
             
-            categoryesNamesData[indexPath.row].isSelected = !selectionStatus
-            categoryesItemsCollection.reloadData()
+            let seletedStatus = categoryesNamesData[indexPath.row].isSelected
+            categoryesNamesData[indexPath.row].isSelected = !seletedStatus
+            
+            let currentCategoryName = categoryesNamesData[indexPath.row].nameForRequest
+            
+            if categoryesNamesData[indexPath.row].isSelected == true {
+                self.popularsCollectionSeletedCellCount += 1
+                presenter.loadPopularsWithCategoryes(categoryes: categoryesNamesData[indexPath.row].nameForRequest, categoryCount: 1)
+            } else {
+                
+                if popularsCollectionSeletedCellCount > 1 {
+                    popularsCollectionSeletedCellCount -= 1
+                    let filtredArray = popularsPreloadData.filter {$0.categoryName != currentCategoryName}
+                    self.popularsPreloadData = filtredArray
+                    categoryesItemsCollection.reloadData()
+                } else {
+                    categoryesNamesData[indexPath.row].isSelected = seletedStatus
+                    popularsCollectionSeletedCellCount = 1
+                }
+            }
             collectionView.reloadData()
-            
-          
-            for category in categoryesNamesData.dropLast() {
-                if category.isSelected == true {
-                    categoryName += "\(category.nameForRequest),"
-                    categoryesCount += 1
-                }
-            }
-            
-            if let lastCategory = categoryesNamesData.last {
-                if lastCategory.isSelected == true {
-                    categoryName += lastCategory.nameForRequest
-                    categoryesCount += 1
-                }
-            }
-            
-            presenter.loadPopularsWithCategoryes(categoryes: categoryName, categoryCount: categoryesCount)
         }
     }
 }
@@ -456,15 +456,15 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
 
 extension HomeViewController: HomeViewProtocol {
     
-    func updatePopulars(_ array: [RecipeDataModel]) {
-        self.popularsPreloadData = array
+    func updatePopulars(_ array: [PopularsRecipesDataModel]) {
+        self.popularsPreloadData += array
         DispatchQueue.main.async {
             self.categoryesItemsCollection.reloadData()
         }
     }
     
     
-    func preloadSetupPopulars(_ array: [RecipeDataModel]) {
+    func preloadSetupPopulars(_ array: [PopularsRecipesDataModel]) {
         DispatchQueue.main.async {
             self.popularsPreloadData = array
             self.categoryesItemsCollection.reloadData()

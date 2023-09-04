@@ -2,7 +2,7 @@ import UIKit
 
 class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
-    var cellData : RecipeDataModel? {
+    var cellData : PopularsRecipesDataModel? {
         didSet {
             self.itemSaved = cellData!.isSavedToFavorite!
             self.recipeStringUrl =  (cellData?.recipeImage)!

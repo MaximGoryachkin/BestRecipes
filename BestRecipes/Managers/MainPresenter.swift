@@ -36,9 +36,9 @@ class HomePresenter: HomeViewPresenter {
         Task {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.mainCoursePopulars){
-                    var dataArray : [RecipeDataModel] = []
+                    var dataArray : [PopularsRecipesDataModel] = []
                     for recipe in recipes.recipes {
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false))
+                        dataArray.append(PopularsRecipesDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false, categoryName: "main%20course"))
                     }
                     view.preloadSetupPopulars(dataArray)
                 }
@@ -49,13 +49,12 @@ class HomePresenter: HomeViewPresenter {
     }
     
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
-         
         Task {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){
-                    var dataArray : [RecipeDataModel] = []
+                    var dataArray : [PopularsRecipesDataModel] = []
                     for recipe in recipes.recipes {
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false))
+                        dataArray.append(PopularsRecipesDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false, categoryName: categoryes))
                     }
                     view.updatePopulars(dataArray)
                 }
