@@ -10,6 +10,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
             self.titleLabel.text = cellData?.recipeTitle
             self.authorNameLabel.text = cellData?.authorName
             self.recipeStringUrl = (cellData?.recipeImage)!
+            self.avatarImage.image = cellData?.authorAvatar
         }
     }
     

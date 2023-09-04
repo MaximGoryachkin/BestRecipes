@@ -2,6 +2,7 @@ import UIKit
 
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
+    func addFiveTrendings(_ array : [RecipeDataModel])
     func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
     func updatePopulars(_ array : [PopularsRecipesDataModel])
 }
@@ -262,7 +263,7 @@ class HomeViewController: UIViewController {
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
-                
+        presenter.loadTrendindsData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
@@ -279,6 +280,13 @@ class HomeViewController: UIViewController {
     @objc private func creatorsSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
         
+        if AuthorsModel.popularCreators.count == 5 {
+            AuthorsModel.loadAllPopulars()
+            self.creatorsCollection.reloadData()
+            creatorsCollection.scrollToItem(at: IndexPath(row: 5, section: 0), at: .left, animated: true)
+        } else {
+            creatorsCollection.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
@@ -377,7 +385,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == recentRecipeCollection {
             return 10
         } else if collectionView == creatorsCollection {
-            return 10
+            return AuthorsModel.popularCreators.count
         } else {
             return 0
         }
@@ -416,6 +424,8 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             return cell
         } else if collectionView == creatorsCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreatorsCell", for: indexPath) as! CreatorsCollectionViewCell
+            let currentCell = AuthorsModel.popularCreators[indexPath.row]
+            cell.cellData = currentCell
             return cell
         }
         else {
@@ -451,10 +461,32 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             collectionView.reloadData()
         }
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let endScrolling = categoryesItemsCollection.contentOffset.y + categoryesItemsCollection.frame.size.height
+        if endScrolling >= categoryesItemsCollection.contentSize.height {
+            presenter.loadFiveEditionalsTrendingsItems()
+        }
+    }
 }
 
 
 extension HomeViewController: HomeViewProtocol {
+    
+    func setTrendingsData(_ array : [RecipeDataModel]) {
+        DispatchQueue.main.async {
+                self.trendingsData = array
+                self.trendingCollection.reloadData()
+        }
+    }
+    
+    func addFiveTrendings(_ array: [RecipeDataModel]) {
+        DispatchQueue.main.async {
+                self.trendingsData += array
+                self.trendingCollection.reloadData()
+        }
+    }
+    
     
     func updatePopulars(_ array: [PopularsRecipesDataModel]) {
         self.popularsPreloadData += array
@@ -468,14 +500,6 @@ extension HomeViewController: HomeViewProtocol {
         DispatchQueue.main.async {
             self.popularsPreloadData = array
             self.categoryesItemsCollection.reloadData()
-        }
-    }
-    
-        
-    func setTrendingsData(_ array : [RecipeDataModel]) {
-        DispatchQueue.main.async {
-                self.trendingsData = array
-                self.trendingCollection.reloadData()
         }
     }
 }

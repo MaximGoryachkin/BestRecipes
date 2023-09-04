@@ -32,6 +32,10 @@ class DataManager {
         baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=15"
     }
     
+    var trendingsRecipesPlusFive: String {
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=5"
+    }
+    
     var mainCoursePopulars: String {
         baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=5" + "&tags=main%20course"
     }

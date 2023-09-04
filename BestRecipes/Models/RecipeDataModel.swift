@@ -1,4 +1,5 @@
 import Foundation
+import UIKit.UIImage
 
 struct RecipeDataModel {
     let recipeId : Int
@@ -6,7 +7,7 @@ struct RecipeDataModel {
     let recipeRating : String?
     let cookDuration : String?
     let recipeTitle : String?
-    let authorAvatar : String?
+    let authorAvatar : UIImage
     let authorName : String?
     let isSavedToFavorite : Bool?
 }
