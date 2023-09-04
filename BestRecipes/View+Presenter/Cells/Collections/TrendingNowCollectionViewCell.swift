@@ -204,22 +204,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
     }
     
-    @objc private func playTapped (_ sender: UIButton) {
-        sender.alpha = 0.5
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.alpha = 1
-        }
-    }
-    
-    @objc private func dotsTaped(_ sender: UIButton) {
-        sender.alpha = 0.5
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.alpha = 1
-        }
-    }
-    
     func loadRecipeImage(_ url: String) {
         guard let url = URL(string: url) else { return }
         

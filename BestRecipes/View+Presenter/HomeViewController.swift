@@ -122,7 +122,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 280, height: 254)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 260).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 280).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -154,7 +154,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 150, height: 231)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 245).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 250).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -232,7 +232,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 110, height: 136)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 142).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 147).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
