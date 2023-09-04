@@ -1,11 +1,43 @@
 import UIKit
 
+protocol HomeViewProtocol: AnyObject {
+    func setTrendingsData(_ array : [RecipeDataModel])
+    func addFiveTrendings(_ array : [RecipeDataModel])
+    func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
+    func updatePopulars(_ array : [PopularsRecipesDataModel])
+}
+
 class HomeViewController: UIViewController {
+    
     // MARK: - Data
     
     private var contentSize : CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 560)
     }
+    
+    var presenter: HomeViewPresenter!
+    
+    private var trendingsData : [RecipeDataModel] = []
+    private var popularsPreloadData : [PopularsRecipesDataModel] = []
+    private var popularsCollectionSeletedCellCount : Int = 1
+    private var choosenPopularCategoryes : String = ""
+    
+    private var categoryesNamesData : [CategoryNameDataModel] = [
+        .init(categoryName: "main course", nameForRequest: "main%20course", isSelected: true),
+        .init(categoryName: "side dish", nameForRequest: "side%20dish", isSelected: false),
+        .init(categoryName: "dessert", nameForRequest: "dessert", isSelected: false),
+        .init(categoryName: "appetizer", nameForRequest: "appetizer", isSelected: false),
+        .init(categoryName: "salad", nameForRequest: "salad", isSelected: false),
+        .init(categoryName: "bread", nameForRequest: "bread", isSelected: false),
+        .init(categoryName: "breakfast", nameForRequest: "breakfast", isSelected: false),
+        .init(categoryName: "soup", nameForRequest: "soup", isSelected: false),
+        .init(categoryName: "beverage", nameForRequest: "beverage", isSelected: false),
+        .init(categoryName: "sauce", nameForRequest: "sauce", isSelected: false),
+        .init(categoryName: "marinade", nameForRequest: "marinade", isSelected: false),
+        .init(categoryName: "finger food", nameForRequest: "fingerfood", isSelected: false),
+        .init(categoryName: "snack", nameForRequest: "snack", isSelected: false),
+        .init(categoryName: "drink", nameForRequest: "drink", isSelected: false)
+    ]
     
     // MARK: - UI Elements
     
@@ -90,7 +122,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 280, height: 254)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 260).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 280).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -122,7 +154,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 150, height: 231)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 245).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 250).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -200,7 +232,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 110, height: 136)
         let c = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        c.heightAnchor.constraint(equalToConstant: 142).isActive = true
+        c.heightAnchor.constraint(equalToConstant: 147).isActive = true
         c.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         c.translatesAutoresizingMaskIntoConstraints = false
         return c
@@ -216,13 +248,22 @@ class HomeViewController: UIViewController {
         setupSearchBar()
         hideKeyboardWhenTappedAround()
         setupCollections()
+        
+        presenter = HomePresenter(view: self)
+        presenter.loadTrendindsData()
+        presenter.loadMainCourseData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        trendingCollection.reloadData()
+        categoryesItemsCollection.reloadData()
+    }
     // MARK: - Buttons Methods
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
-        
+        presenter.loadTrendindsData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
@@ -239,6 +280,13 @@ class HomeViewController: UIViewController {
     @objc private func creatorsSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
         
+        if AuthorsModel.popularCreators.count == 5 {
+            AuthorsModel.loadAllPopulars()
+            self.creatorsCollection.reloadData()
+            creatorsCollection.scrollToItem(at: IndexPath(row: 5, section: 0), at: .left, animated: true)
+        } else {
+            creatorsCollection.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
@@ -311,9 +359,6 @@ class HomeViewController: UIViewController {
         creatorsCollection.dataSource = self
         creatorsCollection.register(CreatorsCollectionViewCell.self, forCellWithReuseIdentifier: "CreatorsCell")
     }
-    
-    
-    
 }
 
 // MARK: - SearchBar Delegates
@@ -332,15 +377,15 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingCollection {
-            return 10
+            return trendingsData.count
         } else if collectionView == categoryesNamesCollection {
-            return 10
+            return categoryesNamesData.count
         } else if collectionView == categoryesItemsCollection {
-            return 10
+            return popularsPreloadData.count
         } else if collectionView == recentRecipeCollection {
             return 10
         } else if collectionView == creatorsCollection {
-            return 10
+            return AuthorsModel.popularCreators.count
         } else {
             return 0
         }
@@ -351,18 +396,27 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         if collectionView == trendingCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingCell", for: indexPath) as! TrendingNowCollectionViewCell
             
+            let currentCell = trendingsData[indexPath.row]
+            cell.cellData = currentCell
+            cell.loadRecipeImage(cell.recipeStringUrl)
             return cell
             
         } else if collectionView == categoryesNamesCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryNamesCell", for: indexPath) as! CategoryesNamesCollectionViewCell
             
+            let currentCell = categoryesNamesData[indexPath.row]
+            cell.cellData = currentCell
+            cell.didSelectedRow(bool: currentCell.isSelected)
             return cell
             
         } else if collectionView == categoryesItemsCollection {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryItemsCell", for: indexPath) as! CategoryesItemsCollectionViewCell
-            
+            let currentCell = popularsPreloadData[indexPath.row]
+            cell.cellData = currentCell
+            cell.loadRecipeImage(currentCell.recipeImage!)
             return cell
+            
         } else if collectionView == recentRecipeCollection {
              
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
@@ -370,6 +424,8 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             return cell
         } else if collectionView == creatorsCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreatorsCell", for: indexPath) as! CreatorsCollectionViewCell
+            let currentCell = AuthorsModel.popularCreators[indexPath.row]
+            cell.cellData = currentCell
             return cell
         }
         else {
@@ -377,13 +433,73 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == categoryesNamesCollection {
-            let currentCell = collectionView.cellForItem(at: indexPath) as! CategoryesNamesCollectionViewCell
-            currentCell.didSelectedRow()
+        
+        if collectionView == categoryesNamesCollection{
+            
+            let seletedStatus = categoryesNamesData[indexPath.row].isSelected
+            categoryesNamesData[indexPath.row].isSelected = !seletedStatus
+            
+            let currentCategoryName = categoryesNamesData[indexPath.row].nameForRequest
+            
+            if categoryesNamesData[indexPath.row].isSelected == true {
+                self.popularsCollectionSeletedCellCount += 1
+                presenter.loadPopularsWithCategoryes(categoryes: categoryesNamesData[indexPath.row].nameForRequest, categoryCount: 1)
+            } else {
+                
+                if popularsCollectionSeletedCellCount > 1 {
+                    popularsCollectionSeletedCellCount -= 1
+                    let filtredArray = popularsPreloadData.filter {$0.categoryName != currentCategoryName}
+                    self.popularsPreloadData = filtredArray
+                    categoryesItemsCollection.reloadData()
+                } else {
+                    categoryesNamesData[indexPath.row].isSelected = seletedStatus
+                    popularsCollectionSeletedCellCount = 1
+                }
+            }
+            collectionView.reloadData()
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let endScrolling = categoryesItemsCollection.contentOffset.y + categoryesItemsCollection.frame.size.height
+        if endScrolling >= categoryesItemsCollection.contentSize.height {
+            presenter.loadFiveEditionalsTrendingsItems()
+        }
+    }
+}
+
+
+extension HomeViewController: HomeViewProtocol {
+    
+    func setTrendingsData(_ array : [RecipeDataModel]) {
+        DispatchQueue.main.async {
+                self.trendingsData = array
+                self.trendingCollection.reloadData()
+        }
+    }
+    
+    func addFiveTrendings(_ array: [RecipeDataModel]) {
+        DispatchQueue.main.async {
+                self.trendingsData += array
+                self.trendingCollection.reloadData()
         }
     }
     
     
+    func updatePopulars(_ array: [PopularsRecipesDataModel]) {
+        self.popularsPreloadData += array
+        DispatchQueue.main.async {
+            self.categoryesItemsCollection.reloadData()
+        }
+    }
+    
+    
+    func preloadSetupPopulars(_ array: [PopularsRecipesDataModel]) {
+        DispatchQueue.main.async {
+            self.popularsPreloadData = array
+            self.categoryesItemsCollection.reloadData()
+        }
+    }
 }
-

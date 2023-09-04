@@ -2,6 +2,13 @@ import UIKit
 
 class CategoryesNamesCollectionViewCell: UICollectionViewCell {
     
+    var cellData : CategoryNameDataModel? {
+        didSet {
+            self.mainTitle.text = cellData?.categoryName.capitalized
+            self.itemeSelected = cellData!.isSelected
+        }
+    }
+    
     private var itemeSelected : Bool = false
     
     private let mainTitle : UILabel = {
@@ -45,8 +52,7 @@ class CategoryesNamesCollectionViewCell: UICollectionViewCell {
         mainTitle.textColor = .primary20
     }
     
-    func didSelectedRow() {
-        itemeSelected = !itemeSelected
-        itemeSelected == true ? changesForSelected() : resotreCleanUI()
+    func didSelectedRow(bool : Bool) {
+        bool == true ? changesForSelected() : resotreCleanUI()
     }
 }

@@ -2,14 +2,36 @@ import UIKit
 
 class TrendingNowCollectionViewCell: UICollectionViewCell {
     
+    var cellData : RecipeDataModel? {
+        didSet {
+            self.itemSaved = cellData!.isSavedToFavorite!
+            self.starButton.titleLabel?.text = cellData?.recipeRating
+            self.duratuinLabel.text = cellData?.cookDuration
+            self.titleLabel.text = cellData?.recipeTitle
+            self.authorNameLabel.text = cellData?.authorName
+            self.recipeStringUrl = (cellData?.recipeImage)!
+            self.avatarImage.image = cellData?.authorAvatar
+        }
+    }
+    
     private var itemSaved : Bool = false
+    var recipeStringUrl : String = ""
+    
+    private let imageBubble : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        view.layer.cornerRadius = 12
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private let pickture : UIImageView = {
         let img = UIImageView()
-        img.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        img.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        img.image = .plus
+        img.image = UIImage(systemName: "questionmark.folder")
         img.clipsToBounds = true
+        img.contentMode = .scaleToFill
         img.layer.cornerRadius = 12
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
@@ -55,18 +77,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         return btn
     }()
     
-    private lazy var playButton : UIButton = {
-        let btn = UIButton()
-        btn.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        btn.layer.cornerRadius = 24
-        btn.setImage(.play, for: .normal)
-        btn.backgroundColor = .neutral90.withAlphaComponent(0.3)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(playTapped(_:)), for: .touchUpInside)
-        return btn
-    }()
-    
     private let videoDurationBuble : UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -104,14 +114,6 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         lb.text = "How to sharwama at home"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
-    }()
-    
-    private lazy var dotsButton : UIButton = {
-        let btn = UIButton()
-        btn.setImage(.moreVertical, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(dotsTaped(_:)), for: .touchUpInside)
-        return btn
     }()
     
     private lazy var authStack : UIStackView = {
@@ -155,34 +157,35 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure() {
-        contentView.addSubview(pickture)
-        contentView.addSubview(rateStack)
+        contentView.addSubview(imageBubble)
+        imageBubble.addSubview(pickture)
+        imageBubble.addSubview(rateStack)
         rateStack.addArrangedSubview(starButton)
         rateStack.addArrangedSubview(favoriteButton)
-        contentView.addSubview(playButton)
-        contentView.addSubview(videoDurationBuble)
+        imageBubble.addSubview(videoDurationBuble)
         videoDurationBuble.addSubview(duratuinLabel)
         contentView.addSubview(firstStackView)
         firstStackView.addArrangedSubview(titleLabel)
-        firstStackView.addArrangedSubview(dotsButton)
         contentView.addSubview(authStack)
         authStack.addArrangedSubview(avatarImage)
         authStack.addArrangedSubview(authorNameLabel)
         
         NSLayoutConstraint.activate([
-            pickture.topAnchor.constraint(equalTo: contentView.topAnchor),
-            pickture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imageBubble.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageBubble.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            rateStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            rateStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            rateStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            playButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 66),
-            playButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-            videoDurationBuble.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 147),
-            videoDurationBuble.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
+            pickture.topAnchor.constraint(equalTo: imageBubble.topAnchor),
+            pickture.leadingAnchor.constraint(equalTo: imageBubble.leadingAnchor),
+            pickture.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor),
+            pickture.bottomAnchor.constraint(equalTo: imageBubble.bottomAnchor),
+
+            rateStack.topAnchor.constraint(equalTo: imageBubble.topAnchor, constant: 8),
+            rateStack.leadingAnchor.constraint(equalTo: imageBubble.leadingAnchor, constant: 8),
+            rateStack.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
+
+            videoDurationBuble.topAnchor.constraint(equalTo: imageBubble.topAnchor, constant: 147),
+            videoDurationBuble.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
+
             duratuinLabel.centerXAnchor.constraint(equalTo: videoDurationBuble.centerXAnchor),
             duratuinLabel.centerYAnchor.constraint(equalTo: videoDurationBuble.centerYAnchor),
             
@@ -201,19 +204,19 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
     }
     
-    @objc private func playTapped (_ sender: UIButton) {
-        sender.alpha = 0.5
+    func loadRecipeImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.alpha = 1
-        }
-    }
-    
-    @objc private func dotsTaped(_ sender: UIButton) {
-        sender.alpha = 0.5
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.alpha = 1
+        if let data = NetworkManager.shared.getDataFromCache(from: url) {
+            self.pickture.image = UIImage(data: data)
+        } else {
+            ImageManager.shared.fetchImage(from: url) { data, response in
+                DispatchQueue.main.async {
+                    self.pickture.image = UIImage(data: data)
+                    NetworkManager.shared.saveDataToCache(with: data, and: response)
+                }
+            }
         }
     }
 }
+

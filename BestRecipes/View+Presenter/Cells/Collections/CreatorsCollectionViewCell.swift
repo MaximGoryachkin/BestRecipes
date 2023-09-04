@@ -2,6 +2,13 @@ import UIKit
 
 class CreatorsCollectionViewCell: UICollectionViewCell {
     
+    var cellData : AuthorsModel? {
+        didSet {
+            self.avatarImg.image = cellData?.avatar
+            self.authorNameLabel.text = cellData?.name
+        }
+    }
+    
     private let avatarImg : UIImageView = {
         let img = UIImageView()
         img.heightAnchor.constraint(equalToConstant: 110).isActive = true

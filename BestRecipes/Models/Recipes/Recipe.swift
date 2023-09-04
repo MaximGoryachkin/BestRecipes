@@ -14,4 +14,6 @@ struct Recipe: Codable {
     let image: String
     let summary: String?
     let analyzedInstructions: [Instruction]
+    let veryPopular: Bool?
+    let sourceName: String?
 }
