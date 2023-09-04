@@ -77,6 +77,10 @@ class HomePresenter: HomeViewPresenter {
             return UIImage(named: "Afrolems")!
         case "Full Belly Sisters":
             return UIImage(named: "Full_Belly_Sisters")!
+        case "blogspot.com":
+            return UIImage(named: "blogspot.com")!
+        case "Food and Spice":
+            return UIImage(named: "Food and Spice")!
         default:
             return UIImage(named: "emptyAvatar")!
         }
