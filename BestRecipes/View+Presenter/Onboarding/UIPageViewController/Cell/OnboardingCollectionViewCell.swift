@@ -12,26 +12,11 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     //MARK: - UIElements
     private let backgroundImage: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    private let topTitleImage: UIImageView = {
-        let image = UIImageView()
-        image.tintColor = .neutral100
+        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
 
-    private let topTitle: UILabel = {
-        let label = UILabel()
-        label.font = .poppinsRegular20
-        label.tintColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     private let mainTitle: UILabel = {
         let label = UILabel()
         label.font = .poppinsBoldHeading
@@ -43,17 +28,10 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let bottomLabel: UILabel = {
-        let label = UILabel()
-        label.font = .poppinsRegular20
-        label.tintColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     //MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .clear
         
         setupViews()
         setConstraints()
@@ -66,15 +44,20 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     //MARK: - Methods
     private func setupViews() {
         addSubview(backgroundImage)
-        addSubview(topTitleImage)
-        addSubview(topTitle)
         addSubview(mainTitle)
-        addSubview(bottomLabel)
     }
     
     public func cellConfigure(model: OnboardingStruct) {
         backgroundImage.image = model.backgroundImage
         mainTitle.text = model.mainTitle
+        configureLabel()
+    }
+    
+    private func configureLabel() {
+        let attributedText = NSMutableAttributedString()
+        attributedText.append(NSAttributedString(string: "Recipes from all ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]));
+        attributedText.append(NSAttributedString(string: "over the World", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rating]))
+        mainTitle.attributedText = attributedText
     }
 }
 
@@ -88,21 +71,10 @@ extension OnboardingCollectionViewCell {
             backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             
-            topTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
-            topTitle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
-            topTitleImage.trailingAnchor.constraint(equalTo: topTitle.leadingAnchor, constant: -5),
-            topTitleImage.centerYAnchor.constraint(equalTo: topTitle.centerYAnchor),
-            topTitleImage.heightAnchor.constraint(equalToConstant: 16),
-            topTitleImage.widthAnchor.constraint(equalToConstant: 16),
-            
-            bottomLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -55),
-            bottomLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
             mainTitle.centerXAnchor.constraint(equalTo: centerXAnchor),
             mainTitle.heightAnchor.constraint(equalToConstant: 160),
             mainTitle.widthAnchor.constraint(equalToConstant: 260),
-            mainTitle.bottomAnchor.constraint(equalTo: bottomLabel.topAnchor, constant: -10)
+            mainTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -200)
         ])
     }
 }
