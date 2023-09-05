@@ -1,9 +1,4 @@
-//
-//  DataManager.swift
-//  BestRecipes
-//
-//  Created by Максим Горячкин on 28.08.2023.
-//
+
 
 import Foundation
 
@@ -12,7 +7,8 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
-    let apiKey = "3f49d203dce9450582765f268e3771b1"
+    let apiKey = ""
+    // 0b966a75106540f88014b83398f69da5
 //    "96e9dcad31254d1fb414fd818ca07ad0"
 // e2fef51d8304448cba077f7f456da693
 // 3f49d203dce9450582765f268e3771b1

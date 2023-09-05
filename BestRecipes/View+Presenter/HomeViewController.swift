@@ -39,6 +39,8 @@ class HomeViewController: UIViewController {
         .init(categoryName: "drink", nameForRequest: "drink", isSelected: false)
     ]
     
+    private var searchResultsData : [RecipeDataModel] = []
+    
     // MARK: - UI Elements
     
     private lazy var scrollView : UIScrollView = {
@@ -88,6 +90,8 @@ class HomeViewController: UIViewController {
         bar.setImage(.search, for: .search, state: .normal)
         return bar
     }()
+    
+    private let searchResultsAlert = SearchResultsAlert()
     
     private lazy var trendingMainStack : UIStackView = {
         let stack = UIStackView()
@@ -292,6 +296,10 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @objc func dismissAlert() {
+        searchResultsAlert.dismissAlert()
+    }
+    
     // MARK: - ConfigureUI
 
     private func addSubviews() {
@@ -368,6 +376,7 @@ extension HomeViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.endEditing(true)
+        searchResultsAlert.showAlert(searchRequestText: "GayTest", on: self)
     }
 }
 
@@ -433,7 +442,6 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == categoryesNamesCollection{
@@ -470,6 +478,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
+// MARK: - HomeViewProtocol
 
 extension HomeViewController: HomeViewProtocol {
     
@@ -502,4 +511,26 @@ extension HomeViewController: HomeViewProtocol {
             self.categoryesItemsCollection.reloadData()
         }
     }
+}
+
+// MARK: - TableView Delegate & DataSource
+
+extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResultsData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SerchResultsCell") as? SearchResultsTableViewCell else {
+            return UITableViewCell()
+        }
+        let currentCell = searchResultsData[indexPath.row]
+        cell.cellData = currentCell
+        cell.loadRecipeImage(currentCell.recipeImage!)
+        
+        return cell
+    }
+    
+    
 }
