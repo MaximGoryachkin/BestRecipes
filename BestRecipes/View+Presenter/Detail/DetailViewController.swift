@@ -83,6 +83,7 @@ class DetailViewController: UIViewController {
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        img.translatesAutoresizingMaskIntoConstraints = false
         return img
     }()
     
@@ -127,7 +128,6 @@ class DetailViewController: UIViewController {
         let tb = UITableView()
         tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 50).isActive = true
         tb.separatorStyle = .none
-        tb.isScrollEnabled = false
         tb.translatesAutoresizingMaskIntoConstraints = false
         return tb
     }()
@@ -270,41 +270,32 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         if tableView == instructionTableView {
             return recipeInfoData.coockingSteps.count
         } else {
-            return 5
+            return recipeInfoData.ingredients.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == instructionTableView {
             let cell = instructionTableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath) as! InstructionTableViewCell
-            
+
             let currentCell = recipeInfoData.coockingSteps[indexPath.row]
             let currentNumber = indexPath.row + 1
             
             cell.discriptionLabel.text = currentCell
             cell.countLabel.text = "\(currentNumber)."
             
-//            switch indexPath.row {
-//            case 0:
-//                cell.countLabel.text = "1."
-//                cell.discriptionLabel.text = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop."
-//            case 1:
-//                cell.countLabel.text = "\(indexPath.row + 1)."
-//                cell.discriptionLabel.text = "Place chopped eggs in a bowl."
-//            case 2:
-//                cell.countLabel.text = "\(indexPath.row + 1)."
-//                cell.discriptionLabel.text = "Add chopped tomatoes, corns, lettuce, and any other vegitable of your choice."
-//            case 3:
-//                cell.countLabel.text = "\(indexPath.row + 1)."
-//                cell.discriptionLabel.text = "Stir in mayonnaise, green onion, and mustard. Season with paprika, salt, and pepper."
-//            default:
-//                cell.countLabel.text = nil
-//                cell.discriptionLabel.text = "Stir and serve on your favorite bread or crackers."
-//                cell.redText()
-//            }
+            if indexPath.row == recipeInfoData.coockingSteps.count - 1 {
+                cell.redText()
+            }
+            
             return cell
         } else {
             let cell = ingredientsTableView.dequeueReusableCell(withIdentifier: "ingredientsCell", for: indexPath) as! IngredientsTableViewCell
+            
+            let currentIngredient = recipeInfoData.ingredients[indexPath.row]
+            cell.ingredientNameLabel.text = currentIngredient.name
+            cell.weightLabel.text = String(currentIngredient.amount) + " " + currentIngredient.unit
+            cell.loadImagwFromURL(pictureName: currentIngredient.image)
             return cell
         }
     }

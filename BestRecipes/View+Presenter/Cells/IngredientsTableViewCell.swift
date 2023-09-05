@@ -16,26 +16,28 @@ class IngredientsTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var ingredientImage : UIImageView = {
+    lazy var ingredientImage : UIImageView = {
         let img = UIImageView()
         img.image = .plus
         img.clipsToBounds = true
+        img.layer.cornerRadius = 8
         img.contentMode = .scaleToFill
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
     }()
     
-    private lazy var ingredientNameLabel : UILabel = {
+     lazy var ingredientNameLabel : UILabel = {
         let lb = UILabel()
         lb.font = .poppinsBold16
         lb.textColor = .neutral100
         lb.textAlignment = .center
+         lb.numberOfLines = 0
         lb.text = "Fish"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     
-    private lazy var weightLabel : UILabel = {
+     lazy var weightLabel : UILabel = {
         let lb = UILabel()
         lb.font = .poppinsRegularLabel
         lb.textColor = .neutral50
@@ -56,7 +58,7 @@ class IngredientsTableViewCell: UITableViewCell {
     private lazy var contentStack : UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .equalSpacing
+        stack.distribution = .fillProportionally
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -137,6 +139,19 @@ class IngredientsTableViewCell: UITableViewCell {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
             self.isChoosen == true ? sender.setImage(UIImage.tickCircle?.imageResized(to: CGSize(width: 23.08, height: 23.08)), for: .normal) : sender.setImage(self.unselectedItemImage, for: .normal)
+        }
+    }
+    
+    func loadImagwFromURL(pictureName: String) {
+        if let url = URL(string: "https://spoonacular.com/cdn/ingredients_100x100/"+pictureName) {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    self.ingredientImage.image = UIImage(data: data)
+                }
+            }
+            task.resume()
         }
     }
     
