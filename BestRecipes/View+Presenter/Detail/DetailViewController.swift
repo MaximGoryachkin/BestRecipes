@@ -14,7 +14,7 @@ class DetailViewController: UIViewController {
     
     
     private var contentSize : CGSize {
-            CGSize(width: view.frame.width, height: 500 + heightForIngredientsTV + heightForInstructionTV)
+            CGSize(width: view.frame.width, height: 500 + heightForIngredientsTV + heightForInstructionTV + 50)
     }
     
     // Value of this property we will change to count of cells at this TableView
@@ -180,7 +180,6 @@ class DetailViewController: UIViewController {
         let tb = UITableView()
         tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 50).isActive = true
         tb.separatorStyle = .none
-        tb.isScrollEnabled = false
         tb.translatesAutoresizingMaskIntoConstraints = false
         return tb
     }()
@@ -235,6 +234,8 @@ class DetailViewController: UIViewController {
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             contentStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24),
             contentStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24),
+            titleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 19),
+            titleLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -19),
             reciptImage.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             reciptImage.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             instructionsLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
@@ -259,6 +260,7 @@ class DetailViewController: UIViewController {
         titleLabel.text = recipeInfoData.recipeTitle
         ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
         loadRecipeImage(recipeInfoData.recipeImage!)
+        itemCountLabel.text = String(recipeInfoData.ingredients.count)
     }
 }
 

@@ -58,7 +58,8 @@ class IngredientsTableViewCell: UITableViewCell {
     private lazy var contentStack : UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .fillProportionally
+        stack.distribution = .fillEqually
+      //  stack.spacing = 150
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -128,6 +129,9 @@ class IngredientsTableViewCell: UITableViewCell {
             ingredientImage.leadingAnchor.constraint(equalTo: imageBubleView.leadingAnchor),
             ingredientImage.trailingAnchor.constraint(equalTo: imageBubleView.trailingAnchor),
             ingredientImage.bottomAnchor.constraint(equalTo: imageBubleView.bottomAnchor),
+            
+            ingredientNameLabel.bottomAnchor.constraint(equalTo: leftStack.bottomAnchor),
+            rightStack.trailingAnchor.constraint(equalTo: contentStack.trailingAnchor),
         ])
     }
 
