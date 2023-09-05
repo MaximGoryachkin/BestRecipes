@@ -7,6 +7,7 @@ protocol HomeViewPresenter {
     func loadMainCourseData()
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int)
     func loadFiveEditionalsTrendingsItems()
+    func loadSearchRequestData(searchText: String)
 }
 
 class HomePresenter: HomeViewPresenter {
@@ -111,5 +112,21 @@ class HomePresenter: HomeViewPresenter {
             let result = Float.random(in: 1.110 ... 3.700)
             return String(format: "%.1f", result)
         }
+    }
+    
+    func loadSearchRequestData(searchText: String) {
+//        Task {
+//            do {
+//                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){
+//                    var dataArray : [PopularsRecipesDataModel] = []
+//                    for recipe in recipes.recipes {
+//                        dataArray.append(PopularsRecipesDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false, categoryName: categoryes))
+//                    }
+//                    view.updatePopulars(dataArray)
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
     }
 }

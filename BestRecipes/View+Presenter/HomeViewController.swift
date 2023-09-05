@@ -5,6 +5,7 @@ protocol HomeViewProtocol: AnyObject {
     func addFiveTrendings(_ array : [RecipeDataModel])
     func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
     func updatePopulars(_ array : [PopularsRecipesDataModel])
+    func updateSearchData (_ array: [RecipeDataModel])
 }
 
 class HomeViewController: UIViewController {
@@ -256,6 +257,8 @@ class HomeViewController: UIViewController {
         presenter = HomePresenter(view: self)
         presenter.loadTrendindsData()
         presenter.loadMainCourseData()
+        
+        print(DataManager.shared.trendingsRecipes)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -509,6 +512,12 @@ extension HomeViewController: HomeViewProtocol {
         DispatchQueue.main.async {
             self.popularsPreloadData = array
             self.categoryesItemsCollection.reloadData()
+        }
+    }
+    
+    func updateSearchData(_ array: [RecipeDataModel]) {
+        DispatchQueue.main.async {
+            self.searchResultsData = array
         }
     }
 }
