@@ -27,6 +27,16 @@ class SearchResultsTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var contentStack : UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.spacing = 16
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     private let iconBubleView : UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -60,6 +70,8 @@ class SearchResultsTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.setImage(.arrowRight, for: .normal)
         btn.addTarget(self, action: #selector(taped(_:)), for: .touchUpInside)
+        btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -76,10 +88,11 @@ class SearchResultsTableViewCell: UITableViewCell {
     private func setupCell() {
         selectionStyle = .none
         contentView.addSubview(bubbleView)
-        bubbleView.addSubview(iconBubleView)
+        bubbleView.addSubview(contentStack)
+        contentStack.addArrangedSubview(iconBubleView)
         iconBubleView.addSubview(iconImage)
-        bubbleView.addSubview(titleLabel)
-        bubbleView.addSubview(actionButton)
+        contentStack.addArrangedSubview(titleLabel)
+        contentStack.addArrangedSubview(actionButton)
         
         NSLayoutConstraint.activate([
             bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -87,20 +100,15 @@ class SearchResultsTableViewCell: UITableViewCell {
             bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
-            iconBubleView.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
-            iconBubleView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 16),
+            contentStack.topAnchor.constraint(equalTo: bubbleView.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 16),
+            contentStack.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -16),
+            contentStack.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor),
             
             iconImage.topAnchor.constraint(equalTo: iconBubleView.topAnchor),
             iconImage.leadingAnchor.constraint(equalTo: iconBubleView.leadingAnchor),
             iconImage.trailingAnchor.constraint(equalTo: iconBubleView.trailingAnchor),
             iconImage.bottomAnchor.constraint(equalTo: iconBubleView.bottomAnchor),
-            
-            titleLabel.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: iconBubleView.trailingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: actionButton.leadingAnchor, constant: -10),
-            
-            actionButton.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
         ])
     }
     

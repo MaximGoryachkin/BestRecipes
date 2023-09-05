@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
     }
     
     var presenter: HomeViewPresenter!
+    var detailpresenter: DetailViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
     private var popularsPreloadData : [PopularsRecipesDataModel] = []
@@ -258,7 +259,6 @@ class HomeViewController: UIViewController {
         presenter.loadTrendindsData()
         presenter.loadMainCourseData()
         
-        print(DataManager.shared.trendingsRecipes)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -376,10 +376,19 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController : UISearchBarDelegate {
     
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let requestText = searchBar.text {
+            presenter.loadSearchRequestData(searchText: requestText)
+        }
+
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.endEditing(true)
-        searchResultsAlert.showAlert(searchRequestText: "GayTest", on: self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.searchResultsAlert.showAlert(searchRequestText: searchBar.text!, on: self)
+        }
     }
 }
 
@@ -539,6 +548,17 @@ extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
         cell.loadRecipeImage(currentCell.recipeImage!)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let sendingData = searchResultsData[indexPath.row]
+        
+        let vc = DetailViewController(recipeInfoData: sendingData)
+        
+        self.present(vc, animated: true)
+  
+      
     }
     
     

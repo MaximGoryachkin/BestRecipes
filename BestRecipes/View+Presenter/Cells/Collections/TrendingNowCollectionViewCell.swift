@@ -204,6 +204,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         itemSaved == true ? sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal) : sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
     }
     
+    
     func loadRecipeImage(_ url: String) {
         guard let url = URL(string: url) else { return }
         

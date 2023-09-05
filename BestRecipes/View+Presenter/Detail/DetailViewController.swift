@@ -1,8 +1,17 @@
 import UIKit
 
+protocol DetailViewProtocol: AnyObject {
+    func updateRecipeInfo(_ data: RecipeDataModel)
+    func retreveRecipeData(_ data: RecipeDataModel)
+}
+
 class DetailViewController: UIViewController {
     
     // MARK: - Data
+    
+    private var recipeInfoData : RecipeDataModel
+    private var presenter : DetailViewPresenter!
+    
     
     private var contentSize : CGSize {
             CGSize(width: view.frame.width, height: 500 + heightForIngredientsTV + heightForInstructionTV)
@@ -177,13 +186,26 @@ class DetailViewController: UIViewController {
     }()
     
     // MARK: - LifeCycle Methods
-
+    
+    init(recipeInfoData : RecipeDataModel) {
+        self.recipeInfoData = recipeInfoData
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         addSubviews()
         setupConstraints()
         setupTableViews()
+        presenter = DetailPresenter(view: DetailViewController(recipeInfoData: recipeInfoData).self)
+        presenter.getRecipeData(recipeInfoData)
+        presenter.sendRecipeData()
+        setupUIData()
     }
     
     // MARK: - ConfigureUI
@@ -232,6 +254,12 @@ class DetailViewController: UIViewController {
         ingredientsTableView.dataSource = self
         ingredientsTableView.register(IngredientsTableViewCell.self, forCellReuseIdentifier: "ingredientsCell")
     }
+    
+    private func setupUIData() {
+        titleLabel.text = recipeInfoData.recipeTitle
+        ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
+        loadRecipeImage(recipeInfoData.recipeImage!)
+    }
 }
 
 // MARK: - TableView Delegate & DataSource
@@ -240,7 +268,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == instructionTableView {
-            return 5
+            return recipeInfoData.coockingSteps.count
         } else {
             return 5
         }
@@ -249,28 +277,67 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == instructionTableView {
             let cell = instructionTableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath) as! InstructionTableViewCell
-            switch indexPath.row {
-            case 0:
-                cell.countLabel.text = "1."
-                cell.discriptionLabel.text = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop."
-            case 1:
-                cell.countLabel.text = "\(indexPath.row + 1)."
-                cell.discriptionLabel.text = "Place chopped eggs in a bowl."
-            case 2:
-                cell.countLabel.text = "\(indexPath.row + 1)."
-                cell.discriptionLabel.text = "Add chopped tomatoes, corns, lettuce, and any other vegitable of your choice."
-            case 3:
-                cell.countLabel.text = "\(indexPath.row + 1)."
-                cell.discriptionLabel.text = "Stir in mayonnaise, green onion, and mustard. Season with paprika, salt, and pepper."
-            default:
-                cell.countLabel.text = nil
-                cell.discriptionLabel.text = "Stir and serve on your favorite bread or crackers."
-                cell.redText()
-            }
+            
+            let currentCell = recipeInfoData.coockingSteps[indexPath.row]
+            let currentNumber = indexPath.row + 1
+            
+            cell.discriptionLabel.text = currentCell
+            cell.countLabel.text = "\(currentNumber)."
+            
+//            switch indexPath.row {
+//            case 0:
+//                cell.countLabel.text = "1."
+//                cell.discriptionLabel.text = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop."
+//            case 1:
+//                cell.countLabel.text = "\(indexPath.row + 1)."
+//                cell.discriptionLabel.text = "Place chopped eggs in a bowl."
+//            case 2:
+//                cell.countLabel.text = "\(indexPath.row + 1)."
+//                cell.discriptionLabel.text = "Add chopped tomatoes, corns, lettuce, and any other vegitable of your choice."
+//            case 3:
+//                cell.countLabel.text = "\(indexPath.row + 1)."
+//                cell.discriptionLabel.text = "Stir in mayonnaise, green onion, and mustard. Season with paprika, salt, and pepper."
+//            default:
+//                cell.countLabel.text = nil
+//                cell.discriptionLabel.text = "Stir and serve on your favorite bread or crackers."
+//                cell.redText()
+//            }
             return cell
         } else {
             let cell = ingredientsTableView.dequeueReusableCell(withIdentifier: "ingredientsCell", for: indexPath) as! IngredientsTableViewCell
             return cell
         }
     }
+    
+   private func loadRecipeImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        if let data = NetworkManager.shared.getDataFromCache(from: url) {
+            self.reciptImage.image = UIImage(data: data)
+        } else {
+            ImageManager.shared.fetchImage(from: url) { data, response in
+                DispatchQueue.main.async {
+                    self.reciptImage.image = UIImage(data: data)
+                    NetworkManager.shared.saveDataToCache(with: data, and: response)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - DetailViewProtocol
+
+extension DetailViewController: DetailViewProtocol {
+    
+    func retreveRecipeData(_ data: RecipeDataModel) {
+        self.recipeInfoData = data
+    }
+    
+    
+    func updateRecipeInfo(_ data: RecipeDataModel) {
+        DispatchQueue.main.async {
+            self.titleLabel.text = data.recipeTitle
+        }
+    }
+    
 }

@@ -23,6 +23,8 @@ class SearchResultsAlert {
     }()
     
     private var myTargetView : UIView?
+    private var myTableView : UITableView?
+    private var myTitleStack : UIStackView?
     
     func showAlert(searchRequestText: String, on viewController: UIViewController) {
         
@@ -61,6 +63,8 @@ class SearchResultsAlert {
             return stack
         }()
         
+        myTitleStack = titleStack
+        
         let resultsTableView : UITableView = {
             let tb = UITableView()
             tb.separatorStyle = .none
@@ -72,6 +76,8 @@ class SearchResultsAlert {
             return tb
         }()
         
+        myTableView = resultsTableView
+        
         backgroundView.frame = targertView.bounds
         targertView.addSubview(backgroundView)
         targertView.addSubview(alertView)
@@ -79,7 +85,7 @@ class SearchResultsAlert {
         titleStack.addArrangedSubview(titleLabel)
         titleStack.addArrangedSubview(cancelButton)
         alertView.frame = CGRect(x: 40, y: -(targertView.frame.size.height / 2), width: targertView.frame.size.width - 80, height: targertView.frame.size.height / 2)
-        alertView.addSubview(resultsTableView)
+        alertView.addSubview(myTableView!)
         
         UIView.animate(withDuration: 0.25, animations: {
             self.backgroundView.alpha = Constants.backgroundAlphaTo
@@ -117,6 +123,8 @@ class SearchResultsAlert {
                     if done {
                         self.alertView.removeFromSuperview()
                         self.backgroundView.removeFromSuperview()
+                        self.myTableView?.removeFromSuperview()
+                        self.myTitleStack?.removeFromSuperview()
                     }
                 })
             }

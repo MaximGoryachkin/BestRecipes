@@ -10,6 +10,7 @@ struct RecipeDataModel {
     let authorAvatar : UIImage
     let authorName : String?
     let isSavedToFavorite : Bool?
+    let coockingSteps : [String]
 }
 
 struct PopularsRecipesDataModel {

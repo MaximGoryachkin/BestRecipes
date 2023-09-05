@@ -7,7 +7,7 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
-    let apiKey = ""
+    let apiKey = "3f49d203dce9450582765f268e3771b1"
     // 0b966a75106540f88014b83398f69da5
 //    "96e9dcad31254d1fb414fd818ca07ad0"
 // e2fef51d8304448cba077f7f456da693
@@ -39,6 +39,10 @@ class DataManager {
     
     var popularCategoryes: String {
         baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey
+    }
+    
+    var searchURL : String {
+        baseURL + "complexSearch" + "?apiKey=" + apiKey + "&addRecipeInformation=true" + "&number=20" + "&fillIngredients=true"
     }
 }
 

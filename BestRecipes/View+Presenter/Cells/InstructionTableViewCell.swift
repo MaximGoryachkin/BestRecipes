@@ -2,11 +2,28 @@ import UIKit
 
 class InstructionTableViewCell: UITableViewCell {
     
+    private lazy var containerView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var contentStack : UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.alignment = .top
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
      lazy var countLabel : UILabel = {
         let lb = UILabel()
         lb.font = .poppinsRegular16
         lb.textColor = .neutral100
-        lb.textAlignment = .left
+        lb.textAlignment = .center
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -19,23 +36,6 @@ class InstructionTableViewCell: UITableViewCell {
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
-    }()
-    
-    private lazy var containerView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var contentStack : UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .top
-        stack.spacing = 5
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -63,7 +63,7 @@ class InstructionTableViewCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             contentStack.topAnchor.constraint(equalTo: containerView.topAnchor),
-            contentStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,constant: 5),
             contentStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             contentStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
         ])
