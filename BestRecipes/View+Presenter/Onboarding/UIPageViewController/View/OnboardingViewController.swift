@@ -17,20 +17,12 @@ struct OnboardingStruct {
 class OnboardingViewController: UIViewController {
     
     //MARK: - UIElements
+    
     private lazy var nextButton = CustomButton(style: .circleTextRed, title: "Continue")
     private lazy var skipButton = CustomButton(style: .skip, title: "Skip")
     
-    private var mainBackgroundImage: UIImageView = {
-       let image = UIImageView()
-        image.image = UIImage(named: "mainPage")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.numberOfPages = 3
-        pageControl.currentPageIndicatorTintColor = .error10
         pageControl.transform = CGAffineTransform.init(scaleX: 1.5, y: 1.5)
         pageControl.isEnabled = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +34,7 @@ class OnboardingViewController: UIViewController {
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,47 +43,41 @@ class OnboardingViewController: UIViewController {
     
     //MARK: - Properties
     private let idOnboardingCell = "idOnboardingCell"
-    
     private var onboardingArray = [OnboardingStruct]()
-    
     private var collectionItem = 0
+    private lazy var homeViewController = HomeViewController()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
+        configurePageControl()
         setConstraints()
         setDelegates()
     }
     
     //MARK: - SetupViews
     private func setupViews() {
-        view.addSubview(mainBackgroundImage)
         view.addSubview(collectionView)
+        collectionView.register(OnboardingCollectionViewCell.self, forCellWithReuseIdentifier: idOnboardingCell)
         view.addSubview(pageControl)
         view.addSubview(nextButton)
         nextButton.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
         view.addSubview(skipButton)
         skipButton.addTarget(self, action: #selector(skipButtonPressed), for: .touchUpInside)
-        collectionView.register(OnboardingCollectionViewCell.self, forCellWithReuseIdentifier: idOnboardingCell)
         
-        guard let imageMain = UIImage(named: "mainPage"),
-              let imageFirst = UIImage(named: "page1"),
-              let imageSecond = UIImage(named: "page2"),
-              let imageThird = UIImage(named: "page3") else {
+        guard let imageFirst = UIImage(named: "firstOnboarding"),
+              let imageSecond = UIImage(named: "secondOnboarding"),
+              let imageThird = UIImage(named: "thirdOnboarding") else {
                 return
         }
         
-        let mainScreen = OnboardingStruct(backgroundImage: imageMain, mainTitle: "Best Recipe")
-        
         let firstScreen = OnboardingStruct(backgroundImage: imageFirst, mainTitle: "Recipes from all over the World")
-        
         let secondScreen = OnboardingStruct(backgroundImage: imageSecond, mainTitle: "Recipes with each and every detail")
-        
         let thirdScreen = OnboardingStruct(backgroundImage: imageThird, mainTitle: "Cook it now or save it for later")
         
-        onboardingArray = [mainScreen, firstScreen, secondScreen, thirdScreen]
+        onboardingArray = [firstScreen, secondScreen, thirdScreen]
     }
     
     //MARK: - Methods
@@ -101,26 +87,43 @@ class OnboardingViewController: UIViewController {
     }
     
     @objc private func nextButtonPressed() {
-        if collectionItem == 2 {
+        if collectionItem == 0 {
+            nextPage()
+        } else if collectionItem == 1 {
+            nextPage()
             nextButton.setTitle("Start Cooking", for: .normal)
             skipButton.isHidden = true
-            
-        }
-        if collectionItem == 3 {
+        } else if collectionItem == 2 {
             saveUserDefaults()
-            present(HomeViewController(), animated: true)
-        } else {
-            collectionItem += 1
-            let index: IndexPath = [0, collectionItem]
-            collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-            pageControl.currentPage = collectionItem
+            showHomeScreen()
         }
     }
     
     @objc private func skipButtonPressed() {
         saveUserDefaults()
-        HomeViewController().modalPresentationStyle = .fullScreen
-        present(HomeViewController(), animated: true)
+        showHomeScreen()
+    }
+    
+    private func nextPage() {
+        collectionItem += 1
+        let index: IndexPath = [0, collectionItem]
+        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+        pageControl.currentPage = collectionItem
+    }
+    
+    private func configurePageControl() {
+        pageControl.numberOfPages = onboardingArray.count
+            pageControl.currentPage = 0
+            if #available(iOS 14.0, *) {
+                pageControl.preferredIndicatorImage = UIImage(named: "pageIndicator")
+            }
+            pageControl.pageIndicatorTintColor = .white
+        pageControl.currentPageIndicatorTintColor = .error10
+    }
+    
+    private func showHomeScreen() {
+        homeViewController.modalPresentationStyle = .fullScreen
+        present(homeViewController, animated: true)
     }
     
     private func saveUserDefaults() {
@@ -155,15 +158,10 @@ extension OnboardingViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             
-            mainBackgroundImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            mainBackgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            mainBackgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            mainBackgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             
             pageControl.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -35),
             pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
