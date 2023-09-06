@@ -53,7 +53,7 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         notifications.tabBarItem.image = UIImage(named: "Notification/Inactive")
         notifications.tabBarItem.selectedImage = UIImage(named: "Notification/Active")
         
-        let profile = UIViewController()
+        let profile = ProfileViewController()
         profile.tabBarItem.image = UIImage(named: "Profile/Inactive")
         profile.tabBarItem.selectedImage = UIImage(named: "Profile/Active")
         

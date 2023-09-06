@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */; };
 		43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */; };
 		5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */; };
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
@@ -139,6 +141,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4332AD162AA7BEBE0053352E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		43EBEC6B2A9F6D1D00D2DB3B /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +223,7 @@
 		8982B1702A9B4E3500C471E6 /* View+Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				4332AD162AA7BEBE0053352E /* Profile */,
 				43EBEC6B2A9F6D1D00D2DB3B /* TabBarController */,
 				5743D26B2A9D2EFE00FCC596 /* Cells */,
 				8982B1A32A9BA8D000C471E6 /* Tranding */,
@@ -459,6 +470,7 @@
 				8982B1842A9B504A00C471E6 /* UIColor+Nautral.swift in Sources */,
 				8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */,
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
+				4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */,
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */,
 				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
