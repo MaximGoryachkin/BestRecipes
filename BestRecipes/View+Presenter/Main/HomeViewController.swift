@@ -258,7 +258,6 @@ class HomeViewController: UIViewController {
         presenter = HomePresenter(view: self)
         presenter.loadTrendindsData()
         presenter.loadMainCourseData()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -270,9 +269,11 @@ class HomeViewController: UIViewController {
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
-        presenter.loadTrendindsData()
+     //   presenter.loadTrendindsData()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
+            self.navigationController?.pushViewController(TrendingViewController(dataArray: self.trendingsData), animated: true)
         }
     }
     
@@ -479,13 +480,12 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
                 }
             }
             collectionView.reloadData()
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let endScrolling = categoryesItemsCollection.contentOffset.y + categoryesItemsCollection.frame.size.height
-        if endScrolling >= categoryesItemsCollection.contentSize.height {
-            presenter.loadFiveEditionalsTrendingsItems()
+        } else if collectionView == trendingCollection {
+            let currentRecipeData = trendingsData[indexPath.row]
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
+        } else if collectionView == categoryesItemsCollection {
+            let currentRecipeData = popularsPreloadData[indexPath.row]
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         }
     }
 }
