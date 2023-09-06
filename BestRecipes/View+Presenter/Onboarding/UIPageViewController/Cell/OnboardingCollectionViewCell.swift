@@ -13,15 +13,16 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     private let backgroundImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.alpha = 0.5
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-
+    
     private let mainTitle: UILabel = {
         let label = UILabel()
         label.font = .poppinsBoldHeading
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +32,7 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     //MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
+        backgroundColor = .black
         
         setupViews()
         setConstraints()
@@ -49,15 +50,7 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     public func cellConfigure(model: OnboardingStruct) {
         backgroundImage.image = model.backgroundImage
-        mainTitle.text = model.mainTitle
-        configureLabel()
-    }
-    
-    private func configureLabel() {
-        let attributedText = NSMutableAttributedString()
-        attributedText.append(NSAttributedString(string: "Recipes from all ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]));
-        attributedText.append(NSAttributedString(string: "over the World", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rating]))
-        mainTitle.attributedText = attributedText
+        mainTitle.attributedText = model.mainTitle
     }
 }
 
@@ -72,8 +65,8 @@ extension OnboardingCollectionViewCell {
             backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             
             mainTitle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mainTitle.heightAnchor.constraint(equalToConstant: 160),
-            mainTitle.widthAnchor.constraint(equalToConstant: 260),
+            mainTitle.heightAnchor.constraint(equalToConstant: 144),
+            mainTitle.widthAnchor.constraint(equalToConstant: 280),
             mainTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -200)
         ])
     }

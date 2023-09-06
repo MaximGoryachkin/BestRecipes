@@ -16,10 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         let rootVC = OnboardingHomeViewController()
-        window.rootViewController = rootVC
-        window.makeKeyAndVisible()
         self.window = window
+        
+        if UserDefaults.standard.bool(forKey: "OnboardingWasViewed") {
+            window.rootViewController = HomeViewController()
+        } else {
+            window.rootViewController = rootVC
+        }
+        window.makeKeyAndVisible()
     }
-
 }
 
