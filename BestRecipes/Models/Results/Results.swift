@@ -15,4 +15,3 @@ struct Result: Codable {
     let extendedIngredients: [Ingredient]
     let veryPopular: Bool?
 }
-    

@@ -5,7 +5,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     var cellData : RecipeDataModel? {
         didSet {
             self.itemSaved = cellData!.isSavedToFavorite!
-            self.starButton.titleLabel?.text = cellData?.recipeRating
+            self.retingValueLabel.text = cellData?.recipeRating
             self.duratuinLabel.text = cellData?.cookDuration
             self.titleLabel.text = cellData?.recipeTitle
             self.authorNameLabel.text = cellData?.authorName
@@ -46,23 +46,44 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private lazy var starButton : UIButton = {
-        var filled = UIButton.Configuration.filled()
-        filled.title = "4,5"
-        filled.subtitle = nil
-        filled.baseBackgroundColor = .neutral90.withAlphaComponent(0.3)
-        filled.image = .star!.imageResized(to: CGSize(width: 16, height: 16))
-        filled.imagePadding = 5
-        filled.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -5, bottom: 0, trailing: 0)
-        filled.imagePlacement = .leading
-        filled.attributedTitle = AttributedString("4,5", attributes: AttributeContainer([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.poppinsBoldLabel!]))
-        
-        let btn = UIButton(configuration: filled)
-        btn.heightAnchor.constraint(equalToConstant: 27.6).isActive = true
-        btn.widthAnchor.constraint(equalToConstant: 58).isActive = true
-        btn.layer.cornerRadius = 8
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+    private let ratingBubleView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral90.withAlphaComponent(0.3)
+        view.heightAnchor.constraint(equalToConstant: 27.6).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 58).isActive = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    private lazy var ratingValuesStack : UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.distribution = .fill
+        stack.spacing = 3
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    private let starIconImg : UIImageView = {
+        let img = UIImageView()
+        img.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        img.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        img.image = .star!.imageResized(to: CGSize(width: 16, height: 16))
+        img.contentMode = .scaleToFill
+        img.clipsToBounds = true
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
+    
+    private lazy var retingValueLabel : UILabel = {
+        let lb = UILabel()
+        lb.textColor = .white
+        lb.font = .poppinsBoldLabel
+        lb.textAlignment = .center
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
     }()
     
     private lazy var favoriteButton : UIButton = {
@@ -160,7 +181,11 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageBubble)
         imageBubble.addSubview(pickture)
         imageBubble.addSubview(rateStack)
-        rateStack.addArrangedSubview(starButton)
+       // rateStack.addArrangedSubview(starButton)
+        rateStack.addArrangedSubview(ratingBubleView)
+        ratingBubleView.addSubview(ratingValuesStack)
+        ratingValuesStack.addArrangedSubview(starIconImg)
+        ratingValuesStack.addArrangedSubview(retingValueLabel)
         rateStack.addArrangedSubview(favoriteButton)
         imageBubble.addSubview(videoDurationBuble)
         videoDurationBuble.addSubview(duratuinLabel)
@@ -183,6 +208,11 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
             rateStack.leadingAnchor.constraint(equalTo: imageBubble.leadingAnchor, constant: 8),
             rateStack.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
 
+            ratingValuesStack.topAnchor.constraint(equalTo: ratingBubleView.topAnchor),
+            ratingValuesStack.leadingAnchor.constraint(equalTo: ratingBubleView.leadingAnchor, constant: 8),
+            ratingValuesStack.trailingAnchor.constraint(equalTo: ratingBubleView.trailingAnchor, constant: -7),
+            ratingValuesStack.bottomAnchor.constraint(equalTo: ratingBubleView.bottomAnchor),
+            
             videoDurationBuble.topAnchor.constraint(equalTo: imageBubble.topAnchor, constant: 147),
             videoDurationBuble.trailingAnchor.constraint(equalTo: imageBubble.trailingAnchor, constant: -8),
 

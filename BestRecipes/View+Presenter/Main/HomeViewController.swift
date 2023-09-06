@@ -258,6 +258,7 @@ class HomeViewController: UIViewController {
         presenter = HomePresenter(view: self)
         presenter.loadTrendindsData()
         presenter.loadMainCourseData()
+        print(DataManager.shared.searchURL + "&query=spice")
     }
     
     override func viewWillAppear(_ animated: Bool) {
