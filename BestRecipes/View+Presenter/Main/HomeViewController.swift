@@ -410,7 +410,11 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesItemsCollection {
             return popularsPreloadData.count
         } else if collectionView == recentRecipeCollection {
-            return RecentRecipes.watchedRecipes.count
+            if RecentRecipes.watchedRecipes.count == 0 {
+                return 1
+            } else {
+                return RecentRecipes.watchedRecipes.count
+            }
         } else if collectionView == creatorsCollection {
             return AuthorsModel.popularCreators.count
         } else {
@@ -448,8 +452,14 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
              
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
             
-            cell.cellData = RecentRecipes.watchedRecipes[indexPath.row]
-            cell.loadRecipeImage(RecentRecipes.watchedRecipes[indexPath.row].recipeImage!)
+            if RecentRecipes.watchedRecipes.count == 0 {
+                let emptyData : RecipeDataModel = .init(recipeId: 0, recipeImage: "https://solidaritas.jabarprov.go.id/_nuxt/img/4174c95.png", recipeRating: "--", cookDuration: "--", recipeTitle: "No Recipes Saved yet", authorAvatar: UIImage(systemName: "plus")!, authorName: "Admin", isSavedToFavorite: false, coockingSteps: [], ingredients: [(id: 0, name: "", image: "", amount: 0.0, unit: "String")], categoryName: "")
+                cell.cellData = emptyData
+                cell.loadRecipeImage("https://solidaritas.jabarprov.go.id/_nuxt/img/4174c95.png")
+            } else {
+                cell.cellData = RecentRecipes.watchedRecipes[indexPath.row]
+                cell.loadRecipeImage(RecentRecipes.watchedRecipes[indexPath.row].recipeImage!)
+            }
             
             return cell
         } else if collectionView == creatorsCollection {
@@ -496,8 +506,10 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             
             self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         } else if collectionView == recentRecipeCollection {
-            let currentRecipeData = RecentRecipes.watchedRecipes[indexPath.row]
-            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
+            if RecentRecipes.watchedRecipes.count != 0 {
+                let currentRecipeData = RecentRecipes.watchedRecipes[indexPath.row]
+                self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
+            }
         }
     }
 }
