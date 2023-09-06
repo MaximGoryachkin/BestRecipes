@@ -208,6 +208,11 @@ class DetailViewController: UIViewController {
         setupNavBar(on: self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        saveToRecents(recipeInfoData)
+    }
+    
     // MARK: - ConfigureUI
     
     private func addSubviews() {
@@ -262,6 +267,16 @@ class DetailViewController: UIViewController {
         ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
         loadRecipeImage(recipeInfoData.recipeImage!)
         itemCountLabel.text = String(recipeInfoData.ingredients.count)
+    }
+    
+    private func saveToRecents(_ recipe: RecipeDataModel) {
+        let filtredArray = RecentRecipes.watchedRecipes.filter {$0.recipeTitle == recipe.recipeTitle}
+        
+        if filtredArray.count > 0 {
+            print("recipe already whateched before")
+        } else {
+            RecentRecipes.watchedRecipes.append(recipe)
+        }
     }
 }
 

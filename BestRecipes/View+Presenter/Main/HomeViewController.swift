@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
     
     private var trendingsData : [RecipeDataModel] = []
     private var popularsPreloadData : [RecipeDataModel] = []
+//    private var recentlyWatchedRecipes : [RecipeDataModel] = []
     private var popularsCollectionSeletedCellCount : Int = 1
     private var choosenPopularCategoryes : String = ""
     
@@ -265,6 +266,7 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         trendingCollection.reloadData()
         categoryesItemsCollection.reloadData()
+        recentRecipeCollection.reloadData()
     }
     // MARK: - Buttons Methods
     
@@ -274,7 +276,7 @@ class HomeViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
-            self.navigationController?.pushViewController(TrendingViewController(dataArray: self.trendingsData), animated: true)
+            self.navigationController?.pushViewController(TrendingViewController(dataArray: self.trendingsData, titleLabelString: "Trending now"), animated: true)
         }
     }
     
@@ -283,6 +285,8 @@ class HomeViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
+            let vcToPresent = TrendingViewController(dataArray: RecentRecipes.watchedRecipes, titleLabelString: "Recent recipes")
+            self.navigationController?.pushViewController(vcToPresent, animated: true)
         }
     }
     
@@ -406,7 +410,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesItemsCollection {
             return popularsPreloadData.count
         } else if collectionView == recentRecipeCollection {
-            return 10
+            return RecentRecipes.watchedRecipes.count
         } else if collectionView == creatorsCollection {
             return AuthorsModel.popularCreators.count
         } else {
@@ -443,6 +447,9 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == recentRecipeCollection {
              
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
+            
+            cell.cellData = RecentRecipes.watchedRecipes[indexPath.row]
+            cell.loadRecipeImage(RecentRecipes.watchedRecipes[indexPath.row].recipeImage!)
             
             return cell
         } else if collectionView == creatorsCollection {
@@ -487,6 +494,9 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         } else if collectionView == categoryesItemsCollection {
             let currentRecipeData = popularsPreloadData[indexPath.row]
             
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
+        } else if collectionView == recentRecipeCollection {
+            let currentRecipeData = RecentRecipes.watchedRecipes[indexPath.row]
             self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         }
     }

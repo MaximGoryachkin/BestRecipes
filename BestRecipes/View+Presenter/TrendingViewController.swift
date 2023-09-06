@@ -9,6 +9,7 @@ class TrendingViewController: UIViewController {
     // MARK: - Data
     
     private var dataArray : [RecipeDataModel]
+    private var titleLabelString : String
     private var presenter : TrendingViewPresenter!
     
     // MARK: - UI Elements
@@ -18,7 +19,7 @@ class TrendingViewController: UIViewController {
         lb.font = .poppinsBold24
         lb.textColor = .neutral100
         lb.textAlignment = .center
-        lb.text = "Trending now"
+//        lb.text = "Trending now"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -43,10 +44,12 @@ class TrendingViewController: UIViewController {
         setupConstraints()
         setupCollection()
         setupNavBar(on: self)
+        titleLabel.text = titleLabelString
     }
     
-    init(dataArray: [RecipeDataModel]) {
+    init(dataArray: [RecipeDataModel], titleLabelString: String) {
         self.dataArray = dataArray
+        self.titleLabelString = titleLabelString
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,9 +99,11 @@ extension TrendingViewController : UICollectionViewDelegate, UICollectionViewDat
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let endScrolling = collectionView.contentOffset.y + collectionView.frame.size.height
-        if endScrolling >= collectionView.contentSize.height {
-            presenter.loadMoreTrendings()
+        if titleLabelString == "Trending now" {
+            let endScrolling = collectionView.contentOffset.y + collectionView.frame.size.height
+            if endScrolling >= collectionView.contentSize.height {
+                presenter.loadMoreTrendings()
+            }
         }
     }
     
