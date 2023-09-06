@@ -26,14 +26,28 @@ class HomePresenter: HomeViewPresenter {
                         
                         var steps : [String] = []
                         
-                        for step in recipe.analyzedInstructions[0].steps {
-                            steps.append(step.step)
+                        if recipe.analyzedInstructions.count != 0 {
+                            for step in recipe.analyzedInstructions[0].steps {
+                                steps.append(step.step)
+                            }
+                        } else {
+                            steps = ["Sorry, here is no instruction. You should cook like you feel))"]
                         }
+
                         
                         var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
                         
                         for ingredient in  recipe.extendedIngredients {
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                            
+                            var ingImage : String = ""
+                            
+                            if ingredient.image != "" {
+                                ingImage = ingredient.image
+                            } else {
+                                ingImage = "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg?w=1480&t=st=1694025367~exp=1694025967~hmac=7969e35b446f38bbe533178d4a7f16cdee5673be9c1502f32aebc46b0ea19868"
+                            }
+                            
+                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingImage, amount: ingredient.amount, unit: ingredient.unit))
                         }
                         
                         
