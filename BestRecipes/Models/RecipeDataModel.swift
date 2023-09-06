@@ -12,6 +12,7 @@ struct RecipeDataModel {
     let isSavedToFavorite : Bool?
     let coockingSteps : [String]
     let ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)]
+    let categoryName : String
 }
 
 struct PopularsRecipesDataModel {

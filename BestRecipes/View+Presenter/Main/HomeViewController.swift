@@ -3,8 +3,8 @@ import UIKit
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
     func addFiveTrendings(_ array : [RecipeDataModel])
-    func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
-    func updatePopulars(_ array : [PopularsRecipesDataModel])
+    func preloadSetupPopulars(_ array : [RecipeDataModel])
+    func updatePopulars(_ array : [RecipeDataModel])
     func updateSearchData (_ array: [RecipeDataModel])
 }
 
@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     var detailpresenter: DetailViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
-    private var popularsPreloadData : [PopularsRecipesDataModel] = []
+    private var popularsPreloadData : [RecipeDataModel] = []
     private var popularsCollectionSeletedCellCount : Int = 1
     private var choosenPopularCategoryes : String = ""
     
@@ -485,6 +485,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         } else if collectionView == categoryesItemsCollection {
             let currentRecipeData = popularsPreloadData[indexPath.row]
+            
             self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         }
     }
@@ -509,7 +510,7 @@ extension HomeViewController: HomeViewProtocol {
     }
     
     
-    func updatePopulars(_ array: [PopularsRecipesDataModel]) {
+    func updatePopulars(_ array: [RecipeDataModel]) {
         self.popularsPreloadData += array
         DispatchQueue.main.async {
             self.categoryesItemsCollection.reloadData()
@@ -517,7 +518,7 @@ extension HomeViewController: HomeViewProtocol {
     }
     
     
-    func preloadSetupPopulars(_ array: [PopularsRecipesDataModel]) {
+    func preloadSetupPopulars(_ array: [RecipeDataModel]) {
         DispatchQueue.main.async {
             self.popularsPreloadData = array
             self.categoryesItemsCollection.reloadData()
