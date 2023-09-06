@@ -7,7 +7,7 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
-    let apiKey = "96e9dcad31254d1fb414fd818ca07ad0"
+    let apiKey = "e2fef51d8304448cba077f7f456da693"
     // 0b966a75106540f88014b83398f69da5
 //    "96e9dcad31254d1fb414fd818ca07ad0"
 // e2fef51d8304448cba077f7f456da693
@@ -26,11 +26,11 @@ class DataManager {
     }
     
     var trendingsRecipes: String {
-        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=15"
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=15" + "&instructionsRequired=true"
     }
     
     var trendingsRecipesPlusFive: String {
-        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=5"
+        baseURL + GetRecipe.random.rawValue + "?apiKey=" + apiKey + "&number=5" + "&instructionsRequired=true"
     }
     
     var mainCoursePopulars: String {
@@ -42,7 +42,7 @@ class DataManager {
     }
     
     var searchURL : String {
-        baseURL + "complexSearch" + "?apiKey=" + apiKey + "&addRecipeInformation=true" + "&number=20" + "&fillIngredients=true"
+        baseURL + "complexSearch" + "?apiKey=" + apiKey + "&addRecipeInformation=true" + "&number=20" + "&fillIngredients=true" + "&instructionsRequired=true"
     }
 }
 
