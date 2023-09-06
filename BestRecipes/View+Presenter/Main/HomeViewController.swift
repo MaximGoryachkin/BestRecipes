@@ -555,9 +555,7 @@ extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
         
         let sendingData = searchResultsData[indexPath.row]
         
-        let vc = DetailViewController(recipeInfoData: sendingData)
-        
-        self.present(vc, animated: true)
+        self.navigationController?.pushViewController(DetailViewController(recipeInfoData: sendingData), animated: true)
   
       
     }
