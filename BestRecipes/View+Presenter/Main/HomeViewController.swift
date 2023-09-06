@@ -3,8 +3,9 @@ import UIKit
 protocol HomeViewProtocol: AnyObject {
     func setTrendingsData(_ array : [RecipeDataModel])
     func addFiveTrendings(_ array : [RecipeDataModel])
-    func preloadSetupPopulars(_ array : [PopularsRecipesDataModel])
-    func updatePopulars(_ array : [PopularsRecipesDataModel])
+    func preloadSetupPopulars(_ array : [RecipeDataModel])
+    func updatePopulars(_ array : [RecipeDataModel])
+    func updateSearchData (_ array: [RecipeDataModel])
 }
 
 class HomeViewController: UIViewController {
@@ -16,9 +17,10 @@ class HomeViewController: UIViewController {
     }
     
     var presenter: HomeViewPresenter!
+    var detailpresenter: DetailViewPresenter!
     
     private var trendingsData : [RecipeDataModel] = []
-    private var popularsPreloadData : [PopularsRecipesDataModel] = []
+    private var popularsPreloadData : [RecipeDataModel] = []
     private var popularsCollectionSeletedCellCount : Int = 1
     private var choosenPopularCategoryes : String = ""
     
@@ -38,6 +40,8 @@ class HomeViewController: UIViewController {
         .init(categoryName: "snack", nameForRequest: "snack", isSelected: false),
         .init(categoryName: "drink", nameForRequest: "drink", isSelected: false)
     ]
+    
+    private var searchResultsData : [RecipeDataModel] = []
     
     // MARK: - UI Elements
     
@@ -88,6 +92,8 @@ class HomeViewController: UIViewController {
         bar.setImage(.search, for: .search, state: .normal)
         return bar
     }()
+    
+    private let searchResultsAlert = SearchResultsAlert()
     
     private lazy var trendingMainStack : UIStackView = {
         let stack = UIStackView()
@@ -263,9 +269,11 @@ class HomeViewController: UIViewController {
     
     @objc private func trendingSeeAllTaped(_ sender: UIButton) {
         sender.alpha = 0.5
-        presenter.loadTrendindsData()
+     //   presenter.loadTrendindsData()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
+            self.navigationController?.pushViewController(TrendingViewController(dataArray: self.trendingsData), animated: true)
         }
     }
     
@@ -290,6 +298,10 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
         }
+    }
+    
+    @objc func dismissAlert() {
+        searchResultsAlert.dismissAlert()
     }
     
     // MARK: - ConfigureUI
@@ -365,9 +377,19 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController : UISearchBarDelegate {
     
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let requestText = searchBar.text {
+            presenter.loadSearchRequestData(searchText: requestText)
+        }
+
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.endEditing(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.searchResultsAlert.showAlert(searchRequestText: searchBar.text!, on: self)
+        }
     }
 }
 
@@ -433,7 +455,6 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == categoryesNamesCollection{
@@ -459,17 +480,18 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
                 }
             }
             collectionView.reloadData()
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let endScrolling = categoryesItemsCollection.contentOffset.y + categoryesItemsCollection.frame.size.height
-        if endScrolling >= categoryesItemsCollection.contentSize.height {
-            presenter.loadFiveEditionalsTrendingsItems()
+        } else if collectionView == trendingCollection {
+            let currentRecipeData = trendingsData[indexPath.row]
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
+        } else if collectionView == categoryesItemsCollection {
+            let currentRecipeData = popularsPreloadData[indexPath.row]
+            
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: currentRecipeData), animated: true)
         }
     }
 }
 
+// MARK: - HomeViewProtocol
 
 extension HomeViewController: HomeViewProtocol {
     
@@ -488,7 +510,7 @@ extension HomeViewController: HomeViewProtocol {
     }
     
     
-    func updatePopulars(_ array: [PopularsRecipesDataModel]) {
+    func updatePopulars(_ array: [RecipeDataModel]) {
         self.popularsPreloadData += array
         DispatchQueue.main.async {
             self.categoryesItemsCollection.reloadData()
@@ -496,10 +518,47 @@ extension HomeViewController: HomeViewProtocol {
     }
     
     
-    func preloadSetupPopulars(_ array: [PopularsRecipesDataModel]) {
+    func preloadSetupPopulars(_ array: [RecipeDataModel]) {
         DispatchQueue.main.async {
             self.popularsPreloadData = array
             self.categoryesItemsCollection.reloadData()
         }
     }
+    
+    func updateSearchData(_ array: [RecipeDataModel]) {
+        DispatchQueue.main.async {
+            self.searchResultsData = array
+        }
+    }
+}
+
+// MARK: - TableView Delegate & DataSource
+
+extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResultsData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SerchResultsCell") as? SearchResultsTableViewCell else {
+            return UITableViewCell()
+        }
+        let currentCell = searchResultsData[indexPath.row]
+        cell.cellData = currentCell
+        cell.loadRecipeImage(currentCell.recipeImage!)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let sendingData = searchResultsData[indexPath.row]
+        
+        self.navigationController?.pushViewController(DetailViewController(recipeInfoData: sendingData), animated: true)
+  
+      
+    }
+    
+    
 }

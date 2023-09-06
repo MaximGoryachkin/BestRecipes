@@ -69,6 +69,18 @@ class NetworkManager {
         return recipes
     }
     
+    
+    /////////////
+    func fetchResultsArrayData(from url: String?) async throws -> Results? {
+        guard let stringURL = url else { return nil }
+        guard let url = URL(string: stringURL) else { return nil }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let results = try JSONDecoder().decode(Results.self, from: data)
+        return results
+    }
+    
+    
+    
     // MARK: - Section Of Adding Images to Stash or donwload it from Stash
     
     func saveDataToCache(with data: Data, and responce: URLResponse) {

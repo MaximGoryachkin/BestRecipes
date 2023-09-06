@@ -6,7 +6,7 @@ protocol HomeViewPresenter {
     func loadTrendindsData()
     func loadMainCourseData()
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int)
-    func loadFiveEditionalsTrendingsItems()
+    func loadSearchRequestData(searchText: String)
 }
 
 class HomePresenter: HomeViewPresenter {
@@ -23,25 +23,23 @@ class HomePresenter: HomeViewPresenter {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipes){
                     var dataArray : [RecipeDataModel] = []
                     for recipe in recipes.recipes {
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false))
+                        
+                        var steps : [String] = []
+                        
+                        for step in recipe.analyzedInstructions[0].steps {
+                            steps.append(step.step)
+                        }
+                        
+                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        
+                        for ingredient in  recipe.extendedIngredients {
+                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        }
+                        
+                        
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: recipe.sourceName!))
                     }
                     view.setTrendingsData(dataArray)
-                }
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func loadFiveEditionalsTrendingsItems() {
-        Task {
-            do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipesPlusFive){
-                    var dataArray : [RecipeDataModel] = []
-                    for recipe in recipes.recipes {
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false))
-                    }
-                    view.addFiveTrendings(dataArray)
                 }
             } catch {
                 print(error)
@@ -53,11 +51,54 @@ class HomePresenter: HomeViewPresenter {
         Task {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.mainCoursePopulars){
-                    var dataArray : [PopularsRecipesDataModel] = []
+                    var dataArray : [RecipeDataModel] = []
                     for recipe in recipes.recipes {
-                        dataArray.append(PopularsRecipesDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false, categoryName: "main%20course"))
+                        var steps : [String] = []
+                        
+                        for step in recipe.analyzedInstructions[0].steps {
+                            steps.append(step.step)
+                        }
+                        
+                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        
+                        for ingredient in  recipe.extendedIngredients {
+                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        }
+                        
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: "main%20course"))
                     }
                     view.preloadSetupPopulars(dataArray)
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
+    func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
+        Task {
+            do {
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){
+                    var dataArray : [RecipeDataModel] = []
+                    for recipe in recipes.recipes {
+                        
+                        var steps : [String] = []
+                        
+                        for step in recipe.analyzedInstructions[0].steps {
+                            steps.append(step.step)
+                        }
+                        
+                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        
+                        for ingredient in  recipe.extendedIngredients {
+                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        }
+                        
+                        
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: categoryes))
+                    }
+                    view.updatePopulars(dataArray)
                 }
             } catch {
                 print(error)
@@ -86,23 +127,6 @@ class HomePresenter: HomeViewPresenter {
         }
     }
     
-    func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
-        Task {
-            do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){
-                    var dataArray : [PopularsRecipesDataModel] = []
-                    for recipe in recipes.recipes {
-                        dataArray.append(PopularsRecipesDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: nil, authorName: recipe.sourceName, isSavedToFavorite: false, categoryName: categoryes))
-                    }
-                    view.updatePopulars(dataArray)
-                }
-            } catch {
-                print(error)
-            }
-        }
-    }
-
-    
     private func figureRatingValue(isPopular: Bool) -> String {
         if isPopular {
             let result = Float.random(in: 3.810 ... 5.000)
@@ -112,4 +136,34 @@ class HomePresenter: HomeViewPresenter {
             return String(format: "%.1f", result)
         }
     }
+    
+    func loadSearchRequestData(searchText: String) {
+        Task {
+            do {
+                if let results = try await NetworkManager.shared.fetchResultsArrayData(from: DataManager.shared.searchURL + "&query=\(searchText)") {
+                    var dataArray : [RecipeDataModel] = []
+                    for result in results.results {
+                        var steps : [String] = []
+                        
+                        for step in result.analyzedInstructions[0].steps {
+                            steps.append(step.step)
+                        }
+                        
+                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        
+                        for ingredient in  result.extendedIngredients {
+                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        }
+                        
+                        dataArray.append(RecipeDataModel(recipeId: result.id, recipeImage: result.image, recipeRating: figureRatingValue(isPopular: result.veryPopular!), cookDuration: "\(result.readyInMinutes ?? 0)", recipeTitle: result.title, authorAvatar: UIImage(systemName: "plus")!, authorName: result.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: result.sourceName!))
+                    }
+                    view.updateSearchData(dataArray)
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
 }

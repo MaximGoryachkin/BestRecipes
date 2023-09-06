@@ -1,6 +1,15 @@
 import UIKit
 
+protocol TrendingViewProtocol : AnyObject {
+    func addTenMoreTrendings(_ array : [RecipeDataModel]) 
+}
+
 class TrendingViewController: UIViewController {
+    
+    // MARK: - Data
+    
+    private var dataArray : [RecipeDataModel]
+    private var presenter : TrendingViewPresenter!
     
     // MARK: - UI Elements
     
@@ -35,6 +44,15 @@ class TrendingViewController: UIViewController {
         setupCollection()
     }
     
+    init(dataArray: [RecipeDataModel]) {
+        self.dataArray = dataArray
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Configure UI
     
     private func addSubviews() {
@@ -65,12 +83,40 @@ class TrendingViewController: UIViewController {
 extension TrendingViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dataArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCell
+        let currentCell = dataArray[indexPath.row]
+        cell.cellData = currentCell
+        cell.loadRecipeImage(currentCell.recipeImage!)
         return cell
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let endScrolling = collectionView.contentOffset.y + collectionView.frame.size.height
+        if endScrolling >= collectionView.contentSize.height {
+            presenter.loadMoreTrendings()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let celetedItemData = dataArray[indexPath.row]
+        
+        self.navigationController?.pushViewController(DetailViewController(recipeInfoData: celetedItemData), animated: true)
+    }
+}
+
+// MARK: - TrendingViewProtocol
+
+extension TrendingViewController : TrendingViewProtocol {
+    
+    func addTenMoreTrendings(_ array: [RecipeDataModel]) {
+        self.dataArray += array
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     

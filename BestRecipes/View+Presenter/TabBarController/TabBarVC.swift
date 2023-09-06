@@ -38,7 +38,8 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupItems() {
-        let home = HomeViewController()
+       // let home = HomeViewController()
+        let home = UINavigationController(rootViewController: HomeViewController())
         home.tabBarItem.image = UIImage(named: "Home/Inactive")
         home.tabBarItem.selectedImage = UIImage(named: "Home/Active")
         

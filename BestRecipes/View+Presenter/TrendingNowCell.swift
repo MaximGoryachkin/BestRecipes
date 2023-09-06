@@ -2,6 +2,14 @@ import UIKit
 
 class TrendingNowCell: UICollectionViewCell {
     
+    var cellData : RecipeDataModel? {
+        didSet {
+            self.starButton.setTitle("\(cellData?.recipeRating ?? "0.0")", for: .normal)
+            self.ingredientsLabel.text = "\(cellData?.ingredients.count ?? 0) Ingredients"
+            self.timeLabel.text = (cellData?.cookDuration)! + " " + "min"
+        }
+    }
+    
     private var itemSaved : Bool = false
     
     private let pickture : UIImageView = {
@@ -122,5 +130,19 @@ class TrendingNowCell: UICollectionViewCell {
         
     }
 
+    func loadRecipeImage(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        
+        if let data = NetworkManager.shared.getDataFromCache(from: url) {
+            self.pickture.image = UIImage(data: data)
+        } else {
+            ImageManager.shared.fetchImage(from: url) { data, response in
+                DispatchQueue.main.async {
+                    self.pickture.image = UIImage(data: data)
+                    NetworkManager.shared.saveDataToCache(with: data, and: response)
+                }
+            }
+        }
+    }
     
 }
