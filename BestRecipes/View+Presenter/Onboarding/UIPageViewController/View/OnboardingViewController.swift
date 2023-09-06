@@ -10,14 +10,13 @@ import UIKit
 //MARK: - OnboardingStruct
 struct OnboardingStruct {
     let backgroundImage: UIImage
-    let mainTitle: String
+    let mainTitle: NSMutableAttributedString
 }
 
 //MARK: - OnboardingViewController
 class OnboardingViewController: UIViewController {
     
     //MARK: - UIElements
-    
     private lazy var nextButton = CustomButton(style: .circleTextRed, title: "Continue")
     private lazy var skipButton = CustomButton(style: .skip, title: "Skip")
     
@@ -42,6 +41,9 @@ class OnboardingViewController: UIViewController {
     }()
     
     //MARK: - Properties
+    private var labelFirst: NSMutableAttributedString?
+    private var labelSecond: NSMutableAttributedString?
+    private var labelThird: NSMutableAttributedString?
     private let idOnboardingCell = "idOnboardingCell"
     private var onboardingArray = [OnboardingStruct]()
     private var collectionItem = 0
@@ -73,9 +75,13 @@ class OnboardingViewController: UIViewController {
                 return
         }
         
-        let firstScreen = OnboardingStruct(backgroundImage: imageFirst, mainTitle: "Recipes from all over the World")
-        let secondScreen = OnboardingStruct(backgroundImage: imageSecond, mainTitle: "Recipes with each and every detail")
-        let thirdScreen = OnboardingStruct(backgroundImage: imageThird, mainTitle: "Cook it now or save it for later")
+        labelFirst = setLabels(firstString: "Recipes from all", secondString: " over the World")
+        labelSecond = setLabels(firstString: "Recipes with", secondString: " each and every detail")
+        labelThird = setLabels(firstString: "Cook it now or", secondString: " save it for later")
+        
+        let firstScreen = OnboardingStruct(backgroundImage: imageFirst, mainTitle: labelFirst!)
+        let secondScreen = OnboardingStruct(backgroundImage: imageSecond, mainTitle: labelSecond!)
+        let thirdScreen = OnboardingStruct(backgroundImage: imageThird, mainTitle: labelThird!)
         
         onboardingArray = [firstScreen, secondScreen, thirdScreen]
     }
@@ -86,6 +92,13 @@ class OnboardingViewController: UIViewController {
         collectionView.delegate = self
     }
     
+    private func setLabels(firstString: String, secondString: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString()
+        attributedString.append(NSAttributedString(string: firstString, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]))
+        attributedString.append(NSAttributedString(string: secondString, attributes: [NSAttributedString.Key.foregroundColor: UIColor.rating]))
+        return attributedString
+    }
+    
     @objc private func nextButtonPressed() {
         if collectionItem == 0 {
             nextPage()
@@ -94,13 +107,11 @@ class OnboardingViewController: UIViewController {
             nextButton.setTitle("Start Cooking", for: .normal)
             skipButton.isHidden = true
         } else if collectionItem == 2 {
-            saveUserDefaults()
             showHomeScreen()
         }
     }
     
     @objc private func skipButtonPressed() {
-        saveUserDefaults()
         showHomeScreen()
     }
     
@@ -124,11 +135,6 @@ class OnboardingViewController: UIViewController {
     private func showHomeScreen() {
         homeViewController.modalPresentationStyle = .fullScreen
         present(homeViewController, animated: true)
-    }
-    
-    private func saveUserDefaults() {
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(true, forKey: "OnboardingWasViewed")
     }
 }
 
