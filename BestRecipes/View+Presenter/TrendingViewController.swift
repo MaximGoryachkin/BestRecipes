@@ -42,6 +42,7 @@ class TrendingViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupCollection()
+        setupNavBar(on: self)
     }
     
     init(dataArray: [RecipeDataModel]) {

@@ -205,6 +205,7 @@ class DetailViewController: UIViewController {
         presenter.getRecipeData(recipeInfoData)
         presenter.sendRecipeData()
         setupUIData()
+        setupNavBar(on: self)
     }
     
     // MARK: - ConfigureUI
