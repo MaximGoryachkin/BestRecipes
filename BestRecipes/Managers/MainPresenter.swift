@@ -69,7 +69,7 @@ class HomePresenter: HomeViewPresenter {
                     for recipe in recipes.recipes {
                         var steps : [String] = []
                         
-                        for step in recipe.analyzedInstructions[0].steps {
+                            for step in recipe.analyzedInstructions[0].steps {
                             steps.append(step.step)
                         }
                         
@@ -178,4 +178,5 @@ class HomePresenter: HomeViewPresenter {
             }
         }
     }
+    
 }

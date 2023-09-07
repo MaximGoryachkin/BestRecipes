@@ -44,6 +44,8 @@ class DataManager {
     var searchURL : String {
         baseURL + "complexSearch" + "?apiKey=" + apiKey + "&addRecipeInformation=true" + "&number=20" + "&fillIngredients=true" + "&instructionsRequired=true"
     }
+    
+    var arrayRecipes = [Int : RecipeDataModel]()
 }
 
 enum GetRecipe: String {
