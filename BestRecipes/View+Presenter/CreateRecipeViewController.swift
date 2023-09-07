@@ -55,7 +55,7 @@ class CreateRecipeViewController: UIViewController {
         view.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         view.heightAnchor.constraint(equalToConstant: 200).isActive = true
         view.layer.cornerRadius = 12
-        view.backgroundColor = .green
+        view.backgroundColor = .neutral20
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -64,7 +64,8 @@ class CreateRecipeViewController: UIViewController {
         let img = UIImageView()
         img.clipsToBounds = true
         img.contentMode = .scaleToFill
-        img.image = UIImage.plus
+        img.image = UIImage(systemName: "folder.badge.questionmark")
+        img.tintColor = .neutral40
         img.layer.cornerRadius = 12
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
