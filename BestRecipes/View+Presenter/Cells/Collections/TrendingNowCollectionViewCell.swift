@@ -8,7 +8,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     var cellData : RecipeDataModel? {
         didSet {
-            self.itemSaved = cellData!.isSavedToFavorite!
+            self.itemSaved = cellData!.isSavedToFavorite
             self.retingValueLabel.text = cellData?.recipeRating
             self.duratuinLabel.text = cellData?.cookDuration
             self.titleLabel.text = cellData?.recipeTitle

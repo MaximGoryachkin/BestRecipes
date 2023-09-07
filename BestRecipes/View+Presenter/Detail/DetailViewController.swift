@@ -266,7 +266,7 @@ class DetailViewController: UIViewController {
     private func setupUIData() {
         titleLabel.text = recipeInfoData.recipeTitle
         ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
-        loadRecipeImage(recipeInfoData.recipeImage!)
+        loadRecipeImage(recipeInfoData.recipeImage)
         itemCountLabel.text = String(recipeInfoData.ingredients.count)
     }
     
@@ -281,9 +281,9 @@ class DetailViewController: UIViewController {
     }
     
     private func figureReviews() {
-        if recipeInfoData.recipeRating?.first == "5" {
+        if recipeInfoData.recipeRating.first == "5" {
             self.reviewsLabel.text = "(\(Int.random(in: 4000...10000)) Reviews)"
-        } else if recipeInfoData.recipeRating?.first == "4" {
+        } else if recipeInfoData.recipeRating.first == "4" {
             self.reviewsLabel.text = "(\(Int.random(in: 2000...3999)) Reviews)"
         } else {
             self.reviewsLabel.text = "(\(Int.random(in: 1...1999)) Reviews)"

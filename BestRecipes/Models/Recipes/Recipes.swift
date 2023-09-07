@@ -6,5 +6,5 @@
 //
 
 struct Recipes: Codable {
-    let recipes: [Recipe]
+    let recipes: [Recipe]?
 }

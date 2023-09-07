@@ -45,7 +45,7 @@ class NetworkManager {
             do {
                 let recipes = try JSONDecoder().decode(Recipes.self, from: data)
                 DispatchQueue.main.async {
-                    complition(recipes.recipes)
+                    complition(recipes.recipes!)
                 }
             } catch let error {
                 print(error)

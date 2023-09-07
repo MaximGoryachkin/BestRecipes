@@ -17,22 +17,40 @@ class TrendingPresenter: TrendingViewPresenter {
     func loadMoreTrendings() {
         Task {
             do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipesPlusFive){
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipesPlusFive)?.recipes {
                     var dataArray : [RecipeDataModel] = []
-                    for recipe in recipes.recipes {
-                        var steps : [String] = []
+                    
+                    for recipe in recipes {
+                        var recipeSteps : [String] = []
+                        if let steps = recipe.analyzedInstructions?.first?.steps {
+                            for step in steps {
+                                recipeSteps.append(step.step)
+                            }
+                        }
+                       
                         
-                        for step in recipe.analyzedInstructions[0].steps {
-                            steps.append(step.step)
+                        var ingredients : [IngridientsModel] = []
+                        guard let modelIngridients = recipe.extendedIngredients else { return }
+                        
+                        for ingredient in modelIngridients {
+                            ingredients.append(IngridientsModel(id: ingredient.id,
+                                                                name: ingredient.name,
+                                                                image: ingredient.image,
+                                                                amount: ingredient.amount,
+                                                                unit: ingredient.unit))
                         }
                         
-                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
-                        
-                        for ingredient in  recipe.extendedIngredients {
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
-                        }
-                        
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular ?? false), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: ""))
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id!,
+                                                         recipeImage: recipe.image,
+                                                         recipeRating: figureRatingValue(isPopular: recipe.veryPopular ?? false),
+                                                         cookDuration: "\(recipe.readyInMinutes ?? 00)",
+                                                         recipeTitle: recipe.title!,
+                                                         authorAvatar: authorAvatar(authorName: recipe.sourceName!),
+                                                         authorName: recipe.sourceName!,
+                                                         isSavedToFavorite: false,
+                                                         coockingSteps: recipeSteps,
+                                                         ingredients: ingredients,
+                                                         categoryName: ""))
                     }
                     view.addTenMoreTrendings(dataArray)
                 }
