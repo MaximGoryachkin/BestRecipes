@@ -20,24 +20,23 @@ class HomePresenter: HomeViewPresenter {
     func loadTrendindsData() {
         Task {
             do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipes){
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipes)?.recipes {
                     var dataArray : [RecipeDataModel] = []
-                    for recipe in recipes.recipes {
+                    for recipe in recipes {
                         
-                        var steps : [String] = []
-                        
-                        if recipe.analyzedInstructions.count != 0 {
-                            for step in recipe.analyzedInstructions[0].steps {
-                                steps.append(step.step)
+                        var recipeSteps : [String] = []
+                        if let steps = recipe.analyzedInstructions?.first?.steps {
+                            for step in steps {
+                                recipeSteps.append(step.step)
                             }
                         } else {
-                            steps = ["Sorry, here is no instruction. You should cook like you feel))"]
+                            recipeSteps = ["Sorry, here is no instruction. You should cook like you feel))"]
                         }
-
                         
-                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        var ingredients : [IngridientsModel] = []
+                        guard let ingridientsModel = recipe.extendedIngredients else { return }
                         
-                        for ingredient in  recipe.extendedIngredients {
+                        for ingredient in ingridientsModel {
                             
                             var ingImage : String = ""
                             
@@ -47,11 +46,24 @@ class HomePresenter: HomeViewPresenter {
                                 ingImage = "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg?w=1480&t=st=1694025367~exp=1694025967~hmac=7969e35b446f38bbe533178d4a7f16cdee5673be9c1502f32aebc46b0ea19868"
                             }
                             
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingImage, amount: ingredient.amount, unit: ingredient.unit))
+                            ingredients.append(IngridientsModel(id: ingredient.id,
+                                                                name: ingredient.name,
+                                                                image: ingImage,
+                                                                amount: ingredient.amount,
+                                                                unit: ingredient.unit))
                         }
                         
-                        
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: recipe.sourceName!))
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id!,
+                                                         recipeImage: recipe.image,
+                                                         recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
+                                                         cookDuration: "\(recipe.readyInMinutes ?? 00)",
+                                                         recipeTitle: recipe.title!,
+                                                         authorAvatar: authorAvatar(authorName: recipe.sourceName!),
+                                                         authorName: recipe.sourceName!,
+                                                         isSavedToFavorite: false,
+                                                         coockingSteps: recipeSteps,
+                                                         ingredients: ingredients,
+                                                         categoryName: recipe.sourceName!))
                     }
                     view.setTrendingsData(dataArray)
                 }
@@ -64,22 +76,40 @@ class HomePresenter: HomeViewPresenter {
     func loadMainCourseData() {
         Task {
             do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.mainCoursePopulars){
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.mainCoursePopulars)?.recipes {
                     var dataArray : [RecipeDataModel] = []
-                    for recipe in recipes.recipes {
-                        var steps : [String] = []
-                        
-                            for step in recipe.analyzedInstructions[0].steps {
-                            steps.append(step.step)
+                    for recipe in recipes {
+                        var recipeSteps : [String] = []
+                        if let steps = recipe.analyzedInstructions?.first?.steps {
+                            for step in steps {
+                                recipeSteps.append(step.step)
+                            }
+                        } else {
+                            recipeSteps = ["Sorry, here is no instruction. You should cook like you feel))"]
                         }
                         
-                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        var ingredients : [IngridientsModel] = []
+                        guard let modelIngridients = recipe.extendedIngredients else { return }
                         
-                        for ingredient in  recipe.extendedIngredients {
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        for ingredient in modelIngridients {
+                            ingredients.append(IngridientsModel(id: ingredient.id,
+                                                                name: ingredient.name,
+                                                                image: ingredient.image,
+                                                                amount: ingredient.amount,
+                                                                unit: ingredient.unit))
                         }
                         
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: "main%20course"))
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id!,
+                                                         recipeImage: recipe.image,
+                                                         recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
+                                                         cookDuration: "\(recipe.readyInMinutes ?? 00)",
+                                                         recipeTitle: recipe.title!,
+                                                         authorAvatar: authorAvatar(authorName: recipe.sourceName!),
+                                                         authorName: recipe.sourceName!,
+                                                         isSavedToFavorite: false,
+                                                         coockingSteps: recipeSteps,
+                                                         ingredients: ingredients,
+                                                         categoryName: "main%20course"))
                     }
                     view.preloadSetupPopulars(dataArray)
                 }
@@ -93,24 +123,42 @@ class HomePresenter: HomeViewPresenter {
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
         Task {
             do {
-                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" ){
+                if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" )?.recipes {
                     var dataArray : [RecipeDataModel] = []
-                    for recipe in recipes.recipes {
+                    for recipe in recipes {
                         
-                        var steps : [String] = []
-                        
-                        for step in recipe.analyzedInstructions[0].steps {
-                            steps.append(step.step)
+                        var recipeSteps : [String] = []
+                        if let steps = recipe.analyzedInstructions?.first?.steps {
+                            for step in steps {
+                                recipeSteps.append(step.step)
+                            }
+                        } else {
+                            recipeSteps = ["Sorry, here is no instruction. You should cook like you feel))"]
                         }
                         
-                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        var ingredients : [IngridientsModel] = []
+                        guard let modelIngridients = recipe.extendedIngredients else { return }
                         
-                        for ingredient in  recipe.extendedIngredients {
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        for ingredient in modelIngridients {
+                            ingredients.append(IngridientsModel(id: ingredient.id,
+                                                                name: ingredient.name,
+                                                                image: ingredient.image,
+                                                                amount: ingredient.amount,
+                                                                unit: ingredient.unit))
                         }
                         
                         
-                        dataArray.append(RecipeDataModel(recipeId: recipe.id, recipeImage: recipe.image, recipeRating: figureRatingValue(isPopular: recipe.veryPopular!), cookDuration: "\(recipe.readyInMinutes ?? 00)", recipeTitle: recipe.title, authorAvatar: authorAvatar(authorName: recipe.sourceName!), authorName: recipe.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: categoryes))
+                        dataArray.append(RecipeDataModel(recipeId: recipe.id!,
+                                                         recipeImage: recipe.image,
+                                                         recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
+                                                         cookDuration: "\(recipe.readyInMinutes ?? 00)",
+                                                         recipeTitle: recipe.title!,
+                                                         authorAvatar: authorAvatar(authorName: recipe.sourceName!),
+                                                         authorName: recipe.sourceName!,
+                                                         isSavedToFavorite: false,
+                                                         coockingSteps: recipeSteps,
+                                                         ingredients: ingredients,
+                                                         categoryName: categoryes))
                     }
                     view.updatePopulars(dataArray)
                 }
@@ -154,22 +202,41 @@ class HomePresenter: HomeViewPresenter {
     func loadSearchRequestData(searchText: String) {
         Task {
             do {
-                if let results = try await NetworkManager.shared.fetchResultsArrayData(from: DataManager.shared.searchURL + "&query=\(searchText)") {
+                if let results = try await NetworkManager.shared.fetchResultsArrayData(from: DataManager.shared.searchURL + "&query=\(searchText)")?.results {
                     var dataArray : [RecipeDataModel] = []
-                    for result in results.results {
-                        var steps : [String] = []
+                    for result in results {
                         
-                        for step in result.analyzedInstructions[0].steps {
-                            steps.append(step.step)
+                        var recipeSteps : [String] = []
+                        if let steps = results.first?.analyzedInstructions?.first?.steps {
+                            for step in steps {
+                                recipeSteps.append(step.step)
+                            }
+                        } else {
+                            recipeSteps = ["Sorry, here is no instruction. You should cook like you feel))"]
                         }
                         
-                        var ingredients : [(id: Int, name: String, image: String, amount: Double, unit: String)] = []
+                        var ingredients : [IngridientsModel] = []
+                        guard let modelIngridients = result.extendedIngredients else { return }
                         
-                        for ingredient in  result.extendedIngredients {
-                            ingredients.append((id: ingredient.id, name: ingredient.name, image: ingredient.image, amount: ingredient.amount, unit: ingredient.unit))
+                        for ingredient in modelIngridients {
+                            ingredients.append(IngridientsModel(id: ingredient.id,
+                                                                name: ingredient.name,
+                                                                image: ingredient.image,
+                                                                amount: ingredient.amount,
+                                                                unit: ingredient.unit))
                         }
                         
-                        dataArray.append(RecipeDataModel(recipeId: result.id, recipeImage: result.image, recipeRating: figureRatingValue(isPopular: result.veryPopular!), cookDuration: "\(result.readyInMinutes ?? 0)", recipeTitle: result.title, authorAvatar: UIImage(systemName: "plus")!, authorName: result.sourceName, isSavedToFavorite: false, coockingSteps: steps, ingredients: ingredients, categoryName: result.sourceName!))
+                        dataArray.append(RecipeDataModel(recipeId: result.id!,
+                                                         recipeImage: result.image!,
+                                                         recipeRating: figureRatingValue(isPopular: result.veryPopular!),
+                                                         cookDuration: "\(result.readyInMinutes ?? 0)",
+                                                         recipeTitle: result.title!,
+                                                         authorAvatar: UIImage(systemName: "plus")!,
+                                                         authorName: result.sourceName!,
+                                                         isSavedToFavorite: false,
+                                                         coockingSteps: recipeSteps,
+                                                         ingredients: ingredients,
+                                                         categoryName: result.sourceName!))
                     }
                     view.updateSearchData(dataArray)
                 }

@@ -94,7 +94,7 @@ extension TrendingViewController : UICollectionViewDelegate, UICollectionViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCell
         let currentCell = dataArray[indexPath.row]
         cell.cellData = currentCell
-        cell.loadRecipeImage(currentCell.recipeImage!)
+        cell.loadRecipeImage(currentCell.recipeImage)
         return cell
     }
     

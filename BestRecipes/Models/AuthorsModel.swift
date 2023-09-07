@@ -6,7 +6,6 @@ struct AuthorsModel {
 }
 
 extension AuthorsModel {
-    
     static var popularCreators : [AuthorsModel] = [
         .init(name: "Foodista", avatar: UIImage(named: "Foodista")!),
         .init(name: "foodista.com", avatar: UIImage(named: "foodista.com")!),

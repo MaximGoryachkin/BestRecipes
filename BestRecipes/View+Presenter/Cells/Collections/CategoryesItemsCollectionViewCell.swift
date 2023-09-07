@@ -4,7 +4,7 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     
     var cellData : RecipeDataModel? {
         didSet {
-            self.itemSaved = cellData!.isSavedToFavorite!
+            self.itemSaved = cellData!.isSavedToFavorite
             self.recipeStringUrl =  (cellData?.recipeImage)!
             self.itemTitleLabel.text = cellData?.recipeTitle
             self.timeCountLabel.text = "\(cellData?.cookDuration ?? "0") Mins"

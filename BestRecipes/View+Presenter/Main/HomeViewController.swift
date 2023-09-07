@@ -445,7 +445,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryItemsCell", for: indexPath) as! CategoryesItemsCollectionViewCell
             let currentCell = popularsPreloadData[indexPath.row]
             cell.cellData = currentCell
-            cell.loadRecipeImage(currentCell.recipeImage!)
+            cell.loadRecipeImage(currentCell.recipeImage)
             return cell
             
         } else if collectionView == recentRecipeCollection {
@@ -453,12 +453,26 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecentCell", for: indexPath) as! RecentRecipeCollectionViewCell
             
             if RecentRecipes.watchedRecipes.count == 0 {
-                let emptyData : RecipeDataModel = .init(recipeId: 0, recipeImage: "https://solidaritas.jabarprov.go.id/_nuxt/img/4174c95.png", recipeRating: "--", cookDuration: "--", recipeTitle: "No Recipes Saved yet", authorAvatar: UIImage(systemName: "plus")!, authorName: "Admin", isSavedToFavorite: false, coockingSteps: [], ingredients: [(id: 0, name: "", image: "", amount: 0.0, unit: "String")], categoryName: "")
+                let emptyData : RecipeDataModel = .init(recipeId: 0,
+                                                        recipeImage: "https://solidaritas.jabarprov.go.id/_nuxt/img/4174c95.png",
+                                                        recipeRating: "--",
+                                                        cookDuration: "--",
+                                                        recipeTitle: "No Recipes Saved yet",
+                                                        authorAvatar: UIImage(systemName: "plus")!,
+                                                        authorName: "Admin",
+                                                        isSavedToFavorite: false,
+                                                        coockingSteps: [],
+                                                        ingredients: [IngridientsModel(id: 0,
+                                                                                       name: "",
+                                                                                       image: "",
+                                                                                       amount: 0.0,
+                                                                                       unit: "")],
+                                                        categoryName: "")
                 cell.cellData = emptyData
                 cell.loadRecipeImage("https://solidaritas.jabarprov.go.id/_nuxt/img/4174c95.png")
             } else {
                 cell.cellData = RecentRecipes.watchedRecipes[indexPath.row]
-                cell.loadRecipeImage(RecentRecipes.watchedRecipes[indexPath.row].recipeImage!)
+                cell.loadRecipeImage(RecentRecipes.watchedRecipes[indexPath.row].recipeImage)
             }
             
             return cell
@@ -569,7 +583,7 @@ extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
         }
         let currentCell = searchResultsData[indexPath.row]
         cell.cellData = currentCell
-        cell.loadRecipeImage(currentCell.recipeImage!)
+        cell.loadRecipeImage(currentCell.recipeImage)
         
         return cell
     }

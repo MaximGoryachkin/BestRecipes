@@ -4,7 +4,7 @@ class RecentRecipeCollectionViewCell: UICollectionViewCell {
     
     var cellData : RecipeDataModel? {
         didSet{
-            self.imageString = (cellData?.recipeImage!)!
+            self.imageString = (cellData?.recipeImage)!
             self.authorLabel.text = "By \(cellData?.authorName ?? "unknow")"
             self.receptNameLabel.text = cellData?.recipeTitle
         }

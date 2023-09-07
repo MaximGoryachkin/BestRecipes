@@ -87,7 +87,7 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCollectionViewCell
         let currentCell = recipes[indexPath.row]
         cell.cellData = currentCell
-        cell.loadRecipeImage(currentCell.recipeImage!)
+        cell.loadRecipeImage(currentCell.recipeImage)
         return cell
     }
     
