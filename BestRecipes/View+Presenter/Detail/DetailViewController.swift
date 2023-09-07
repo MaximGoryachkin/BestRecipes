@@ -21,7 +21,7 @@ class DetailViewController: UIViewController {
     private var countOfCellIngredients : Int = 5
     
     private var heightForIngredientsTV : CGFloat {
-        let result = countOfCellIngredients * 92
+        let result = recipeInfoData.ingredients.count * 92
         return CGFloat(result)
     }
     
@@ -29,7 +29,7 @@ class DetailViewController: UIViewController {
     private var countOfCellInstructionTV : Int = 5
     
     private var heightForInstructionTV : CGFloat {
-        let result = countOfCellInstructionTV * 73
+        let result = recipeInfoData.coockingSteps.count * 73
         return CGFloat(result)
     }
     
@@ -247,8 +247,8 @@ class DetailViewController: UIViewController {
             instructionsLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
-            instructionTableView.heightAnchor.constraint(equalToConstant: heightForInstructionTV),
-            ingredientsTableView.heightAnchor.constraint(equalToConstant: heightForIngredientsTV),
+            instructionTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.coockingSteps.count * 73)),
+            ingredientsTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.ingredients.count * 92)),
         ])
     }
     
