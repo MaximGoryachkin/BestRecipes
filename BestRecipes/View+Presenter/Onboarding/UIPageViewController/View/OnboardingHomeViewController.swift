@@ -80,7 +80,7 @@ class OnboardingHomeViewController: UIViewController {
     //MARK: - Methods
     @objc private func startButtonGetPressed() {
         if UserDefaults.standard.bool(forKey: "OnboardingWasViewed") {
-            let rootVC = TabBarController()
+            let rootVC = AuthViewController()
             rootVC.modalPresentationStyle = .fullScreen
             present(rootVC, animated: true)
         } else {

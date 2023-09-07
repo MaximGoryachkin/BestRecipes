@@ -6,13 +6,15 @@ class AuthViewController: UIViewController {
     
     var charIndex = 0
     let mainTitleText = "Best Recipes"
-
-    
-    // MARK: - UI Elements
     
     private var contentSize : CGSize {
         CGSize(width: view.frame.width, height: view.frame.height)
     }
+    
+    // MARK: - UI Elements
+    
+
+    private let imagePicker = UIImagePickerController()
     
     private lazy var scrollView : UIScrollView = {
         let s = UIScrollView()
@@ -227,6 +229,7 @@ class AuthViewController: UIViewController {
         setupLoginFields()
         addLoginData()
         registerForKeyBoardNotifications()
+        imagePicker.delegate = self
     }
     
     deinit {
@@ -252,7 +255,9 @@ class AuthViewController: UIViewController {
     // Login View Buttons
     
     @objc private func enterTaped(_ sender: UIButton) {
-        
+        let rootVC = TabBarController()
+        rootVC.modalPresentationStyle = .fullScreen
+        present(rootVC, animated: true)
     }
     
     @objc private func pasRecoverTaped(_ sender: UIButton) {
@@ -268,13 +273,19 @@ class AuthViewController: UIViewController {
     // Registration section
     
     @objc private func loadAvatarTaped(_ sender: UIButton) {
-        
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = ["public.image"]
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc private func signUpTaped(_ sender: UIButton) {
-        if let safeName = registerUserNameField.text, let safeEmail = registerEmailField.text, let safePass = registerPasswordField.text {
-             let data = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
-        }
+//        if let safeName = registerUserNameField.text, let safeEmail = registerEmailField.text, let safePass = registerPasswordField.text {
+//             let data = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
+//        }
+        
+        let rootVC = TabBarController()
+        rootVC.modalPresentationStyle = .fullScreen
+        present(rootVC, animated: true)
     }
     
     @objc private func gotAccountTaped(_ sender: UIButton) {
@@ -516,4 +527,24 @@ extension AuthViewController: UITextFieldDelegate {
         
         return true
     }
+}
+
+// MARK: -  UIImagePickerControllerDelegate
+
+extension AuthViewController : UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        DispatchQueue.main.async {
+            self.userAvatarBuble.image = avatarImage
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
