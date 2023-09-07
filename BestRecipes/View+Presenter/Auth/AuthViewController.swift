@@ -4,6 +4,23 @@ class AuthViewController: UIViewController {
     
     // MARK: - UI Elements
     
+    private var contentSize : CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height)
+    }
+    
+    private lazy var scrollView : UIScrollView = {
+        let s = UIScrollView()
+        s.contentSize = contentSize
+        s.frame = view.bounds
+        return s
+    }()
+    
+    private lazy var contentView : UIView = {
+        let content = UIView()
+        content.frame.size = contentSize
+        return content
+    }()
+    
     private lazy var backgroundImage : UIImageView = {
         let img = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         img.image = UIImage(named: "homePage")
@@ -15,8 +32,10 @@ class AuthViewController: UIViewController {
         let lb = UILabel()
         lb.font = .poppinsBold48
         lb.textAlignment = .center
-        lb.textColor = .primary80
+        lb.textColor = .primary50
         lb.text = "Sign In"
+        lb.shadowColor = .green
+        lb.shadowOffset = CGSize(width: 2.0, height: 2.0)
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -190,6 +209,11 @@ class AuthViewController: UIViewController {
         setupButtons()
         setupLoginFields()
         addLoginData()
+        registerForKeyBoardNotifications()
+    }
+    
+    deinit {
+        removeKeyBoardNotification()
     }
     
 
@@ -234,8 +258,19 @@ class AuthViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(backgroundImage)
-        view.addSubview(loginViewContainer)
-        view.addSubview(titleLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(loginViewContainer)
+        loginViewContainer.addSubview(titleLabel)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: loginViewContainer.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: loginViewContainer.topAnchor, constant: -35),
+            loginViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            loginViewContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
     }
     
     private func addLoginData() {
@@ -352,16 +387,6 @@ class AuthViewController: UIViewController {
         ])
     }
     
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: loginViewContainer.topAnchor, constant: 30),
-            
-            loginViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            loginViewContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        ])
-    }
-    
     private func setupButtons() {
         enterButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2).isActive = true
         enterButton.addTarget(self, action: #selector(enterTaped(_:)), for: .touchUpInside)
@@ -385,6 +410,38 @@ class AuthViewController: UIViewController {
         registerUserNameField.setLeftPaddingPoints(15)
         registerEmailField.setLeftPaddingPoints(15)
         registerPasswordField.setLeftPaddingPoints(15)
+    }
+    
+    private func registerForKeyBoardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyBoardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func kbWillShow(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        
+        if loginEmailField.isFirstResponder {
+            scrollView.contentOffset = CGPoint(x: 0, y: -35)
+        } else if loginPasswordField.isFirstResponder {
+            scrollView.contentOffset = CGPoint(x: 0, y: 50)
+        } else if registerUserNameField.isFirstResponder {
+            scrollView.contentOffset = CGPoint(x: 0, y: -40)
+        } else if registerEmailField.isFirstResponder {
+            scrollView.contentOffset = CGPoint(x: 0, y: 30)
+        } else if registerPasswordField.isFirstResponder {
+            scrollView.contentOffset = CGPoint(x: 0, y: 90)
+        }
+    }
+    
+    @objc private func kbWillHide() {
+            scrollView.contentOffset = CGPoint.zero
     }
     
 }
