@@ -2,6 +2,12 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
+    // MARK: - Data
+    
+    var charIndex = 0
+    let mainTitleText = "Best Recipes"
+
+    
     // MARK: - UI Elements
     
     private var contentSize : CGSize {
@@ -26,6 +32,17 @@ class AuthViewController: UIViewController {
         img.image = UIImage(named: "homePage")
         img.clipsToBounds = true
         return img
+    }()
+    
+    private var mainLabel : UILabel = {
+        let lb = UILabel()
+        lb.font = .poppinsBoldHeading
+        lb.textAlignment = .center
+        lb.shadowColor = .green
+        lb.textColor = .primary50
+        lb.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
     }()
     
     private lazy var titleLabel : UILabel = {
@@ -186,7 +203,7 @@ class AuthViewController: UIViewController {
     
     private lazy var loadAvatarButton = CustomButton(style: .circleTextRed, title: "Choose avatar")
     
-    private lazy var registerbutton = CustomButton(style: .textPlusArrowRed, title: "Register")
+    private lazy var registerbutton = CustomButton(style: .textPlusArrowGray, title: "Register")
     
     private lazy var gotAccountButton : UIButton = {
         let btn = UIButton()
@@ -214,6 +231,18 @@ class AuthViewController: UIViewController {
     
     deinit {
         removeKeyBoardNotification()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.mainLabel.text = ""
+        
+        for letter in mainTitleText {
+            Timer.scheduledTimer(withTimeInterval: 0.2 * Double(charIndex), repeats: false) { timer in
+                    self.mainLabel.text?.append(letter)
+            }
+        charIndex += 1
+        }
     }
     
 
@@ -258,6 +287,7 @@ class AuthViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(backgroundImage)
+        view.addSubview(mainLabel)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(loginViewContainer)
@@ -266,6 +296,9 @@ class AuthViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            mainLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            mainLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             titleLabel.centerXAnchor.constraint(equalTo: loginViewContainer.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: loginViewContainer.topAnchor, constant: -35),
             loginViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -425,8 +458,6 @@ class AuthViewController: UIViewController {
     }
     
     @objc private func kbWillShow(_ notification: Notification) {
-        let userInfo = notification.userInfo
-        
         if loginEmailField.isFirstResponder {
             scrollView.contentOffset = CGPoint(x: 0, y: -35)
         } else if loginPasswordField.isFirstResponder {
@@ -451,4 +482,36 @@ class AuthViewController: UIViewController {
 
 extension AuthViewController: UITextFieldDelegate {
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        textField.endEditing(true)
+        
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if loginEmailField.text != "" && loginPasswordField.text != "" {
+            self.enterButton.isEnabled = true
+            self.enterButton.backgroundColor = .primary50
+            self.enterButton.setTitleColor(.white, for: .normal)
+        } else {
+            self.enterButton.isEnabled = false
+            self.enterButton.backgroundColor = .neutral20
+            self.enterButton.setTitleColor(.neutral40, for: .normal)
+        }
+        
+        if registerEmailField.text != "" && registerUserNameField.text != "" && registerPasswordField.text != "" {
+            registerbutton.backgroundColor = .primary50
+            registerbutton.isEnabled = true
+            registerbutton.setTitleColor(.white, for: .normal)
+        } else {
+            registerbutton.backgroundColor = .neutral20
+            registerbutton.isEnabled = false
+            registerbutton.setTitleColor(.neutral40, for: .normal)
+        }
+        
+        return true
+    }
 }
