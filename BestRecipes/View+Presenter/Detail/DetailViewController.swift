@@ -21,7 +21,7 @@ class DetailViewController: UIViewController {
     private var countOfCellIngredients : Int = 5
     
     private var heightForIngredientsTV : CGFloat {
-        let result = countOfCellIngredients * 92
+        let result = recipeInfoData.ingredients.count * 92
         return CGFloat(result)
     }
     
@@ -29,7 +29,7 @@ class DetailViewController: UIViewController {
     private var countOfCellInstructionTV : Int = 5
     
     private var heightForInstructionTV : CGFloat {
-        let result = countOfCellInstructionTV * 73
+        let result = recipeInfoData.coockingSteps.count * 73
         return CGFloat(result)
     }
     
@@ -205,6 +205,13 @@ class DetailViewController: UIViewController {
         presenter.getRecipeData(recipeInfoData)
         presenter.sendRecipeData()
         setupUIData()
+        setupNavBar(on: self)
+        figureReviews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        saveToRecents(recipeInfoData)
     }
     
     // MARK: - ConfigureUI
@@ -241,8 +248,8 @@ class DetailViewController: UIViewController {
             instructionsLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             ingredientsLabelsStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
-            instructionTableView.heightAnchor.constraint(equalToConstant: heightForInstructionTV),
-            ingredientsTableView.heightAnchor.constraint(equalToConstant: heightForIngredientsTV),
+            instructionTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.coockingSteps.count * 73)),
+            ingredientsTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.ingredients.count * 92)),
         ])
     }
     
@@ -261,6 +268,26 @@ class DetailViewController: UIViewController {
         ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
         loadRecipeImage(recipeInfoData.recipeImage!)
         itemCountLabel.text = String(recipeInfoData.ingredients.count)
+    }
+    
+    private func saveToRecents(_ recipe: RecipeDataModel) {
+        let filtredArray = RecentRecipes.watchedRecipes.filter {$0.recipeTitle == recipe.recipeTitle}
+        
+        if filtredArray.count > 0 {
+            print("recipe already whateched before")
+        } else {
+            RecentRecipes.watchedRecipes.append(recipe)
+        }
+    }
+    
+    private func figureReviews() {
+        if recipeInfoData.recipeRating?.first == "5" {
+            self.reviewsLabel.text = "(\(Int.random(in: 4000...10000)) Reviews)"
+        } else if recipeInfoData.recipeRating?.first == "4" {
+            self.reviewsLabel.text = "(\(Int.random(in: 2000...3999)) Reviews)"
+        } else {
+            self.reviewsLabel.text = "(\(Int.random(in: 1...1999)) Reviews)"
+        }
     }
 }
 
