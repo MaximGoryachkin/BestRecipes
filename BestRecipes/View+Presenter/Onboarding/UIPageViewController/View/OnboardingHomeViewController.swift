@@ -81,10 +81,16 @@ class OnboardingHomeViewController: UIViewController {
 
     //MARK: - Methods
     @objc private func startButtonGetPressed() {
-        let onboardingVC = OnboardingViewController()
-        onboardingVC.modalPresentationStyle = .fullScreen
-        onboardingVC.modalTransitionStyle = .crossDissolve
-        present(onboardingVC, animated: true)
+        if UserDefaults.standard.bool(forKey: "OnboardingWasViewed") {
+            let rootVC = TabBarController()
+            rootVC.modalPresentationStyle = .fullScreen
+            present(rootVC, animated: true)
+        } else {
+            let onboardingVC = OnboardingViewController()
+            onboardingVC.modalPresentationStyle = .fullScreen
+            onboardingVC.modalTransitionStyle = .crossDissolve
+            present(onboardingVC, animated: true)
+        }
     }
 }
 

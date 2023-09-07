@@ -52,11 +52,12 @@ class OnboardingViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupViews()
         configurePageControl()
         setConstraints()
         setDelegates()
+        UserDefaults.standard.set(true, forKey: "OnboardingWasViewed")
     }
     
     //MARK: - SetupViews
@@ -133,8 +134,11 @@ class OnboardingViewController: UIViewController {
     }
     
     private func showHomeScreen() {
-        homeViewController.modalPresentationStyle = .fullScreen
-        present(homeViewController, animated: true)
+//        homeViewController.modalPresentationStyle = .fullScreen
+//        present(homeViewController, animated: true)
+        let resultVC = TabBarController()
+        resultVC.modalPresentationStyle = .fullScreen
+        present(resultVC, animated: true)
     }
 }
 
