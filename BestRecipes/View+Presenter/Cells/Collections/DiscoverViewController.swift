@@ -1,13 +1,13 @@
 import UIKit
 
 protocol DiscoverViewProtocol: AnyObject {
-    func updateCollection(with recipes: [Recipe])
+    func updateCollection(with recipes: [RecipeDataModel])
 }
 
 class DiscoverViewController: UIViewController {
     
     var presenter: DiscoverPresenter!
-    var recipes = [Recipe]()
+    var recipes = [RecipeDataModel]()
     
     // MARK: - UI Elements
     
@@ -42,6 +42,11 @@ class DiscoverViewController: UIViewController {
         setupCollection()
         
         presenter = DiscoverPresenter(view: self)
+        presenter.updateRecipes()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         presenter.updateRecipes()
     }
     
@@ -80,16 +85,19 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCollectionViewCell
+        let currentCell = recipes[indexPath.row]
+        cell.cellData = currentCell
+        cell.loadRecipeImage(currentCell.recipeImage!)
         return cell
     }
     
 }
 
 extension DiscoverViewController: DiscoverViewProtocol {
-    func updateCollection(with recipes: [Recipe]) {
+    func updateCollection(with recipes: [RecipeDataModel]) {
+        self.recipes = recipes
+        self.collectionView.reloadData()
         DispatchQueue.main.async {
-            self.recipes = recipes
-            self.collectionView.reloadData()
         }
     }
 }
