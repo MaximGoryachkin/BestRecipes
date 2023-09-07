@@ -26,6 +26,7 @@
 		579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */; };
 		57A1CED82A9BC0CB0061B0D3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */; };
 		57AA4F922AA89C9200FE30AB /* TrendingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AA4F912AA89C9200FE30AB /* TrendingPresenter.swift */; };
+		57AA4F942AA922CF00FE30AB /* RecentRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */; };
 		57B5E0582A9F9F9600E36DED /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5E0572A9F9F9500E36DED /* UIImage+Resize.swift */; };
 		57C73CBB2AA74EAF0082088B /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C73CBA2AA74EAF0082088B /* Results.swift */; };
 		57C73CBD2AA76D1F0082088B /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C73CBC2AA76D1F0082088B /* DetailPresenter.swift */; };
@@ -92,6 +93,7 @@
 		579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = "BestRecipes/View+Presenter/Cells/Collections/DiscoverViewController.swift"; sourceTree = SOURCE_ROOT; };
 		57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		57AA4F912AA89C9200FE30AB /* TrendingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingPresenter.swift; path = "BestRecipes/View+Presenter/Detail/TrendingPresenter.swift"; sourceTree = SOURCE_ROOT; };
+		57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipes.swift; sourceTree = "<group>"; };
 		57B5E0572A9F9F9500E36DED /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		57C73CBA2AA74EAF0082088B /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		57C73CBC2AA76D1F0082088B /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				5799551A2AA117E100AAA410 /* RecipeDataModel.swift */,
 				5769072A2AA27FAD001C4550 /* CategoryNameDataModel.swift */,
 				57D0EA072AA5FAAF00628777 /* AuthorsModel.swift */,
+				57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				890A2CAC2AA2035800CA2533 /* DiscoverPresenter.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */,
+				57AA4F942AA922CF00FE30AB /* RecentRecipes.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
 				5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */,
 				8982B1852A9B504A00C471E6 /* UIColor+Green.swift in Sources */,
