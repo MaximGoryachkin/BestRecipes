@@ -206,6 +206,7 @@ class DetailViewController: UIViewController {
         presenter.sendRecipeData()
         setupUIData()
         setupNavBar(on: self)
+        figureReviews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -276,6 +277,16 @@ class DetailViewController: UIViewController {
             print("recipe already whateched before")
         } else {
             RecentRecipes.watchedRecipes.append(recipe)
+        }
+    }
+    
+    private func figureReviews() {
+        if recipeInfoData.recipeRating?.first == "5" {
+            self.reviewsLabel.text = "(\(Int.random(in: 4000...10000)) Reviews)"
+        } else if recipeInfoData.recipeRating?.first == "4" {
+            self.reviewsLabel.text = "(\(Int.random(in: 2000...3999)) Reviews)"
+        } else {
+            self.reviewsLabel.text = "(\(Int.random(in: 1...1999)) Reviews)"
         }
     }
 }
