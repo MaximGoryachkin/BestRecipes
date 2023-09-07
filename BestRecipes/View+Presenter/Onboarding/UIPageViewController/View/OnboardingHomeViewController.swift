@@ -62,8 +62,6 @@ class OnboardingHomeViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UserDefaults.standard.set(true, forKey: "OnboardingWasViewed")
-
         setupViews()
         setConstraints()
     }

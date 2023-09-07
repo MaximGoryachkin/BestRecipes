@@ -134,8 +134,6 @@ class OnboardingViewController: UIViewController {
     }
     
     private func showHomeScreen() {
-//        homeViewController.modalPresentationStyle = .fullScreen
-//        present(homeViewController, animated: true)
         let resultVC = TabBarController()
         resultVC.modalPresentationStyle = .fullScreen
         present(resultVC, animated: true)

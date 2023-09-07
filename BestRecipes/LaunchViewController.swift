@@ -35,9 +35,13 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setViews()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadingDone()
     }
 
 }
@@ -63,5 +67,13 @@ extension LaunchViewController {
             indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             indicator.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20)
         ])
+    }
+    
+    private func loadingDone() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            let vcToPresent = OnboardingHomeViewController()
+            vcToPresent.modalPresentationStyle = .fullScreen
+            self.present(vcToPresent, animated: true)
+        }
     }
 }

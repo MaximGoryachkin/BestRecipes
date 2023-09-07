@@ -8,11 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */; };
-		43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */; };
+		43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */; };
 		5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */; };
 		5296B3E32AA4E95900B043C5 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */; };
 		5296B3E82AA7678700B043C5 /* OnboardingHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3E72AA7678700B043C5 /* OnboardingHomeViewController.swift */; };
-		43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */; };
 		5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */; };
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
 		5743D2712A9D2F6C00FCC596 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */; };
@@ -79,11 +78,10 @@
 
 /* Begin PBXFileReference section */
 		4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		5296B3E72AA7678700B043C5 /* OnboardingHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHomeViewController.swift; sourceTree = "<group>"; };
-		43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
 		5743D2702A9D2F6C00FCC596 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +143,7 @@
 		8982B1B22A9D178700C471E6 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		8982B1B42A9D179B00C471E6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		89F5EB592A9F81A400A249A5 /* TestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPresenter.swift; sourceTree = "<group>"; };
-		D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = "BestRecipes/View+Presenter/LaunchViewController.swift"; sourceTree = SOURCE_ROOT; };
+		D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = BestRecipes/LaunchViewController.swift; sourceTree = SOURCE_ROOT; };
 		D5D534152A9F875B008B733C /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingViewController.swift; path = "BestRecipes/View+Presenter/TrendingViewController.swift"; sourceTree = SOURCE_ROOT; };
 		D5D534172A9F879E008B733C /* TrendingNowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingNowCell.swift; path = "BestRecipes/View+Presenter/TrendingNowCell.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -283,6 +281,7 @@
 				8982B19F2A9BA78800C471E6 /* Managers */,
 				8982B1722A9B4E4600C471E6 /* Models */,
 				8982B1702A9B4E3500C471E6 /* View+Presenter */,
+				D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */,
 				8982B1732A9B4E4D00C471E6 /* Support */,
 				8982B1712A9B4E3E00C471E6 /* Extensions */,
 				8982B16F2A9B4E2D00C471E6 /* Application */,
@@ -442,7 +441,6 @@
 				D5D534152A9F875B008B733C /* TrendingViewController.swift */,
 				D5D534172A9F879E008B733C /* TrendingNowCell.swift */,
 				57AA4F912AA89C9200FE30AB /* TrendingPresenter.swift */,
-				D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */,
 			);
 			path = Tranding;
 			sourceTree = "<group>";
@@ -549,7 +547,7 @@
 				8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */,
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
 				4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */,
-				43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */,
+				43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */,
 				5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */,
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */,
 				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
