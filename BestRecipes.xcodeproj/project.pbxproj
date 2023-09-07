@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */; };
+		43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */; };
+		5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */; };
+		5296B3E32AA4E95900B043C5 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */; };
+		5296B3E82AA7678700B043C5 /* OnboardingHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5296B3E72AA7678700B043C5 /* OnboardingHomeViewController.swift */; };
 		43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */; };
 		5743D26D2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */; };
 		5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */; };
@@ -75,6 +79,10 @@
 
 /* Begin PBXFileReference section */
 		4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		43EBEC6C2A9F6D4300D2DB3B /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		5296B3E72AA7678700B043C5 /* OnboardingHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHomeViewController.swift; sourceTree = "<group>"; };
 		43EBEC6C2A9F6D4300D2DB3B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		5743D26C2A9D2F1B00FCC596 /* IngredientsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewCell.swift; sourceTree = "<group>"; };
 		5743D26E2A9D2F4000FCC596 /* InstructionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionTableViewCell.swift; sourceTree = "<group>"; };
@@ -169,6 +177,48 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
+		5296B3D42AA20D5900B043C5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3D52AA20D5900B043C5 /* UIPageViewController */,
+				5296B3D72AA20D5900B043C5 /* Views */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		5296B3D52AA20D5900B043C5 /* UIPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3E12AA4E94800B043C5 /* Cell */,
+				5296B3E42AA4E96A00B043C5 /* View */,
+			);
+			path = UIPageViewController;
+			sourceTree = "<group>";
+		};
+		5296B3D72AA20D5900B043C5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5296B3E12AA4E94800B043C5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3E22AA4E95900B043C5 /* OnboardingCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		5296B3E42AA4E96A00B043C5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5296B3D62AA20D5900B043C5 /* OnboardingViewController.swift */,
+				5296B3E72AA7678700B043C5 /* OnboardingHomeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		5743D26B2A9D2EFE00FCC596 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,7 +310,7 @@
 				8982B1A22A9BA89300C471E6 /* Detail */,
 				8982B1A12A9BA88600C471E6 /* Discover */,
 				8982B1A02A9BA87F00C471E6 /* Main */,
-				8982B1922A9B761100C471E6 /* Onboarding */,
+				5296B3D42AA20D5900B043C5 /* Onboarding */,
 				89F5EB582A9F818900A249A5 /* Test */,
 				57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */,
 				57C9B23B2A9E9642000F298B /* CreateRecipeViewController.swift */,
@@ -335,13 +385,6 @@
 				8982B18B2A9B507500C471E6 /* Poppins-Bold.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		8982B1922A9B761100C471E6 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		8982B19D2A9BA27700C471E6 /* UIImage */ = {
@@ -506,6 +549,8 @@
 				8982B1AB2A9D069600C471E6 /* ImageManager.swift in Sources */,
 				8982B1832A9B504A00C471E6 /* UIColor+Rating.swift in Sources */,
 				4332AD1B2AA7BFCE0053352E /* ProfileViewController.swift in Sources */,
+				43EBEC6D2A9F6D4300D2DB3B /* TabBarVC.swift in Sources */,
+				5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */,
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */,
 				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
@@ -520,6 +565,7 @@
 				57C9B2422A9EBC6C000F298B /* CreateIngredientsTableViewCell.swift in Sources */,
 				8982B1882A9B504A00C471E6 /* UIColor+Secondary.swift in Sources */,
 				57CC8CD52A9D602D000B1593 /* CategoryesNamesCollectionViewCell.swift in Sources */,
+				5296B3E32AA4E95900B043C5 /* OnboardingCollectionViewCell.swift in Sources */,
 				579DA5BB2A9E49F400DD66BE /* CreatorsCollectionViewCell.swift in Sources */,
 				57D0EA082AA5FAAF00628777 /* AuthorsModel.swift in Sources */,
 				57C9B2442A9EC0E6000F298B /* UITextField+ Extension.swift in Sources */,
@@ -553,6 +599,7 @@
 				890A2CAC2AA2035800CA2533 /* DiscoverPresenter.swift in Sources */,
 				8982B1872A9B504A00C471E6 /* UIColor+Error.swift in Sources */,
 				579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */,
+				5296B3E82AA7678700B043C5 /* OnboardingHomeViewController.swift in Sources */,
 				57AA4F942AA922CF00FE30AB /* RecentRecipes.swift in Sources */,
 				5743D26F2A9D2F4000FCC596 /* InstructionTableViewCell.swift in Sources */,
 				5743D2752A9D52F800FCC596 /* UIImage+BGColor.swift in Sources */,

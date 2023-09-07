@@ -19,7 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = rootVC
         window.makeKeyAndVisible()
         self.window = window
+        
+        if UserDefaults.standard.bool(forKey: "OnboardingWasViewed") {
+            window.rootViewController = HomeViewController()
+        } else {
+            window.rootViewController = rootVC
+        }
+        window.makeKeyAndVisible()
     }
-
 }
 
