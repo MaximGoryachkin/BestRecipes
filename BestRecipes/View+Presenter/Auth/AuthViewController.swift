@@ -272,7 +272,9 @@ class AuthViewController: UIViewController {
     }
     
     @objc private func signUpTaped(_ sender: UIButton) {
-        
+        if let safeName = registerUserNameField.text, let safeEmail = registerEmailField.text, let safePass = registerPasswordField.text {
+             let data = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
+        }
     }
     
     @objc private func gotAccountTaped(_ sender: UIButton) {
