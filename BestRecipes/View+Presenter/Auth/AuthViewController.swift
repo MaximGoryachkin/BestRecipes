@@ -13,7 +13,7 @@ class AuthViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     
-    var imageLocalPath : String?
+    var imageLocalPath : String = ""
         
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
@@ -375,7 +375,7 @@ class AuthViewController: UIViewController {
                 defaults.set(safeName, forKey: "userName")
                 defaults.set(safePass, forKey: "userPassword")
                 defaults.set(safeEmail, forKey: "userEmail")
-                defaults.set(imageLocalPath!, forKey: "avatarLocalPath")
+                defaults.set(imageLocalPath, forKey: "avatarLocalPath")
                 
                 let rootVC = TabBarController()
                 rootVC.modalPresentationStyle = .fullScreen
@@ -642,7 +642,7 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
         
         let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
-        self.imageLocalPath = save(image: avatarImage)
+        self.imageLocalPath = save(image: avatarImage)!
                 
         DispatchQueue.main.async {
             self.userAvatarBuble.image = avatarImage

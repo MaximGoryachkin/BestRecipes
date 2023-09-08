@@ -36,9 +36,7 @@ class ProfileViewController: UIViewController {
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
     var usersArray = [UsersDataModel]()
-    
-    var newUserAvatarPath : String = ""
-    
+        
     // MARK: - UI
     
     private let imagePicker = UIImagePickerController()
@@ -125,10 +123,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let imageName = UserDefaults.standard.string(forKey: "avatarLocalPath")
-        
-        self.profileImage.image = loadUserAvatarImage(fileName: imageName!)
+        safeLoadANdUpdateAvatar()
     }
     
     // MARK: - Private Methods
@@ -301,6 +296,16 @@ extension ProfileViewController {
         }
         catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    
+    private func safeLoadANdUpdateAvatar() {
+        let imageName = UserDefaults.standard.string(forKey: "avatarLocalPath")
+        if imageName! != "" {
+            self.profileImage.image = loadUserAvatarImage(fileName: imageName!)
+        } else {
+            self.profileImage.image = UIImage(named: "Avatar")
         }
     }
 }
