@@ -9,16 +9,16 @@ import UIKit.UIImage
 
 extension UIImage {
     
-    static let bookmarkActive = UIImage(named: "Icons/Bookmark/Active")
-    static let bookmarkInactive = UIImage(named: "Icons/Bookmark/Inactive")
+    static let bookmarkActive = UIImage(named: "Bookmark/Active")
+    static let bookmarkInactive = UIImage(named: "Bookmark/Inactive")
     
-    static let homeActive = UIImage(named: "Icons/Home/Active")
-    static let homeInactive = UIImage(named: "Icons/Home/Inactive")
+    static let homeActive = UIImage(named: "Home/Active")
+    static let homeInactive = UIImage(named: "Home/Inactive")
 
-    static let notificationActive = UIImage(named: "Icons/Notification/Active")
-    static let notificationInactive = UIImage(named: "Icons/Notification/Inactive")
+    static let notificationActive = UIImage(named: "Notification/Active")
+    static let notificationInactive = UIImage(named: "Notification/Inactive")
 
-    static let profileActive = UIImage(named: "Icons/Profile/Active")
-    static let profileInactive = UIImage(named: "Icons/Profile/Inactive")
+    static let profileActive = UIImage(named: "Profile/Active")
+    static let profileInactive = UIImage(named: "Profile/Inactive")
     
 }
