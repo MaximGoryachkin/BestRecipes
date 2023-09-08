@@ -23,6 +23,24 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    let dataFilePathForRecipes = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("\(UserDefaults.standard.string(forKey: "userName")!).plist")
+    
+    var recipesArray : [CustomRecipes] = []
+    
+    
+    private func loadUserRecipes() {
+        if  let data = try? Data(contentsOf: dataFilePathForRecipes!) {
+             let decoder = PropertyListDecoder()
+            do {
+                self.recipesArray = try decoder.decode([CustomRecipes].self, from: data)
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
     // MARK: - Data
     
     var documentsUrl: URL {
@@ -122,6 +140,8 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         safeLoadANdUpdateAvatar()
+        loadUserRecipes()
+        self.collectionView.reloadData()
     }
     
     // MARK: - Private Methods
@@ -181,7 +201,7 @@ class ProfileViewController: UIViewController {
     private func setupCollection() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(TrendingNowCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(MyRecipesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 }
 
@@ -191,11 +211,16 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return recipesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MyRecipesCollectionViewCell
+        
+        let currentCell = recipesArray[indexPath.row]
+        
+        cell.cellData = currentCell
+        cell.loadRecipeImage(fileName: currentCell.recipeImageLocalPath)
         return cell
     }
 }
