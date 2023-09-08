@@ -14,7 +14,8 @@
  "userName" - String
  "userPassword" - String
  "userEmail" - String
- 
+ "avatarLocalPath" - String?  - тут нужна двойная провекра, если  этот стринг чему-то равен , то нужно проверять если он = "" пустой строке то ставим заглушку, а если нет то загружаем картинку по локальному пути
+ let imageData = NSData(contentsOfFile: localPath!)!
  
  */
 
