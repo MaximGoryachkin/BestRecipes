@@ -5,6 +5,19 @@
 //  Created by Ilyas Tyumenev on 05.09.2023.
 //
 
+
+/*
+ Получение данных пользователя
+ UserDefaults.standart
+ ключи и типы данных
+ 
+ "userName" - String
+ "userPassword" - String
+ "userEmail" - String
+ 
+ 
+ */
+
 import UIKit
 
 class ProfileViewController: UIViewController {

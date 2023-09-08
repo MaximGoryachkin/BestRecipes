@@ -5,6 +5,8 @@ class AuthViewController: UIViewController {
     // MARK: - Testing UD
     
     var usersArray = [UsersDataModel]()
+    
+    let defaults = UserDefaults.standard
         
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
@@ -292,7 +294,17 @@ class AuthViewController: UIViewController {
             let filtredByEmail = usersArray.filter {$0.email == safeEmail}
             
             if let currentUser = filtredByEmail.first {
+                
+                let email = currentUser.email
+                let password = currentUser.password
+                let userName = currentUser.userName
+                
                 if currentUser.password == safePass {
+                    
+                    defaults.set(userName, forKey: "userName")
+                    defaults.set(password, forKey: "userPassword")
+                    defaults.set(email, forKey: "userEmail")
+                    
                     let rootVC = TabBarController()
                     rootVC.modalPresentationStyle = .fullScreen
                     present(rootVC, animated: true)
@@ -351,23 +363,13 @@ class AuthViewController: UIViewController {
                 self.usersArray.append(singleData)
                 registerNewUser()
                 
+                defaults.set(safeName, forKey: "userName")
+                defaults.set(safePass, forKey: "userPassword")
+                defaults.set(safeEmail, forKey: "userEmail")
+                
                 let rootVC = TabBarController()
                 rootVC.modalPresentationStyle = .fullScreen
                 present(rootVC, animated: true)
-                //
-                /*
-                 Тут нужно создать Notification для того чтобы передавать в контроллеры данные текущего пользователя
-                 
-                 
-                 
-                 
-                 
-                 */
-                
-                
-                
-                
-                //
             }
         }
     }
