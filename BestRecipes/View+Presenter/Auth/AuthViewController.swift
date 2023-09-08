@@ -5,6 +5,10 @@ class AuthViewController: UIViewController {
     // MARK: - Testing UD
     
     var usersArray = [UsersDataModel]()
+    
+    let defaults = UserDefaults.standard
+    
+    var imageLocalPath : String?
         
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
@@ -292,7 +296,17 @@ class AuthViewController: UIViewController {
             let filtredByEmail = usersArray.filter {$0.email == safeEmail}
             
             if let currentUser = filtredByEmail.first {
+                
+                let email = currentUser.email
+                let password = currentUser.password
+                let userName = currentUser.userName
+                
                 if currentUser.password == safePass {
+                    
+                    defaults.set(userName, forKey: "userName")
+                    defaults.set(password, forKey: "userPassword")
+                    defaults.set(email, forKey: "userEmail")
+                    
                     let rootVC = TabBarController()
                     rootVC.modalPresentationStyle = .fullScreen
                     present(rootVC, animated: true)
@@ -347,27 +361,18 @@ class AuthViewController: UIViewController {
                 alert.addAction(action)
                 self.present(alert, animated: true)
             } else {
-                let singleData = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
+                let singleData = UsersDataModel(userName: safeName, email: safeEmail, password: safePass,userAvatarLocalPath : imageLocalPath)
                 self.usersArray.append(singleData)
                 registerNewUser()
+                
+                defaults.set(safeName, forKey: "userName")
+                defaults.set(safePass, forKey: "userPassword")
+                defaults.set(safeEmail, forKey: "userEmail")
+                defaults.set(imageLocalPath, forKey: "avatarLocalPath")
                 
                 let rootVC = TabBarController()
                 rootVC.modalPresentationStyle = .fullScreen
                 present(rootVC, animated: true)
-                //
-                /*
-                 Тут нужно создать Notification для того чтобы передавать в контроллеры данные текущего пользователя
-                 
-                 
-                 
-                 
-                 
-                 */
-                
-                
-                
-                
-                //
             }
         }
     }
@@ -619,8 +624,23 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        //
+        if let imgUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL{
+            let imgName = imgUrl.lastPathComponent
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+            let localPath = documentDirectory?.appending(imgName)
+            self.imageLocalPath = localPath!
+            
+//                let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+//                let data = image.pngData()! as NSData
+//                data.write(toFile: localPath!, atomically: true)
+//                //let imageData = NSData(contentsOfFile: localPath!)!
+//                let photoURL = URL.init(fileURLWithPath: localPath!)//NSURL(fileURLWithPath: localPath!)
+            }
         
+        
+        let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+                
         DispatchQueue.main.async {
             self.userAvatarBuble.image = avatarImage
         }
