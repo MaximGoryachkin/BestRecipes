@@ -4,6 +4,11 @@ class AuthViewController: UIViewController {
     
     // MARK: - Testing UD
     
+    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
     var usersArray = [UsersDataModel]()
     
     let defaults = UserDefaults.standard
@@ -631,17 +636,13 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
             let imgName = imgUrl.lastPathComponent
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
             let localPath = documentDirectory?.appending(imgName)
-            self.imageLocalPath = localPath!
-            
-//                let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-//                let data = image.pngData()! as NSData
-//                data.write(toFile: localPath!, atomically: true)
-//                //let imageData = NSData(contentsOfFile: localPath!)!
-//                let photoURL = URL.init(fileURLWithPath: localPath!)//NSURL(fileURLWithPath: localPath!)
-            }
+           // self.imageLocalPath = localPath!
+        }
         
         
         let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        self.imageLocalPath = save(image: avatarImage)
                 
         DispatchQueue.main.async {
             self.userAvatarBuble.image = avatarImage
@@ -653,4 +654,19 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+
+extension AuthViewController {
+    
+    private func save(image: UIImage) -> String? {
+        let fileName = "FileName"
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+           try? imageData.write(to: fileURL, options: .atomic)
+           return fileName // ----> Save fileName
+        }
+        print("Error saving image")
+        return nil
+    }
 }
