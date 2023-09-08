@@ -14,14 +14,10 @@
  "userName" - String
  "userPassword" - String
  "userEmail" - String
- "avatarLocalPath" - String?  - тут нужна двойная провекра, если  этот стринг чему-то равен , то нужно проверять если он = "" пустой строке то ставим заглушку, а если нет то загружаем картинку по локальному пути
- 
- данные сохраняются Optional("/Users/ivanbirukov/Library/Developer/CoreSimulator/Devices/DAB7B7F2-4DB1-49A6-8513-984F3C6474B2/data/Containers/Data/Application/47CE714D-DBD3-4E81-9A00-5DA9F4EB3BCE/Documents562543A4-5380-4D74-B69B-C5FFE826E1F2.jpeg")
- 
- 
- let imageData = NSData(contentsOfFile: localPath!)!
- 
+ "avatarLocalPath" - String
  */
+ 
+
 
 import UIKit
 
