@@ -87,6 +87,7 @@ class ProfileViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupCollection()
+        imagePicker.delegate = self
     }
     
     // MARK: - Private Methods
@@ -182,7 +183,7 @@ extension ProfileViewController {
 }
 
 // MARK: -  UIImagePickerControllerDelegate
-extension ProfileViewController: UIImagePickerControllerDelegate {
+extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
