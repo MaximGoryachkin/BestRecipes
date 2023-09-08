@@ -14,14 +14,26 @@
  "userName" - String
  "userPassword" - String
  "userEmail" - String
- "avatarLocalPath" - String?  - тут нужна двойная провекра, если  этот стринг чему-то равен , то нужно проверять если он = "" пустой строке то ставим заглушку, а если нет то загружаем картинку по локальному пути
- let imageData = NSData(contentsOfFile: localPath!)!
- 
+ "avatarLocalPath" - String
  */
+ 
+
 
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+    // MARK: - Data
+    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
+    
+    var usersArray = [UsersDataModel]()
+        
+    // MARK: - UI
     
     private let imagePicker = UIImagePickerController()
     
@@ -61,7 +73,9 @@ class ProfileViewController: UIViewController {
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "Avatar")
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleToFill
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 50
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -102,6 +116,12 @@ class ProfileViewController: UIViewController {
         setupConstraints()
         setupCollection()
         imagePicker.delegate = self
+        loadExistingUsers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        safeLoadANdUpdateAvatar()
     }
     
     // MARK: - Private Methods
@@ -201,6 +221,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationC
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
+        
+        updateUserAvatar(avatarString: saveNewUserAvatar(image: image)!)
+        
         profileImage.image = image
         picker.dismiss(animated: true, completion: nil)
     }
@@ -209,4 +232,76 @@ extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationC
         picker.dismiss(animated: true, completion: nil)
     }
 
+}
+
+
+
+extension ProfileViewController {
+    
+    private func loadExistingUsers() {
+        if  let data = try? Data(contentsOf: dataFilePath!) {
+             let decoder = PropertyListDecoder()
+            do {
+                self.usersArray = try decoder.decode([UsersDataModel].self, from: data)
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func loadUserAvatarImage(fileName: String) -> UIImage? {
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            return UIImage(data: imageData)
+        } catch {
+            print("Error loading image : \(error)")
+        }
+        return nil
+    }
+    
+    private func saveNewUserAvatar (image: UIImage) -> String? {
+        let fileName = "FileName"
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+           try? imageData.write(to: fileURL, options: .atomic)
+           return fileName // ----> Save fileName
+        }
+        print("Error saving image")
+        return nil
+    }
+    
+    private func updateUserAvatar(avatarString: String) {
+        
+        let currentUserEmail = UserDefaults.standard.string(forKey: "userEmail")
+        let currentUserName = UserDefaults.standard.string(forKey: "userName")
+        let currentUserPass = UserDefaults.standard.string(forKey: "userPassword")
+                
+        var usersWithoutCurrent = usersArray.filter {$0.email != currentUserEmail!}
+        
+        let userWithChangedAvatar = UsersDataModel(userName: currentUserName!, email: currentUserEmail!, password: currentUserPass!,userAvatarLocalPath: avatarString)
+        
+        usersWithoutCurrent.append(userWithChangedAvatar)
+        
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(usersWithoutCurrent)
+            try data.write(to: dataFilePath!)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    private func safeLoadANdUpdateAvatar() {
+        let imageName = UserDefaults.standard.string(forKey: "avatarLocalPath")
+        if imageName! != "" {
+            self.profileImage.image = loadUserAvatarImage(fileName: imageName!)
+        } else {
+            self.profileImage.image = UIImage(named: "Avatar")
+        }
+    }
 }
