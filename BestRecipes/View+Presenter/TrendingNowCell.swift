@@ -12,7 +12,7 @@ class TrendingNowCell: UICollectionViewCell {
     
     private var itemSaved : Bool = false
     
-    private let pickture : UIImageView = {
+    private let picture : UIImageView = {
         let img = UIImageView()
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
         img.widthAnchor.constraint(equalToConstant: 343).isActive = true
@@ -107,9 +107,9 @@ class TrendingNowCell: UICollectionViewCell {
     }
     
     private func configure() {
-        contentView.addSubview(pickture)
-        pickture.addSubview(starButton)
-        pickture.addSubview(firstStackView)
+        contentView.addSubview(picture)
+        picture.addSubview(starButton)
+        picture.addSubview(firstStackView)
         firstStackView.addArrangedSubview(titleLabel)
         firstStackView.addArrangedSubview(descStack)
         descStack.addArrangedSubview(ingredientsLabel)
@@ -117,15 +117,15 @@ class TrendingNowCell: UICollectionViewCell {
         descStack.addArrangedSubview(timeLabel)
         
         NSLayoutConstraint.activate([
-            pickture.topAnchor.constraint(equalTo: contentView.topAnchor),
-            pickture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            picture.topAnchor.constraint(equalTo: contentView.topAnchor),
+            picture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            starButton.topAnchor.constraint(equalTo: pickture.topAnchor, constant: 8),
-            starButton.leadingAnchor.constraint(equalTo: pickture.leadingAnchor, constant: 8),
+            starButton.topAnchor.constraint(equalTo: picture.topAnchor, constant: 8),
+            starButton.leadingAnchor.constraint(equalTo: picture.leadingAnchor, constant: 8),
             
-            firstStackView.leadingAnchor.constraint(equalTo: pickture.leadingAnchor, constant: 16),
-            firstStackView.trailingAnchor.constraint(equalTo: pickture.trailingAnchor, constant: 16),
-            firstStackView.bottomAnchor.constraint(equalTo: pickture.bottomAnchor, constant: -16)
+            firstStackView.leadingAnchor.constraint(equalTo: picture.leadingAnchor, constant: 16),
+            firstStackView.trailingAnchor.constraint(equalTo: picture.trailingAnchor, constant: 16),
+            firstStackView.bottomAnchor.constraint(equalTo: picture.bottomAnchor, constant: -16)
         ])
         
     }
@@ -134,11 +134,11 @@ class TrendingNowCell: UICollectionViewCell {
         guard let url = URL(string: url) else { return }
         
         if let data = NetworkManager.shared.getDataFromCache(from: url) {
-            self.pickture.image = UIImage(data: data)
+            self.picture.image = UIImage(data: data)
         } else {
             ImageManager.shared.fetchImage(from: url) { data, response in
                 DispatchQueue.main.async {
-                    self.pickture.image = UIImage(data: data)
+                    self.picture.image = UIImage(data: data)
                     NetworkManager.shared.saveDataToCache(with: data, and: response)
                 }
             }
