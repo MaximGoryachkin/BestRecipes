@@ -2,6 +2,36 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
+    // MARK: - Testing UD
+    
+    var usersArray = [UsersDataModel]()
+        
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
+    
+    private func registerNewUser() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(usersArray)
+            try data.write(to: dataFilePath!)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func loadExistingUsers() {
+        if  let data = try? Data(contentsOf: dataFilePath!) {
+             let decoder = PropertyListDecoder()
+            do {
+                self.usersArray = try decoder.decode([UsersDataModel].self, from: data)
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Data
     
     var charIndex = 0
@@ -221,6 +251,7 @@ class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadExistingUsers()
         hideKeyboardWhenTappedAround()
         addSubviews()
         addLoginData()
@@ -255,9 +286,29 @@ class AuthViewController: UIViewController {
     // Login View Buttons
     
     @objc private func enterTaped(_ sender: UIButton) {
-        let rootVC = TabBarController()
-        rootVC.modalPresentationStyle = .fullScreen
-        present(rootVC, animated: true)
+        
+        if let safeEmail = loginEmailField.text, let safePass = loginPasswordField.text {
+            
+            let filtredByEmail = usersArray.filter {$0.email == safeEmail}
+            
+            if let currentUser = filtredByEmail.first {
+                if currentUser.password == safePass {
+                    let rootVC = TabBarController()
+                    rootVC.modalPresentationStyle = .fullScreen
+                    present(rootVC, animated: true)
+                } else {
+                    let alert = UIAlertController(title: "Login Error", message: "Entered Password does not match. Please try aghain", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "Close & try aghain", style: .cancel)
+                    alert.addAction(action)
+                    self.present(alert, animated: true)
+                }
+            } else {
+                let alert = UIAlertController(title: "Login Error", message: "No user with such email registered. Please try aghain", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Close & try aghain", style: .cancel)
+                alert.addAction(action)
+                self.present(alert, animated: true)
+            }
+        }
     }
     
     @objc private func pasRecoverTaped(_ sender: UIButton) {
@@ -279,13 +330,46 @@ class AuthViewController: UIViewController {
     }
     
     @objc private func signUpTaped(_ sender: UIButton) {
-//        if let safeName = registerUserNameField.text, let safeEmail = registerEmailField.text, let safePass = registerPasswordField.text {
-//             let data = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
-//        }
         
-        let rootVC = TabBarController()
-        rootVC.modalPresentationStyle = .fullScreen
-        present(rootVC, animated: true)
+        var isUserExist : Bool = false
+        
+        if let safeName = registerUserNameField.text, let safeEmail = registerEmailField.text, let safePass = registerPasswordField.text {
+            
+            for user in usersArray {
+                if user.email == safeEmail {
+                    isUserExist = true
+                }
+            }
+            
+            if isUserExist {
+                let alert = UIAlertController(title: "Registration Error", message: "Probably user with entered Email is already exist. Please use other Email adress to registation.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Close & try aghain", style: .cancel)
+                alert.addAction(action)
+                self.present(alert, animated: true)
+            } else {
+                let singleData = UsersDataModel(userName: safeName, email: safeEmail, password: safePass)
+                self.usersArray.append(singleData)
+                registerNewUser()
+                
+                let rootVC = TabBarController()
+                rootVC.modalPresentationStyle = .fullScreen
+                present(rootVC, animated: true)
+                //
+                /*
+                 Тут нужно создать Notification для того чтобы передавать в контроллеры данные текущего пользователя
+                 
+                 
+                 
+                 
+                 
+                 */
+                
+                
+                
+                
+                //
+            }
+        }
     }
     
     @objc private func gotAccountTaped(_ sender: UIButton) {
