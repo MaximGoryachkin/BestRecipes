@@ -59,10 +59,12 @@ class DiscoverViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 19),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 27),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
