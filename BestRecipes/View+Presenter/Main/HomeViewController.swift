@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .center
-        stack.spacing = 20
+        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -84,13 +84,13 @@ class HomeViewController: UIViewController {
         bar.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32).isActive = true
         bar.searchBarStyle = .minimal
         bar.searchTextField.layer.borderColor = UIColor.neutral20.cgColor
-        bar.searchTextField.layer.borderWidth = 2
-        bar.searchTextField.layer.cornerRadius = 8
+        bar.searchTextField.layer.borderWidth = 1
+        bar.searchTextField.layer.cornerRadius = 12
         bar.searchTextField.leftView?.tintColor = .neutral100
         bar.searchTextField.font = .poppinsRegularLabel
         bar.searchTextPositionAdjustment = UIOffset(horizontal: 5.0, vertical: 0.0);
         bar.setPositionAdjustment(UIOffset(horizontal: 10, vertical: 0), for: UISearchBar.Icon.search)
-        bar.setImage(.search, for: .search, state: .normal)
+        bar.setImage(.search?.imageResized(to: CGSize(width: 20, height: 20)), for: .search, state: .normal)
         return bar
     }()
     
@@ -337,7 +337,7 @@ class HomeViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            contentStackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
             contentStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             contentStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             titleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
@@ -353,7 +353,7 @@ class HomeViewController: UIViewController {
     
     private func setupSearchBar() {
         searchBar.delegate = self
-        searchBar.updateHeight(height: 48)
+        searchBar.updateHeight(height: 44)
     }
     
     private func setupCollections() {

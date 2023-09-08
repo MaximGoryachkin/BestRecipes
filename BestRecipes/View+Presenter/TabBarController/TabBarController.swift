@@ -63,24 +63,24 @@ class TabBarController: UITabBarController {
     
     private func setupItems() {
         let home = UINavigationController(rootViewController: HomeViewController())
-        home.tabBarItem.image = UIImage(named: "Home/Inactive")
-        home.tabBarItem.selectedImage = UIImage(named: "Home/Active")
+        home.tabBarItem.image = .homeInactive
+        home.tabBarItem.selectedImage = .homeActive
         
         let bookmarks = DiscoverViewController()
-        bookmarks.tabBarItem.image = UIImage(named: "Bookmark/Inactive")
-        bookmarks.tabBarItem.selectedImage = UIImage(named: "Bookmark/Active")
+        bookmarks.tabBarItem.image = .bookmarkInactive
+        bookmarks.tabBarItem.selectedImage = .bookmarkActive
         
         let createRecipe = UIViewController()
         createRecipe.tabBarItem.isEnabled = false
         
         let notifications = UIViewController()
-        notifications.tabBarItem.image = UIImage(named: "Notification/Inactive")
-        notifications.tabBarItem.selectedImage = UIImage(named: "Notification/Active")
+        notifications.tabBarItem.image = .notificationInactive
+        notifications.tabBarItem.selectedImage = .notificationActive
         notifications.tabBarItem.isEnabled = false
         
         let profile = ProfileViewController()
-        profile.tabBarItem.image = UIImage(named: "Profile/Inactive")
-        profile.tabBarItem.selectedImage = UIImage(named: "Profile/Active")
+        profile.tabBarItem.image = .profileInactive
+        profile.tabBarItem.selectedImage = .profileActive
         
         home.tabBarItem.imageInsets = UIEdgeInsets(top: 16, left: 15, bottom: -16, right: -15)
         bookmarks.tabBarItem.imageInsets = UIEdgeInsets(top: 16, left: 3, bottom: -16, right: -3)
