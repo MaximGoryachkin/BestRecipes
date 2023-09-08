@@ -300,12 +300,14 @@ class AuthViewController: UIViewController {
                 let email = currentUser.email
                 let password = currentUser.password
                 let userName = currentUser.userName
+                let avatarPath = currentUser.userAvatarLocalPath!
                 
                 if currentUser.password == safePass {
                     
                     defaults.set(userName, forKey: "userName")
                     defaults.set(password, forKey: "userPassword")
                     defaults.set(email, forKey: "userEmail")
+                    defaults.set(avatarPath, forKey: "avatarLocalPath")
                     
                     let rootVC = TabBarController()
                     rootVC.modalPresentationStyle = .fullScreen
@@ -368,7 +370,7 @@ class AuthViewController: UIViewController {
                 defaults.set(safeName, forKey: "userName")
                 defaults.set(safePass, forKey: "userPassword")
                 defaults.set(safeEmail, forKey: "userEmail")
-                defaults.set(imageLocalPath, forKey: "avatarLocalPath")
+                defaults.set(imageLocalPath!, forKey: "avatarLocalPath")
                 
                 let rootVC = TabBarController()
                 rootVC.modalPresentationStyle = .fullScreen
