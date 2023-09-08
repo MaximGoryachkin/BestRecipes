@@ -18,7 +18,7 @@ class HomePresenter: HomeViewPresenter {
     }
     
     func loadTrendindsData() {
-        Task {
+        Task(priority: .background) {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.trendingsRecipes)?.recipes {
                     var dataArray : [RecipeDataModel] = []
@@ -40,8 +40,8 @@ class HomePresenter: HomeViewPresenter {
                             
                             var ingImage : String = ""
                             
-                            if ingredient.image != "" {
-                                ingImage = ingredient.image
+                            if let image = ingredient.image {
+                                ingImage = image
                             } else {
                                 ingImage = "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg?w=1480&t=st=1694025367~exp=1694025967~hmac=7969e35b446f38bbe533178d4a7f16cdee5673be9c1502f32aebc46b0ea19868"
                             }
@@ -54,7 +54,7 @@ class HomePresenter: HomeViewPresenter {
                         }
                         
                         dataArray.append(RecipeDataModel(recipeId: recipe.id!,
-                                                         recipeImage: recipe.image,
+                                                         recipeImage: recipe.image ?? "",
                                                          recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
                                                          cookDuration: "\(recipe.readyInMinutes ?? 00)",
                                                          recipeTitle: recipe.title!,
@@ -74,7 +74,7 @@ class HomePresenter: HomeViewPresenter {
     }
     
     func loadMainCourseData() {
-        Task {
+        Task(priority: .background) {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.mainCoursePopulars)?.recipes {
                     var dataArray : [RecipeDataModel] = []
@@ -94,13 +94,13 @@ class HomePresenter: HomeViewPresenter {
                         for ingredient in modelIngridients {
                             ingredients.append(IngridientsModel(id: ingredient.id,
                                                                 name: ingredient.name,
-                                                                image: ingredient.image,
+                                                                image: ingredient.image ?? "",
                                                                 amount: ingredient.amount,
                                                                 unit: ingredient.unit))
                         }
                         
                         dataArray.append(RecipeDataModel(recipeId: recipe.id!,
-                                                         recipeImage: recipe.image,
+                                                         recipeImage: recipe.image ?? "",
                                                          recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
                                                          cookDuration: "\(recipe.readyInMinutes ?? 00)",
                                                          recipeTitle: recipe.title!,
@@ -121,7 +121,7 @@ class HomePresenter: HomeViewPresenter {
     
     
     func loadPopularsWithCategoryes(categoryes: String, categoryCount: Int) {
-        Task {
+        Task(priority: .background) {
             do {
                 if let recipes = try await NetworkManager.shared.fetchArrayData(from: DataManager.shared.popularCategoryes + "&number=\(categoryCount * 5)" + "&tags=\(categoryes)" )?.recipes {
                     var dataArray : [RecipeDataModel] = []
@@ -142,14 +142,14 @@ class HomePresenter: HomeViewPresenter {
                         for ingredient in modelIngridients {
                             ingredients.append(IngridientsModel(id: ingredient.id,
                                                                 name: ingredient.name,
-                                                                image: ingredient.image,
+                                                                image: ingredient.image ?? "",
                                                                 amount: ingredient.amount,
                                                                 unit: ingredient.unit))
                         }
                         
                         
                         dataArray.append(RecipeDataModel(recipeId: recipe.id!,
-                                                         recipeImage: recipe.image,
+                                                         recipeImage: recipe.image ?? "",
                                                          recipeRating: figureRatingValue(isPopular: recipe.veryPopular!),
                                                          cookDuration: "\(recipe.readyInMinutes ?? 00)",
                                                          recipeTitle: recipe.title!,
@@ -200,7 +200,7 @@ class HomePresenter: HomeViewPresenter {
     }
     
     func loadSearchRequestData(searchText: String) {
-        Task {
+        Task(priority: .background) {
             do {
                 if let results = try await NetworkManager.shared.fetchResultsArrayData(from: DataManager.shared.searchURL + "&query=\(searchText)")?.results {
                     var dataArray : [RecipeDataModel] = []
@@ -221,7 +221,7 @@ class HomePresenter: HomeViewPresenter {
                         for ingredient in modelIngridients {
                             ingredients.append(IngridientsModel(id: ingredient.id,
                                                                 name: ingredient.name,
-                                                                image: ingredient.image,
+                                                                image: ingredient.image ?? "",
                                                                 amount: ingredient.amount,
                                                                 unit: ingredient.unit))
                         }

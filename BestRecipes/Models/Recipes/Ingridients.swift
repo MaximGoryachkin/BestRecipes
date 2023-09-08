@@ -10,5 +10,5 @@ struct Ingredient: Codable {
     let name: String
     let amount: Double
     let unit: String
-    let image: String
+    let image: String?
 }

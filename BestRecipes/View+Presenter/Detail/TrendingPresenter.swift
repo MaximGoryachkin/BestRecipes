@@ -35,13 +35,13 @@ class TrendingPresenter: TrendingViewPresenter {
                         for ingredient in modelIngridients {
                             ingredients.append(IngridientsModel(id: ingredient.id,
                                                                 name: ingredient.name,
-                                                                image: ingredient.image,
+                                                                image: ingredient.image ?? "",
                                                                 amount: ingredient.amount,
                                                                 unit: ingredient.unit))
                         }
                         
                         dataArray.append(RecipeDataModel(recipeId: recipe.id!,
-                                                         recipeImage: recipe.image,
+                                                         recipeImage: recipe.image ?? "",
                                                          recipeRating: figureRatingValue(isPopular: recipe.veryPopular ?? false),
                                                          cookDuration: "\(recipe.readyInMinutes ?? 00)",
                                                          recipeTitle: recipe.title!,

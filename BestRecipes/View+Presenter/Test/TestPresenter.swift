@@ -28,7 +28,7 @@ class TestPresenter: TestViewPresenter {
         Task {
             do {
                 if let recipe = try await NetworkManager.shared.fetchData(from: DataManager.shared.recipeURL) {
-                    view.setImage(recipe.image)
+//                    view.setImage(recipe.image)
                 }
             } catch {
                 print(error)
@@ -40,7 +40,7 @@ class TestPresenter: TestViewPresenter {
         
         Task {
             if let recipe = try await NetworkManager.shared.fetchData(from: DataManager.shared.recipeURL) {
-                view.setImage(recipe.image)
+//                view.setImage(recipe.image)
             }
         }
         

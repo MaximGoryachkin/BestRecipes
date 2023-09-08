@@ -1,9 +1,5 @@
 import UIKit
 
-protocol TrendingCellProtocol {
-    func updateItemSaved()
-}
-
 class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     var cellData : RecipeDataModel? {
@@ -18,7 +14,7 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private var itemSaved : Bool = false
+    private var itemSaved : Bool!
     var recipeStringUrl : String = ""
     
     private let imageBubble : UIView = {
@@ -233,8 +229,8 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func favoriteTaped(_ sender: UIButton) {
-        guard let model = cellData else { return }
         itemSaved = !itemSaved
+        guard let model = cellData else { return }
         
         if itemSaved {
             sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal)

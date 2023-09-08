@@ -11,7 +11,7 @@ struct Recipe: Codable {
     let title: String?
     let readyInMinutes: Int?
     let servings: Int?
-    let image: String
+    let image: String?
     let summary: String?
     let analyzedInstructions: [Instruction]?
     let veryPopular: Bool?
