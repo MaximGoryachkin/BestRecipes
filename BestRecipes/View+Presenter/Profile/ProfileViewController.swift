@@ -77,7 +77,9 @@ class ProfileViewController: UIViewController {
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "Avatar")
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleToFill
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 50
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -279,9 +281,7 @@ extension ProfileViewController {
         let currentUserEmail = UserDefaults.standard.string(forKey: "userEmail")
         let currentUserName = UserDefaults.standard.string(forKey: "userName")
         let currentUserPass = UserDefaults.standard.string(forKey: "userPassword")
-        
-        let usersBeforeChanging = usersArray
-        
+                
         var usersWithoutCurrent = usersArray.filter {$0.email != currentUserEmail!}
         
         let userWithChangedAvatar = UsersDataModel(userName: currentUserName!, email: currentUserEmail!, password: currentUserPass!,userAvatarLocalPath: avatarString)
