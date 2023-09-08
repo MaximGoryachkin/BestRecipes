@@ -178,7 +178,6 @@ class DetailViewController: UIViewController {
     
     private let ingredientsTableView : UITableView = {
         let tb = UITableView()
-        tb.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 50).isActive = true
         tb.separatorStyle = .none
         tb.translatesAutoresizingMaskIntoConstraints = false
         return tb
@@ -250,6 +249,8 @@ class DetailViewController: UIViewController {
             ingredientsLabelsStack.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             instructionTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.coockingSteps.count * 73)),
             ingredientsTableView.heightAnchor.constraint(equalToConstant: CGFloat(recipeInfoData.ingredients.count * 92)),
+            ingredientsTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            ingredientsTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
@@ -323,7 +324,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let currentIngredient = recipeInfoData.ingredients[indexPath.row]
             cell.ingredientNameLabel.text = currentIngredient.name
-            cell.weightLabel.text = String(currentIngredient.amount) + " " + currentIngredient.unit
+            let stringAmount = String(format: "%.3g", currentIngredient.amount)
+            cell.weightLabel.text = stringAmount + " " + currentIngredient.unit
             cell.loadImagwFromURL(pictureName: currentIngredient.image)
             return cell
         }
