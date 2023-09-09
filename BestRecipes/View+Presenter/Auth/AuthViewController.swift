@@ -14,7 +14,7 @@ class AuthViewController: UIViewController {
     let defaults = UserDefaults.standard
     
     var imageLocalPath : String = ""
-        
+    
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
     private func registerNewUser() {
@@ -31,7 +31,7 @@ class AuthViewController: UIViewController {
     
     private func loadExistingUsers() {
         if  let data = try? Data(contentsOf: dataFilePath!) {
-             let decoder = PropertyListDecoder()
+            let decoder = PropertyListDecoder()
             do {
                 self.usersArray = try decoder.decode([UsersDataModel].self, from: data)
             }
@@ -52,7 +52,6 @@ class AuthViewController: UIViewController {
     
     // MARK: - UI Elements
     
-
     private let imagePicker = UIImagePickerController()
     
     private lazy var scrollView : UIScrollView = {
@@ -97,7 +96,7 @@ class AuthViewController: UIViewController {
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-
+    
     // Login Section ----------------------------------------------------------
     
     private let loginViewContainer : UIView = {
@@ -112,24 +111,24 @@ class AuthViewController: UIViewController {
     }()
     
     private let loginEmailField : UITextField = {
-         let field = UITextField()
-         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        let field = UITextField()
+        field.heightAnchor.constraint(equalToConstant: 44).isActive = true
         field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
-         field.placeholder = "Email"
-         field.font = .poppinsRegularLabel
-         field.textColor = .neutral100
-         field.layer.borderColor = UIColor.neutral20.cgColor
-         field.layer.borderWidth = 1
-         field.layer.cornerRadius = 12
-         field.returnKeyType = .done
-         field.translatesAutoresizingMaskIntoConstraints = false
-         return field
-     }()
+        field.placeholder = "Email"
+        field.font = .poppinsRegularLabel
+        field.textColor = .neutral100
+        field.layer.borderColor = UIColor.neutral20.cgColor
+        field.layer.borderWidth = 1
+        field.layer.cornerRadius = 12
+        field.returnKeyType = .done
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
     
     private let loginPasswordField : UITextField = {
         let field = UITextField()
         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
-       field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
+        field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
         field.placeholder = "Password"
         field.font = .poppinsRegularLabel
         field.textColor = .neutral100
@@ -141,7 +140,7 @@ class AuthViewController: UIViewController {
         return field
     }()
     
-    private var enterButton = CustomButton(style: .textPlusArrowGray, title: "LogIn")
+    private var enterButton = CustomButton(style: .textPlusArrowGray, title: "Login")
     
     private lazy var actionsButtonsStack : UIStackView = {
         let stack = UIStackView()
@@ -175,39 +174,39 @@ class AuthViewController: UIViewController {
     // Registration Section --------------------------------------------------
     
     private let registerUserNameField : UITextField = {
-         let field = UITextField()
-         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        let field = UITextField()
+        field.heightAnchor.constraint(equalToConstant: 44).isActive = true
         field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
-         field.placeholder = "User Name"
-         field.font = .poppinsRegularLabel
-         field.textColor = .neutral100
-         field.layer.borderColor = UIColor.neutral20.cgColor
-         field.layer.borderWidth = 1
-         field.layer.cornerRadius = 12
-         field.returnKeyType = .done
-         field.translatesAutoresizingMaskIntoConstraints = false
-         return field
-     }()
+        field.placeholder = "Username"
+        field.font = .poppinsRegularLabel
+        field.textColor = .neutral100
+        field.layer.borderColor = UIColor.neutral20.cgColor
+        field.layer.borderWidth = 1
+        field.layer.cornerRadius = 12
+        field.returnKeyType = .done
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
     
     private let registerEmailField : UITextField = {
-         let field = UITextField()
-         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        let field = UITextField()
+        field.heightAnchor.constraint(equalToConstant: 44).isActive = true
         field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
-         field.placeholder = "Email"
-         field.font = .poppinsRegularLabel
-         field.textColor = .neutral100
-         field.layer.borderColor = UIColor.neutral20.cgColor
-         field.layer.borderWidth = 1
-         field.layer.cornerRadius = 12
-         field.returnKeyType = .done
-         field.translatesAutoresizingMaskIntoConstraints = false
-         return field
-     }()
+        field.placeholder = "Email"
+        field.font = .poppinsRegularLabel
+        field.textColor = .neutral100
+        field.layer.borderColor = UIColor.neutral20.cgColor
+        field.layer.borderWidth = 1
+        field.layer.cornerRadius = 12
+        field.returnKeyType = .done
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
     
     private let registerPasswordField : UITextField = {
         let field = UITextField()
         field.heightAnchor.constraint(equalToConstant: 44).isActive = true
-       field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
+        field.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40).isActive = true
         field.placeholder = "Password"
         field.font = .poppinsRegularLabel
         field.textColor = .neutral100
@@ -282,13 +281,13 @@ class AuthViewController: UIViewController {
         
         for letter in mainTitleText {
             Timer.scheduledTimer(withTimeInterval: 0.2 * Double(charIndex), repeats: false) { timer in
-                    self.mainLabel.text?.append(letter)
+                self.mainLabel.text?.append(letter)
             }
-        charIndex += 1
+            charIndex += 1
         }
     }
     
-
+    
     // MARK: - Buttons Methods
     
     
@@ -341,7 +340,6 @@ class AuthViewController: UIViewController {
         addRegisterData()
     }
     
-    
     // Registration section
     
     @objc private func loadAvatarTaped(_ sender: UIButton) {
@@ -389,10 +387,7 @@ class AuthViewController: UIViewController {
         addLoginData()
     }
     
-    
-    
     // MARK: - Configure UI
-
     
     private func addSubviews() {
         view.addSubview(backgroundImage)
@@ -581,7 +576,7 @@ class AuthViewController: UIViewController {
     }
     
     @objc private func kbWillHide() {
-            scrollView.contentOffset = CGPoint.zero
+        scrollView.contentOffset = CGPoint.zero
     }
     
 }
@@ -631,25 +626,24 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        //
         if let imgUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL{
             let imgName = imgUrl.lastPathComponent
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
             let localPath = documentDirectory?.appending(imgName)
-           // self.imageLocalPath = localPath!
+            // self.imageLocalPath = localPath!
         }
         
         
         let avatarImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
         self.imageLocalPath = save(image: avatarImage)!
-                
+        
         DispatchQueue.main.async {
             self.userAvatarBuble.image = avatarImage
         }
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -663,8 +657,8 @@ extension AuthViewController {
         let fileName = "FileName"
         let fileURL = documentsUrl.appendingPathComponent(fileName)
         if let imageData = image.jpegData(compressionQuality: 1.0) {
-           try? imageData.write(to: fileURL, options: .atomic)
-           return fileName // ----> Save fileName
+            try? imageData.write(to: fileURL, options: .atomic)
+            return fileName // ----> Save fileName
         }
         print("Error saving image")
         return nil

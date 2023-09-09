@@ -238,7 +238,7 @@ class DetailViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             contentStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             contentStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 19),
