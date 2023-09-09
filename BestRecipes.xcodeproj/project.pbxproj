@@ -176,6 +176,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4332DAA42AAC66650066753B /* CreateRecipe */ = {
+			isa = PBXGroup;
+			children = (
+				57C9B23B2A9E9642000F298B /* CreateRecipeViewController.swift */,
+			);
+			path = CreateRecipe;
+			sourceTree = "<group>";
+		};
 		43EBEC6B2A9F6D1D00D2DB3B /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,6 +326,7 @@
 		8982B1702A9B4E3500C471E6 /* View+Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				4332DAA42AAC66650066753B /* CreateRecipe */,
 				57A298FB2AA9EF7F00B7F846 /* Auth */,
 				57D0EA092AA693A600628777 /* Alerts */,
 				4332AD162AA7BEBE0053352E /* Profile */,
@@ -330,7 +339,6 @@
 				5296B3D42AA20D5900B043C5 /* Onboarding */,
 				89F5EB582A9F818900A249A5 /* Test */,
 				57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */,
-				57C9B23B2A9E9642000F298B /* CreateRecipeViewController.swift */,
 			);
 			path = "View+Presenter";
 			sourceTree = "<group>";
