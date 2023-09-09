@@ -31,6 +31,8 @@
 		57A298FD2AA9EF9D00B7F846 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A298FC2AA9EF9D00B7F846 /* AuthViewController.swift */; };
 		57AA4F922AA89C9200FE30AB /* TrendingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AA4F912AA89C9200FE30AB /* TrendingPresenter.swift */; };
 		57AA4F942AA922CF00FE30AB /* RecentRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */; };
+		57AD2F282AABE1CD00DB4F71 /* MyRecipesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD2F272AABE1CD00DB4F71 /* MyRecipesCollectionViewCell.swift */; };
+		57AD2F2A2AABEB3300DB4F71 /* CreateRecipeSettingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD2F292AABEB3300DB4F71 /* CreateRecipeSettingDataModel.swift */; };
 		57B1F3AC2AAA7AD20052195E /* UsersDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1F3AB2AAA7AD20052195E /* UsersDataModel.swift */; };
 		57B5E0582A9F9F9600E36DED /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5E0572A9F9F9500E36DED /* UIImage+Resize.swift */; };
 		57C73CBB2AA74EAF0082088B /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C73CBA2AA74EAF0082088B /* Results.swift */; };
@@ -103,6 +105,8 @@
 		57A298FC2AA9EF9D00B7F846 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		57AA4F912AA89C9200FE30AB /* TrendingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingPresenter.swift; path = "BestRecipes/View+Presenter/Detail/TrendingPresenter.swift"; sourceTree = SOURCE_ROOT; };
 		57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipes.swift; sourceTree = "<group>"; };
+		57AD2F272AABE1CD00DB4F71 /* MyRecipesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecipesCollectionViewCell.swift; sourceTree = "<group>"; };
+		57AD2F292AABEB3300DB4F71 /* CreateRecipeSettingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeSettingDataModel.swift; sourceTree = "<group>"; };
 		57B1F3AB2AAA7AD20052195E /* UsersDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersDataModel.swift; sourceTree = "<group>"; };
 		57B5E0572A9F9F9500E36DED /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		57C73CBA2AA74EAF0082088B /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				4332AD1A2AA7BFCE0053352E /* ProfileViewController.swift */,
+				57AD2F272AABE1CD00DB4F71 /* MyRecipesCollectionViewCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 				57D0EA072AA5FAAF00628777 /* AuthorsModel.swift */,
 				57AA4F932AA922CF00FE30AB /* RecentRecipes.swift */,
 				57B1F3AB2AAA7AD20052195E /* UsersDataModel.swift */,
+				57AD2F292AABEB3300DB4F71 /* CreateRecipeSettingDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -570,6 +576,7 @@
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
 				5743D2732A9D339A00FCC596 /* HomeViewController.swift in Sources */,
 				890A2CAE2AA2038700CA2533 /* DiscoverModel.swift in Sources */,
+				57AD2F2A2AABEB3300DB4F71 /* CreateRecipeSettingDataModel.swift in Sources */,
 				579DA5BD2A9E65B200DD66BE /* TrendingNowCollectionViewCell.swift in Sources */,
 				8982B1762A9B4E8400C471E6 /* AppDelegate.swift in Sources */,
 				8982B1A92A9D05E100C471E6 /* NetworkManager.swift in Sources */,
@@ -603,6 +610,7 @@
 				8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */,
 				8982B18F2A9B594300C471E6 /* UIImage+Base.swift in Sources */,
 				57C73CBB2AA74EAF0082088B /* Results.swift in Sources */,
+				57AD2F282AABE1CD00DB4F71 /* MyRecipesCollectionViewCell.swift in Sources */,
 				8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */,
 				8982B1AF2A9D175900C471E6 /* Recipe.swift in Sources */,
 				57AA4F922AA89C9200FE30AB /* TrendingPresenter.swift in Sources */,

@@ -1,6 +1,68 @@
 import UIKit
 
+struct CustomRecipes : Codable {
+    let userName : String
+    let recipeImageLocalPath : String
+    let recipeTitle : String
+    var ingredients : [CustomIngredients]?
+    let cookDuration : Int
+}
+
+struct CustomIngredients : Codable {
+    let ingredientName :  String
+    let ingredientQuantity : String
+}
+
+
 class CreateRecipeViewController: UIViewController {
+    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    var recipeImageLocalPath : String = ""
+    
+        
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("\(UserDefaults.standard.string(forKey: "userName")!).plist")
+    
+    
+    var customRecipes : [CustomRecipes] = []
+    
+    
+    
+    private func createUserRecipes() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(customRecipes)
+            try data.write(to: dataFilePath!)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func loadUserRecipes() {
+        if  let data = try? Data(contentsOf: dataFilePath!) {
+             let decoder = PropertyListDecoder()
+            do {
+                self.customRecipes = try decoder.decode([CustomRecipes].self, from: data)
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
+    let curentUserName = UserDefaults.standard.string(forKey: "userName")!
+    let currentUserAvatarPath = UserDefaults.standard.string(forKey: "avatarLocalPath")!
+    
+    
+    
+    
+    
     
     // MARK: - Data
     
@@ -14,6 +76,12 @@ class CreateRecipeViewController: UIViewController {
     private var contentSize : CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 100)
     }
+    
+    // Collections Data
+    
+    var ingredientsArray : [(name: String, quantity: String)] = [
+        (name: "Item name", quantity: "Quantity" )
+    ]
     
     // MARK: - UI Elements
     
@@ -165,6 +233,11 @@ class CreateRecipeViewController: UIViewController {
         removeKeyBoardNotification()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadUserRecipes()
+    }
+    
     // MARK: - Buttons Methods
     
     @objc private func additTaped(_ sender: UIButton) {
@@ -180,11 +253,36 @@ class CreateRecipeViewController: UIViewController {
         sender.alpha = 0.5
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
+            self.ingredientsArray.append((name: "Item name", quantity: "Quantity" ))
+            let indexPath = NSIndexPath(row: self.ingredientsArray.count - 1, section: 0)
+            self.ingredientsTableView.reloadData()
+            self.ingredientsTableView.scrollToRow(at: indexPath as IndexPath, at: .middle, animated: true)
         }
     }
     
     @objc private func createTapped() {
-        
+        if checkForEmptyValues() {
+            let alert = UIAlertController(title: "Create Own Recipe", message: "Your recipe succsesfuly addit!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Close", style: .default)
+            alert.addAction(action)
+            self.present(alert, animated: true)
+            
+            var ingredients : [CustomIngredients] = []
+            
+            for ingredient in ingredientsArray {
+                ingredients.append(CustomIngredients(ingredientName: ingredient.name, ingredientQuantity: ingredient.quantity))
+            }
+            
+            customRecipes.append(CustomRecipes(userName: curentUserName, recipeImageLocalPath: recipeImageLocalPath, recipeTitle: recipeNameTextField.text!, ingredients:ingredients, cookDuration: 25))
+            
+            createUserRecipes()
+            
+        } else {
+            let alert = UIAlertController(title: "Create Own Recipe", message: "Creating Recipe Failed! To create and save Your recipe, all fields should be filled, also recipe image must be selected!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Try aghain", style: .default)
+            alert.addAction(action)
+            self.present(alert, animated: true)
+        }
     }
     
     // MARK: - Configure UI
@@ -286,6 +384,7 @@ extension CreateRecipeViewController : UIImagePickerControllerDelegate & UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let choosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        self.recipeImageLocalPath = save(image: choosenImage)!
         self.recipeImage.image = choosenImage
         self.dismiss(animated: true, completion: nil)
     }
@@ -312,15 +411,17 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == settingTableView {
-            return 2
+            return CreateRecipeSettingDataModel.prebuildData.count
         } else {
-            return 3
+            return ingredientsArray.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == settingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",for: indexPath) as! SettingTableViewCell
+            let currentCell = CreateRecipeSettingDataModel.prebuildData[indexPath.row]
+            cell.cellData = currentCell
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
@@ -329,4 +430,43 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
             return cell
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    
 }
+
+// MARK: - Recipe Creating Logic
+
+extension CreateRecipeViewController {
+    
+    private func checkForEmptyValues() -> Bool {
+        
+        if self.recipeImage.image != UIImage(systemName: "folder.badge.questionmark"), self.recipeNameTextField.text != "" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+  
+    
+}
+
+extension CreateRecipeViewController {
+    
+    private func save(image: UIImage) -> String? {
+        let fileName = "FileName"
+        let fileURL = documentsUrl.appendingPathComponent(fileName)
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+           try? imageData.write(to: fileURL, options: .atomic)
+           return fileName // ----> Save fileName
+        }
+        print("Error saving image")
+        return nil
+    }
+}
+
+

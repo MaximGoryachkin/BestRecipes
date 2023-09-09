@@ -2,6 +2,13 @@ import UIKit
 
 class SettingTableViewCell: UITableViewCell {
     
+    var cellData : CreateRecipeSettingDataModel? {
+        didSet {
+            self.iconImage.image = UIImage(named: cellData!.iconImageName)
+            self.titleLabel.text = cellData?.titleText
+        }
+    }
+    
     private let bubbleView : UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true

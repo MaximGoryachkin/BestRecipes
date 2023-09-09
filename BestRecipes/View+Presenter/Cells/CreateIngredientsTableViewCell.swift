@@ -1,8 +1,12 @@
 import UIKit
 
+
 class CreateIngredientsTableViewCell: UITableViewCell {
     
     private var isEddit : Bool = false
+    
+    var itemName : String = ""
+    var itemQuantity : String = ""
     
     private lazy var contentStackView : UIStackView = {
         let stack = UIStackView()
@@ -83,6 +87,20 @@ class CreateIngredientsTableViewCell: UITableViewCell {
         isEddit = !isEddit
         
         isEddit == true ? sender.setImage(.minusBorder, for: .normal) : sender.setImage(.plusBorder, for: .normal)
+        
+        if isEddit {
+            self.itemName = ingredientName.text!
+            self.itemQuantity = weightName.text!
+        } else {
+            self.itemName = ""
+            self.itemQuantity = ""
+            ingredientName.text = ""
+            weightName.text = ""
+            ingredientName.placeholder = "Item name"
+            weightName.placeholder = "Quantity"
+        }
+        
+        
     }
 
 }
