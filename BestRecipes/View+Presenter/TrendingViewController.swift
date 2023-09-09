@@ -19,7 +19,6 @@ class TrendingViewController: UIViewController {
         lb.font = .poppinsBold24
         lb.textColor = .neutral100
         lb.textAlignment = .center
-//        lb.text = "Trending now"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -51,6 +50,7 @@ class TrendingViewController: UIViewController {
         self.dataArray = dataArray
         self.titleLabelString = titleLabelString
         super.init(nibName: nil, bundle: nil)
+        setupNavBar(on: self)
     }
     
     required init?(coder: NSCoder) {
@@ -102,6 +102,7 @@ extension TrendingViewController : UICollectionViewDelegate, UICollectionViewDat
         if titleLabelString == "Trending now" {
             let endScrolling = collectionView.contentOffset.y + collectionView.frame.size.height
             if endScrolling >= collectionView.contentSize.height {
+                presenter = TrendingPresenter(view: self)
                 presenter.loadMoreTrendings()
             }
         }
