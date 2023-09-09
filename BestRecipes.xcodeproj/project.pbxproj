@@ -20,6 +20,7 @@
 		5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */; };
 		5743D2792A9D562C00FCC596 /* UIViewController+ Extesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743D2782A9D562C00FCC596 /* UIViewController+ Extesnion.swift */; };
 		5769072B2AA27FAD001C4550 /* CategoryNameDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5769072A2AA27FAD001C4550 /* CategoryNameDataModel.swift */; };
+		578D086A2AAC9EF20076839E /* SavedRecipesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578D08692AAC9EF20076839E /* SavedRecipesCollectionViewCell.swift */; };
 		5799551B2AA117E100AAA410 /* RecipeDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799551A2AA117E100AAA410 /* RecipeDataModel.swift */; };
 		5799551F2AA14EBD00AAA410 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5799551E2AA14EBD00AAA410 /* MainPresenter.swift */; };
 		579DA5B72A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579DA5B62A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift */; };
@@ -94,6 +95,7 @@
 		5743D2762A9D533D00FCC596 /* UISearchBar+ Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+ Extension.swift"; sourceTree = "<group>"; };
 		5743D2782A9D562C00FCC596 /* UIViewController+ Extesnion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ Extesnion.swift"; sourceTree = "<group>"; };
 		5769072A2AA27FAD001C4550 /* CategoryNameDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryNameDataModel.swift; sourceTree = "<group>"; };
+		578D08692AAC9EF20076839E /* SavedRecipesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesCollectionViewCell.swift; sourceTree = "<group>"; };
 		5799551A2AA117E100AAA410 /* RecipeDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDataModel.swift; sourceTree = "<group>"; };
 		5799551E2AA14EBD00AAA410 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainPresenter.swift; path = BestRecipes/Managers/MainPresenter.swift; sourceTree = SOURCE_ROOT; };
 		579DA5B62A9E0FAE00DD66BE /* CategoryesItemsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryesItemsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				890A2CAD2AA2038700CA2533 /* DiscoverModel.swift */,
 				579DA5BE2A9E8FD900DD66BE /* DiscoverViewController.swift */,
 				890A2CAB2AA2035800CA2533 /* DiscoverPresenter.swift */,
+				578D08692AAC9EF20076839E /* SavedRecipesCollectionViewCell.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */,
 				5296B3DC2AA20D5900B043C5 /* OnboardingViewController.swift in Sources */,
 				43EBEC6D2A9F6D4300D2DB3B /* TabBarController.swift in Sources */,
+				578D086A2AAC9EF20076839E /* SavedRecipesCollectionViewCell.swift in Sources */,
 				8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */,
 				57C9B23E2A9EB118000F298B /* SettingTableViewCell.swift in Sources */,
 				8982B1862A9B504A00C471E6 /* UIColor+Primary.swift in Sources */,
