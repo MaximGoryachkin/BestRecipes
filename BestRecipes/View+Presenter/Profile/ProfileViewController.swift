@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
     
     var recipesArray : [CustomRecipes] = []
     
-    
     private func loadUserRecipes() {
         if  let data = try? Data(contentsOf: dataFilePathForRecipes!) {
              let decoder = PropertyListDecoder()
@@ -39,7 +38,6 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
     
     // MARK: - Data
     
@@ -223,7 +221,7 @@ class ProfileViewController: UIViewController {
             myRecipesLabel.heightAnchor.constraint(equalToConstant: 29),
             
             collectionView.topAnchor.constraint(equalTo: myRecipesView.bottomAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
@@ -290,8 +288,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationC
 
 }
 
-
-
 extension ProfileViewController {
     
     private func loadExistingUsers() {
@@ -350,7 +346,6 @@ extension ProfileViewController {
             print(error.localizedDescription)
         }
     }
-    
     
     private func safeLoadANdUpdateAvatar() {
         let imageName = UserDefaults.standard.string(forKey: "avatarLocalPath")
