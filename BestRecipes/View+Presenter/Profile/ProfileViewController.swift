@@ -98,6 +98,24 @@ class ProfileViewController: UIViewController {
         return image
     }()
     
+    lazy var userNameLabel : UILabel = {
+        let lb = UILabel()
+        lb.font = .poppinsBoldLabel
+        lb.textColor = .neutral100
+        lb.textAlignment = .left
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    
+    lazy var userEmailLabel : UILabel = {
+        let lb = UILabel()
+        lb.font = .poppinsBoldLabel
+        lb.textColor = .neutral100
+        lb.textAlignment = .left
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    
     lazy var profileButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
@@ -142,6 +160,8 @@ class ProfileViewController: UIViewController {
         safeLoadANdUpdateAvatar()
         loadUserRecipes()
         self.collectionView.reloadData()
+        self.userNameLabel.text = "UserName: \(UserDefaults.standard.string(forKey: "userName")!)"
+        self.userEmailLabel.text = "Email: \(UserDefaults.standard.string(forKey: "userEmail")!)"
     }
     
     // MARK: - Private Methods
@@ -154,6 +174,8 @@ class ProfileViewController: UIViewController {
         myRecipesView.addSubview(myRecipesLabel)
         view.addSubview(myRecipesView)
         view.addSubview(collectionView)
+        view.addSubview(userNameLabel)
+        view.addSubview(userEmailLabel)
     }
     
     private func setupConstraints() {
@@ -187,6 +209,14 @@ class ProfileViewController: UIViewController {
             profileButton.leadingAnchor.constraint(equalTo: myRecipesView.leadingAnchor, constant: 20.5),
             profileButton.heightAnchor.constraint(equalToConstant: 100),
             profileButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            userNameLabel.topAnchor.constraint(equalTo: myRecipesView.topAnchor, constant: 35),
+            userNameLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 25),
+            userNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
+            userEmailLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 10),
+            userEmailLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 25),
+            userEmailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
 
             myRecipesLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 69),
             myRecipesLabel.leadingAnchor.constraint(equalTo: myRecipesView.leadingAnchor, constant: 36),
@@ -230,11 +260,12 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
 extension ProfileViewController {
     
     @objc func moreButtonPressed(_ button: UIButton) {
-        print("More button pressed")
+        let rootVC = AuthViewController()
+        rootVC.modalPresentationStyle = .fullScreen
+        self.present(rootVC, animated: true)
     }
     
     @objc func profileButtonPressed(_ button: UIButton) {
-        print("Profile button pressed")
         imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = ["public.image"]
         present(imagePicker, animated: true, completion: nil)
