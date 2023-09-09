@@ -105,7 +105,6 @@ class CreateRecipeViewController: UIViewController {
     private let imageBubleView : UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
-        view.backgroundColor = .neutral20
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -251,7 +250,7 @@ class CreateRecipeViewController: UIViewController {
                                                recipeImageLocalPath: recipeImageLocalPath,
                                                recipeTitle: recipeNameTextField.text!,
                                                ingredients:ingredients,
-                                               cookDuration: 25))            
+                                               cookDuration: 25))
             createUserRecipes()
             
         } else {
@@ -286,11 +285,15 @@ class CreateRecipeViewController: UIViewController {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 52),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
+            titleLabel.heightAnchor.constraint(equalToConstant: 29),
+            
             imageBubleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             imageBubleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             imageBubleView.heightAnchor.constraint(equalToConstant: 200),
             
-            titleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             recipeImage.topAnchor.constraint(equalTo: imageBubleView.topAnchor),
             recipeImage.leadingAnchor.constraint(equalTo: imageBubleView.leadingAnchor),
             recipeImage.trailingAnchor.constraint(equalTo: imageBubleView.trailingAnchor),
@@ -311,6 +314,7 @@ class CreateRecipeViewController: UIViewController {
             
             ingredientsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
             ingredientsTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
+            ingredientsTitleLabel.heightAnchor.constraint(equalToConstant: 28),
             
             ingredientsTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             ingredientsTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -321,7 +325,7 @@ class CreateRecipeViewController: UIViewController {
             
             createButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
             createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
-            createButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -13)
+            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -13)
         ])
     }
     
