@@ -66,7 +66,7 @@ class TabBarController: UITabBarController {
         home.tabBarItem.image = .homeInactive
         home.tabBarItem.selectedImage = .homeActive
         
-        let bookmarks = UINavigationController(rootViewController: DiscoverViewController())
+        let bookmarks = DiscoverViewController()
         bookmarks.tabBarItem.image = .bookmarkInactive
         bookmarks.tabBarItem.selectedImage = .bookmarkActive
         
