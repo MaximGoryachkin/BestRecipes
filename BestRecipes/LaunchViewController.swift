@@ -70,7 +70,7 @@ extension LaunchViewController {
     }
     
     private func loadingDone() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let vcToPresent = OnboardingHomeViewController()
             vcToPresent.modalPresentationStyle = .fullScreen
             self.present(vcToPresent, animated: true)

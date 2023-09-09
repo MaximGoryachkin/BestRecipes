@@ -11,8 +11,14 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private var itemSaved : Bool = false
+    private var itemSaved : Bool! {
+        didSet {
+            itemSaved ? favoriteButton.setImage(UIImage(named: "Bookmark/Active"), for: .normal) :
+                        favoriteButton.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
+        }
+    }
     private var recipeStringUrl : String = ""
+    var delegate: CategoryCellDelegate!
     
     private let itemImage : UIImageView = {
         let img = UIImageView()
@@ -138,15 +144,17 @@ class CategoryesItemsCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func favoriteTaped(_ sender: UIButton) {
-        guard let model = cellData else { return }
         itemSaved = !itemSaved
+        guard var model = cellData else { return }
         
         if itemSaved {
-            sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal)
+            model.isSavedToFavorite.toggle()
             DataManager.shared.arrayRecipes.updateValue(model, forKey: model.recipeId)
+            delegate.updateCategoryData(with: model.recipeId)
         } else {
-            sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
+            model.isSavedToFavorite.toggle()
             DataManager.shared.arrayRecipes.removeValue(forKey: model.recipeId)
+            delegate.updateCategoryData(with: model.recipeId)
         }
     }
     

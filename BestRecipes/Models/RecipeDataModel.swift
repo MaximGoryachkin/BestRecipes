@@ -9,7 +9,7 @@ struct RecipeDataModel {
     let recipeTitle : String
     let authorAvatar : UIImage
     let authorName : String
-    let isSavedToFavorite : Bool
+    var isSavedToFavorite : Bool
     let coockingSteps : [String]
     let ingredients : [IngridientsModel]
     let categoryName : String
