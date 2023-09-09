@@ -453,11 +453,13 @@ extension CreateRecipeViewController : UITableViewDelegate, UITableViewDataSourc
     }
     
     @objc private func actionTaped(_ sender: UIButton) {
-        sender.alpha = 0.5
         let point = sender.convert(CGPoint.zero, to: settingTableView)
         if let indexPath = settingTableView.indexPathForRow(at: point) {
             selectedIndexPath = indexPath
             showPickerView()
+            if let cell = settingTableView.cellForRow(at: indexPath) as? SettingTableViewCell {
+                cell.actionButton.isEnabled = false
+            }
         }
     }
     
@@ -472,6 +474,7 @@ extension CreateRecipeViewController : UITableViewDelegate, UITableViewDataSourc
                 cell?.valueLabel.text = cookTimeArray[cookTimePicker.selectedRow(inComponent: 0)] + " min"
             default: break
             }
+            cell?.actionButton.isEnabled = true
             hidePickerView()
         }
     }
@@ -479,7 +482,7 @@ extension CreateRecipeViewController : UITableViewDelegate, UITableViewDataSourc
     func showPickerView() {
         UIView.animate(withDuration: 0.3) {
             self.setupPicker()
-            self.pickerViewContainer.frame.origin.y = self.view.frame.height - 200
+            self.pickerViewContainer.frame.origin.y = self.view.frame.height - 300
         }
     }
     
@@ -534,18 +537,18 @@ extension CreateRecipeViewController: UIPickerViewDataSource, UIPickerViewDelega
     }
     
     private func setupPicker() {
-        pickerViewContainer = UIView(frame: CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 200))
+        pickerViewContainer = UIView(frame: CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 300))
         pickerViewContainer.backgroundColor = .white
         
         if let selectedIndexPath = selectedIndexPath {
             switch selectedIndexPath.row {
             case 0:
-                servesPicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+                servesPicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 300))
                 servesPicker.dataSource = self
                 servesPicker.delegate = self
                 pickerViewContainer.addSubview(servesPicker)
             case 1:
-                cookTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+                cookTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 300))
                 cookTimePicker.dataSource = self
                 cookTimePicker.delegate = self
                 pickerViewContainer.addSubview(cookTimePicker)
