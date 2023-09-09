@@ -9,6 +9,7 @@ class SettingTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - UI Elements        
     private let bubbleView : UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -45,24 +46,24 @@ class SettingTableViewCell: UITableViewCell {
         return lb
     }()
     
-    private lazy var valueLabel : UILabel = {
+    lazy var valueLabel : UILabel = {
         let lb = UILabel()
         lb.font = .poppinsRegularLabel
         lb.textColor = .neutral50
         lb.textAlignment = .left
-        lb.text = "03"
+        lb.text = "1"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     
-    private lazy var actionButton : UIButton = {
+    lazy var actionButton : UIButton = {
         let btn = UIButton()
         btn.setImage(.arrowRight, for: .normal)
-        btn.addTarget(self, action: #selector(taped(_:)), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
@@ -71,6 +72,8 @@ class SettingTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func setupCell() {
         selectionStyle = .none
@@ -103,13 +106,4 @@ class SettingTableViewCell: UITableViewCell {
             actionButton.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -20),
         ])
     }
-    
-    @objc private func taped(_ sender: UIButton) {
-        sender.alpha = 0.5
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            sender.alpha = 1
-        }
-    }
-
 }

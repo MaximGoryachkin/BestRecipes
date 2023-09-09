@@ -8,7 +8,7 @@ struct CreateRecipeSettingDataModel {
 
 extension CreateRecipeSettingDataModel {
     static let prebuildData : [CreateRecipeSettingDataModel] = [
-        .init(iconImageName: "Icons/Profile", titleText: "Servers"),
+        .init(iconImageName: "Icons/Profile", titleText: "Serves"),
         .init(iconImageName: "Icons/Clock", titleText: "Cook time")
     ]
 }
