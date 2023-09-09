@@ -29,7 +29,6 @@ class HomeViewController: UIViewController {
     
     private var trendingsData : [RecipeDataModel] = []
     private var popularsPreloadData : [RecipeDataModel] = []
-//    private var recentlyWatchedRecipes : [RecipeDataModel] = []
     private var popularsCollectionSeletedCellCount : Int = 1
     private var choosenPopularCategoryes : String = ""
     
@@ -267,7 +266,6 @@ class HomeViewController: UIViewController {
         presenter = HomePresenter(view: self)
         presenter.loadTrendindsData()
         presenter.loadMainCourseData()
-        print(DataManager.shared.searchURL + "&query=spice")
     }
     
     override func viewWillAppear(_ animated: Bool) {
