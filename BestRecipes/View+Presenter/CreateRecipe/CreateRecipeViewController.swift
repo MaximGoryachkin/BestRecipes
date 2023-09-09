@@ -22,6 +22,7 @@ class CreateRecipeViewController: UIViewController {
     var recipeImageLocalPath : String = ""
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("\(UserDefaults.standard.string(forKey: "userName")!).plist")
     var customRecipes : [CustomRecipes] = []
+    var cookMinutes = 0
     
     private func createUserRecipes() {
         let encoder = PropertyListEncoder()
@@ -119,7 +120,7 @@ class CreateRecipeViewController: UIViewController {
         let img = UIImageView()
         img.clipsToBounds = true
         img.contentMode = .scaleToFill
-        img.image = UIImage(systemName: "folder.badge.questionmark")
+        img.image = UIImage(named: "recipeImage")
         img.layer.cornerRadius = 12
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
@@ -242,7 +243,9 @@ class CreateRecipeViewController: UIViewController {
     @objc private func createTapped() {
         if checkForEmptyValues() {
             let alert = UIAlertController(title: "Create Own Recipe", message: "Your recipe has been added successfully!", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Close", style: .default)
+            let action = UIAlertAction(title: "Close", style: .default) { _ in
+                self.dismiss(animated: true)
+            }
             alert.addAction(action)
             self.present(alert, animated: true)
             
@@ -255,13 +258,15 @@ class CreateRecipeViewController: UIViewController {
             customRecipes.append(CustomRecipes(userName: curentUserName,
                                                recipeImageLocalPath: recipeImageLocalPath,
                                                recipeTitle: recipeNameTextField.text!,
-                                               ingredients:ingredients,
-                                               cookDuration: 25))
+                                               ingredients: ingredients,
+                                               cookDuration: cookMinutes))
             createUserRecipes()
             
         } else {
-            let alert = UIAlertController(title: "Create Own Recipe", message: "Creating Recipe Failed! To create and save Your recipe, all fields should be filled, also recipe image must be selected!", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Try aghain", style: .default)
+            let alert = UIAlertController(title: "Create Own Recipe",
+                                          message: "Creating Recipe Failed! \nTo create and save Your recipe, all fields should be filled, also recipe image must be selected!",
+                                          preferredStyle: .alert)
+            let action = UIAlertAction(title: "Try again", style: .default)
             alert.addAction(action)
             self.present(alert, animated: true)
         }
@@ -330,7 +335,7 @@ class CreateRecipeViewController: UIViewController {
             
             createButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
             createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
-            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -13)
+            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -73)
         ])
     }
     
@@ -471,7 +476,8 @@ extension CreateRecipeViewController : UITableViewDelegate, UITableViewDataSourc
             case 0:
                 cell?.valueLabel.text = servesArray[servesPicker.selectedRow(inComponent: 0)]
             case 1:
-                cell?.valueLabel.text = cookTimeArray[cookTimePicker.selectedRow(inComponent: 0)] + " min"
+                cookMinutes = Int(cookTimeArray[cookTimePicker.selectedRow(inComponent: 0)]) ?? 1
+                cell?.valueLabel.text = "\(cookMinutes)" + " min"
             default: break
             }
             cell?.actionButton.isEnabled = true
