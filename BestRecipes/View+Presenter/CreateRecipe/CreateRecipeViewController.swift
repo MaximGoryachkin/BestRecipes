@@ -39,7 +39,7 @@ class CreateRecipeViewController: UIViewController {
     
     private func loadUserRecipes() {
         if  let data = try? Data(contentsOf: dataFilePath!) {
-             let decoder = PropertyListDecoder()
+            let decoder = PropertyListDecoder()
             do {
                 self.customRecipes = try decoder.decode([CustomRecipes].self, from: data)
             }
@@ -49,9 +49,7 @@ class CreateRecipeViewController: UIViewController {
         }
     }
     
-        
     // MARK: - Data
-    
     private var countOfSettingsCells : Int = 2
     
     private var heightForSettingTV : CGFloat {
@@ -69,6 +67,14 @@ class CreateRecipeViewController: UIViewController {
     ]
     
     // MARK: - UI Elements
+    private var servesArray = [String]()
+    private var cookTimeArray = [String]()
+    
+    var servesPicker = UIPickerView()
+    var cookTimePicker = UIPickerView()
+    var pickerViewContainer: UIView!
+    var selectedIndexPath: IndexPath?
+    
     private lazy var scrollView : UIScrollView = {
         let s = UIScrollView()
         s.contentSize = contentSize
@@ -124,7 +130,7 @@ class CreateRecipeViewController: UIViewController {
         btn.backgroundColor = .white
         btn.layer.cornerRadius = 16
         btn.setImage(.edit, for: .normal)
-        btn.addTarget(self, action: #selector(additTaped(_ :)), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(editTaped(_ :)), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -180,7 +186,7 @@ class CreateRecipeViewController: UIViewController {
         btn.setTitleColor(.neutral100, for: .normal)
         btn.titleLabel?.font = .poppinsBold16
         btn.setImage(.plus, for: .normal)
-        btn.addTarget(self, action: #selector(addIngredientTaped(_:)), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(addIngredientTapped(_:)), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -188,18 +194,19 @@ class CreateRecipeViewController: UIViewController {
     private lazy var createButton = CustomButton(style: .squareTextRed , title: "Create recipe")
     
     // MARK: - LifeCycle Methods
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         hideKeyboardWhenTappedAround()
         addSubviews()
         setupConstraints()
-        setupPicker()
+        setupPhotoPicker()
         setupTextFields()
         setupTableViews()
         setupButton()
         registerForKeyBoardNotifications()
+        fillServesArray()
+        fillCookTimeArray()
     }
     
     deinit {
@@ -212,8 +219,7 @@ class CreateRecipeViewController: UIViewController {
     }
     
     // MARK: - Buttons Methods
-    
-    @objc private func additTaped(_ sender: UIButton) {
+    @objc private func editTaped(_ sender: UIButton) {
         sender.alpha = 0.5
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -222,7 +228,7 @@ class CreateRecipeViewController: UIViewController {
         }
     }
     
-    @objc private func addIngredientTaped(_ sender: UIButton) {
+    @objc private func addIngredientTapped(_ sender: UIButton) {
         sender.alpha = 0.5
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender.alpha = 1
@@ -235,7 +241,7 @@ class CreateRecipeViewController: UIViewController {
     
     @objc private func createTapped() {
         if checkForEmptyValues() {
-            let alert = UIAlertController(title: "Create Own Recipe", message: "Your recipe succsesfuly addit!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Create Own Recipe", message: "Your recipe has been added successfully!", preferredStyle: .alert)
             let action = UIAlertAction(title: "Close", style: .default)
             alert.addAction(action)
             self.present(alert, animated: true)
@@ -262,7 +268,6 @@ class CreateRecipeViewController: UIViewController {
     }
     
     // MARK: - Configure UI
-    
     private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -329,7 +334,7 @@ class CreateRecipeViewController: UIViewController {
         ])
     }
     
-    private func setupPicker() {
+    private func setupPhotoPicker() {
         photoPickerView.delegate = self
         photoPickerView.sourceType = .photoLibrary
     }
@@ -377,10 +382,25 @@ class CreateRecipeViewController: UIViewController {
             scrollView.contentOffset = CGPoint.zero
         }
     }
+    
+    private func fillServesArray() {
+        for i in 1...20 {
+            servesArray.append("\(i)")
+        }
+    }
+    
+    private func fillCookTimeArray() {
+        for i in 1..<20 {
+            cookTimeArray.append("\(i)")
+        }
+        
+        for i in stride(from: 20, through: 180, by: 5) {
+            cookTimeArray.append("\(i)")
+        }
+    }
 }
 
-// MARK: - PickerView Delegate
-
+// MARK: - ImagePickerControllerDelegate
 extension CreateRecipeViewController : UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -390,14 +410,13 @@ extension CreateRecipeViewController : UIImagePickerControllerDelegate & UINavig
         self.recipeImage.image = choosenImage
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 }
 
-// MARK: - UITextView Delegate
-
+// MARK: - UITextFieldDelegate
 extension CreateRecipeViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -407,9 +426,8 @@ extension CreateRecipeViewController : UITextFieldDelegate {
     }
 }
 
- // MARK: - UITableView Delegate & DataSource
-
-extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSource {
+// MARK: - UITableViewDataSource, UITableViewDelegate
+extension CreateRecipeViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == settingTableView {
@@ -424,6 +442,7 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",for: indexPath) as! SettingTableViewCell
             let currentCell = CreateRecipeSettingDataModel.prebuildData[indexPath.row]
             cell.cellData = currentCell
+            cell.actionButton.addTarget(self, action: #selector(actionTaped(_:)), for: .touchUpInside)
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
@@ -433,9 +452,43 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    @objc private func actionTaped(_ sender: UIButton) {
+        sender.alpha = 0.5
+        let point = sender.convert(CGPoint.zero, to: settingTableView)
+        if let indexPath = settingTableView.indexPathForRow(at: point) {
+            selectedIndexPath = indexPath
+            showPickerView()
+        }
     }
+    
+    @objc func doneButtonTapped() {
+        if let selectedIndexPath = selectedIndexPath {
+            let cell = settingTableView.cellForRow(at: selectedIndexPath) as? SettingTableViewCell
+            
+            switch selectedIndexPath.row {
+            case 0:
+                cell?.valueLabel.text = servesArray[servesPicker.selectedRow(inComponent: 0)]
+            case 1:
+                cell?.valueLabel.text = cookTimeArray[cookTimePicker.selectedRow(inComponent: 0)] + " min"
+            default: break
+            }
+            hidePickerView()
+        }
+    }
+    
+    func showPickerView() {
+        UIView.animate(withDuration: 0.3) {
+            self.setupPicker()
+            self.pickerViewContainer.frame.origin.y = self.view.frame.height - 200
+        }
+    }
+    
+    func hidePickerView() {
+        UIView.animate(withDuration: 0.3) {
+            self.pickerViewContainer.frame.origin.y = self.view.frame.height
+        }
+    }
+    
 }
 
 // MARK: - Recipe Creating Logic
@@ -458,10 +511,55 @@ extension CreateRecipeViewController {
         let fileName = "FileName"
         let fileURL = documentsUrl.appendingPathComponent(fileName)
         if let imageData = image.jpegData(compressionQuality: 1.0) {
-           try? imageData.write(to: fileURL, options: .atomic)
-           return fileName // ----> Save fileName
+            try? imageData.write(to: fileURL, options: .atomic)
+            return fileName // ----> Save fileName
         }
         print("Error saving image")
         return nil
+    }
+}
+
+extension CreateRecipeViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        pickerView == servesPicker ? servesArray.count : cookTimeArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        pickerView == servesPicker ? servesArray[row] : cookTimeArray[row]
+    }
+    
+    private func setupPicker() {
+        pickerViewContainer = UIView(frame: CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 200))
+        pickerViewContainer.backgroundColor = .white
+        
+        if let selectedIndexPath = selectedIndexPath {
+            switch selectedIndexPath.row {
+            case 0:
+                servesPicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+                servesPicker.dataSource = self
+                servesPicker.delegate = self
+                pickerViewContainer.addSubview(servesPicker)
+            case 1:
+                cookTimePicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+                cookTimePicker.dataSource = self
+                cookTimePicker.delegate = self
+                pickerViewContainer.addSubview(cookTimePicker)
+            default: break
+            }
+        }
+        
+        let doneButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 40))
+        doneButton.setTitle("Готово", for: .normal)
+        doneButton.setTitleColor(.neutral100, for: .normal)
+        doneButton.titleLabel?.font = .poppinsBold16
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        pickerViewContainer.addSubview(doneButton)
+        
+        view.addSubview(pickerViewContainer)
     }
 }
