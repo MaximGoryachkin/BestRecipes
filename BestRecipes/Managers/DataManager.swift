@@ -7,7 +7,7 @@ class DataManager {
     static let shared = DataManager()
     
     let baseURL = "https://api.spoonacular.com/recipes/"
-    let apiKey = "96e9dcad31254d1fb414fd818ca07ad0"
+    let apiKey = "e2fef51d8304448cba077f7f456da693"
     // 0b966a75106540f88014b83398f69da5
 //    "96e9dcad31254d1fb414fd818ca07ad0"
 // e2fef51d8304448cba077f7f456da693

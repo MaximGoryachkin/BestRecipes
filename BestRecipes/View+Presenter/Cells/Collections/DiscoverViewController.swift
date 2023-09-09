@@ -71,7 +71,7 @@ class DiscoverViewController: UIViewController {
     private func setupCollection() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(TrendingNowCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(SavedRecipesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 
 }
@@ -81,16 +81,38 @@ class DiscoverViewController: UIViewController {
 extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recipes.count
+        if recipes.count != 0 {
+            return recipes.count
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendingNowCollectionViewCell
-        let currentCell = recipes[indexPath.row]
-        cell.cellData = currentCell
-        cell.loadRecipeImage(currentCell.recipeImage)
-        cell.delegate = self
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SavedRecipesCollectionViewCell
+        
+        if recipes.count != 0 {
+            let currentCell = recipes[indexPath.row]
+            cell.cellData = currentCell
+            cell.loadRecipeImage(currentCell.recipeImage)
+            cell.favoriteButton.isEnabled = true
+            cell.delegate = self
+        } else {
+            let placeholder = RecipeDataModel(recipeId: 0, recipeImage: "https://static.vecteezy.com/system/resources/previews/000/302/923/original/vector-opposite-adjective-full-and-empty.jpg", recipeRating: "0.0", cookDuration: "0", recipeTitle: "No Favorits Recipes now", authorAvatar: UIImage(named: "Avatar")!, authorName: "Admin", isSavedToFavorite: false, coockingSteps: [], ingredients: [], categoryName: "")
+            cell.cellData = placeholder
+            cell.loadRecipeImage(placeholder.recipeImage)
+            cell.favoriteButton.isEnabled = false
+        }
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if recipes.count != 0 {
+            let seletedItemData = recipes[indexPath.row]
+            self.navigationController?.pushViewController(DetailViewController(recipeInfoData: seletedItemData), animated: true)
+        } else {
+        }
     }
     
 }
