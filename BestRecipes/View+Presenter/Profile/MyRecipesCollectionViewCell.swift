@@ -7,6 +7,7 @@ class MyRecipesCollectionViewCell: UICollectionViewCell {
             self.recipeImagePath = cellData!.recipeImageLocalPath
             self.titleLabel.text = cellData?.recipeTitle
             self.ingredientsLabel.text = "\(cellData!.ingredients!.count) Ingredients"
+            self.timeLabel.text = "\(cellData!.cookDuration) min"
         }
     }
 

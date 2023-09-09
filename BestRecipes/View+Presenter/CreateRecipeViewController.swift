@@ -3,10 +3,9 @@ import UIKit
 struct CustomRecipes : Codable {
     let userName : String
     let recipeImageLocalPath : String
-    let userAvatarLocalPath : String
     let recipeTitle : String
-    var recipeInstruction : String = "here is no instruction"
     var ingredients : [CustomIngredients]?
+    let cookDuration : Int
 }
 
 struct CustomIngredients : Codable {
@@ -268,7 +267,13 @@ class CreateRecipeViewController: UIViewController {
             alert.addAction(action)
             self.present(alert, animated: true)
             
-            customRecipes.append(CustomRecipes(userName: curentUserName, recipeImageLocalPath: recipeImageLocalPath, userAvatarLocalPath: currentUserAvatarPath, recipeTitle: recipeNameTextField.text!, ingredients:[CustomIngredients(ingredientName: "Test", ingredientQuantity: "2 dicks")]))
+            var ingredients : [CustomIngredients] = []
+            
+            for ingredient in ingredientsArray {
+                ingredients.append(CustomIngredients(ingredientName: ingredient.name, ingredientQuantity: ingredient.quantity))
+            }
+            
+            customRecipes.append(CustomRecipes(userName: curentUserName, recipeImageLocalPath: recipeImageLocalPath, recipeTitle: recipeNameTextField.text!, ingredients:ingredients, cookDuration: 25))
             
             createUserRecipes()
             
@@ -406,7 +411,7 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == settingTableView {
-            return 2
+            return CreateRecipeSettingDataModel.prebuildData.count
         } else {
             return ingredientsArray.count
         }
@@ -415,6 +420,8 @@ extension CreateRecipeViewController : UITableViewDelegate & UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == settingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",for: indexPath) as! SettingTableViewCell
+            let currentCell = CreateRecipeSettingDataModel.prebuildData[indexPath.row]
+            cell.cellData = currentCell
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredients", for: indexPath) as! CreateIngredientsTableViewCell
