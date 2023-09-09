@@ -31,7 +31,7 @@ class OnboardingHomeViewController: UIViewController {
         let label = UILabel()
         label.text = "100k+ premium recipes"
         label.font = .poppinsRegular20
-        label.tintColor = .white
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -52,7 +52,7 @@ class OnboardingHomeViewController: UIViewController {
         let label = UILabel()
         label.text = "Find best recipes for cooking"
         label.font = .poppinsRegular20
-        label.tintColor = .white
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
