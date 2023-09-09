@@ -4,18 +4,24 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     var cellData : RecipeDataModel? {
         didSet {
-            self.itemSaved = cellData!.isSavedToFavorite
+            self.itemSaved = cellData?.isSavedToFavorite
             self.retingValueLabel.text = cellData?.recipeRating
             self.duratuinLabel.text = cellData?.cookDuration
             self.titleLabel.text = cellData?.recipeTitle
             self.authorNameLabel.text = cellData?.authorName
-            self.recipeStringUrl = (cellData?.recipeImage)!
+            self.recipeStringUrl = cellData?.recipeImage
             self.avatarImage.image = cellData?.authorAvatar
         }
     }
     
-    private var itemSaved : Bool!
-    var recipeStringUrl : String = ""
+    private var itemSaved : Bool! {
+        didSet {
+            itemSaved ? favoriteButton.setImage(UIImage(named: "Bookmark/Active"), for: .normal) :
+                        favoriteButton.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
+        }
+    }
+    var recipeStringUrl : String!
+    var delegate: TrendingCellDelegate!
     
     private let imageBubble : UIView = {
         let view = UIView()
@@ -230,14 +236,16 @@ class TrendingNowCollectionViewCell: UICollectionViewCell {
     
     @objc private func favoriteTaped(_ sender: UIButton) {
         itemSaved = !itemSaved
-        guard let model = cellData else { return }
+        guard var model = cellData else { return }
         
         if itemSaved {
-            sender.setImage(UIImage(named: "Bookmark/Active"), for: .normal)
+            model.isSavedToFavorite.toggle()
             DataManager.shared.arrayRecipes.updateValue(model, forKey: model.recipeId)
+            delegate.updateTrendingData(with: model.recipeId)
         } else {
-            sender.setImage(UIImage(named: "Bookmark/Inactive"), for: .normal)
+            model.isSavedToFavorite.toggle()
             DataManager.shared.arrayRecipes.removeValue(forKey: model.recipeId)
+            delegate.updateTrendingData(with: model.recipeId)
         }
     }
     

@@ -42,7 +42,6 @@ class DiscoverViewController: UIViewController {
         setupCollection()
         
         presenter = DiscoverPresenter(view: self)
-        presenter.updateRecipes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,16 +89,41 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
         let currentCell = recipes[indexPath.row]
         cell.cellData = currentCell
         cell.loadRecipeImage(currentCell.recipeImage)
+        cell.delegate = self
         return cell
     }
     
 }
 
+// MARK: - Presenter Protocol
+
 extension DiscoverViewController: DiscoverViewProtocol {
     func updateCollection(with recipes: [RecipeDataModel]) {
-        self.recipes = recipes
-        self.collectionView.reloadData()
         DispatchQueue.main.async {
+            self.recipes = recipes
+            self.collectionView.reloadData()
+        }
+    }
+}
+
+// MARK: - Collection Cell Protocols
+
+extension DiscoverViewController: TrendingCellDelegate, CategoryCellDelegate {
+    func updateTrendingData(with id: Int) {
+        recipes = recipes.filter {
+            $0.recipeId != id
+        }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+
+    func updateCategoryData(with id: Int) {
+        recipes = recipes.filter {
+            $0.recipeId != id
+        }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 }

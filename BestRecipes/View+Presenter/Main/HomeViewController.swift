@@ -8,6 +8,14 @@ protocol HomeViewProtocol: AnyObject {
     func updateSearchData (_ array: [RecipeDataModel])
 }
 
+protocol TrendingCellDelegate {
+    func updateTrendingData(with id: Int)
+}
+
+protocol CategoryCellDelegate {
+    func updateCategoryData(with id: Int)
+}
+
 class HomeViewController: UIViewController {
     
     // MARK: - Data
@@ -265,6 +273,7 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        checkData()
         trendingCollection.reloadData()
         categoryesItemsCollection.reloadData()
         recentRecipeCollection.reloadData()
@@ -377,6 +386,21 @@ class HomeViewController: UIViewController {
         creatorsCollection.dataSource = self
         creatorsCollection.register(CreatorsCollectionViewCell.self, forCellWithReuseIdentifier: "CreatorsCell")
     }
+
+    private func checkData() {
+        let dataArray = DataManager.shared.arrayRecipes.keys
+        for index in 0..<trendingsData.count {
+            trendingsData[index].isSavedToFavorite = dataArray.contains {
+                $0 == trendingsData[index].recipeId
+            }
+        }
+        for index in 0..<popularsPreloadData.count {
+            popularsPreloadData[index].isSavedToFavorite = dataArray.contains {
+                $0 == popularsPreloadData[index].recipeId
+            }
+        }
+    }
+
 }
 
 // MARK: - SearchBar Delegates
@@ -431,6 +455,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             let currentCell = trendingsData[indexPath.row]
             cell.cellData = currentCell
             cell.loadRecipeImage(cell.recipeStringUrl)
+            cell.delegate = self
             return cell
             
         } else if collectionView == categoryesNamesCollection {
@@ -447,6 +472,7 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
             let currentCell = popularsPreloadData[indexPath.row]
             cell.cellData = currentCell
             cell.loadRecipeImage(currentCell.recipeImage)
+            cell.delegate = self
             return cell
             
         } else if collectionView == recentRecipeCollection {
@@ -598,5 +624,24 @@ extension HomeViewController : UITableViewDelegate & UITableViewDataSource {
       
     }
     
-    
+}
+
+extension HomeViewController: TrendingCellDelegate {
+    func updateTrendingData(with id: Int) {
+        for index in 0..<trendingsData.count {
+            if trendingsData[index].recipeId == id {
+                trendingsData[index].isSavedToFavorite.toggle()
+            }
+        }
+    }
+}
+
+extension HomeViewController: CategoryCellDelegate {
+    func updateCategoryData(with id: Int) {
+        for index in 0..<popularsPreloadData.count {
+            if popularsPreloadData[index].recipeId == id {
+                popularsPreloadData[index].isSavedToFavorite.toggle()
+            }
+        }
+    }
 }
