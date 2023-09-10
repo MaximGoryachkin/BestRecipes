@@ -271,6 +271,7 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = false
         checkData()
         trendingCollection.reloadData()
         categoryesItemsCollection.reloadData()
