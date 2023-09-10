@@ -79,7 +79,7 @@ class TabBarController: UITabBarController {
         notifications.tabBarItem.selectedImage = .notificationActive
         notifications.tabBarItem.isEnabled = false
         
-        let profile = ProfileViewController()
+        let profile = UINavigationController(rootViewController: ProfileViewController())
         profile.tabBarItem.image = .profileInactive
         profile.tabBarItem.selectedImage = .profileActive
         

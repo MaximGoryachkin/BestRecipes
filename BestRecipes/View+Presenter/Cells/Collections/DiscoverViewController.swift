@@ -47,6 +47,7 @@ class DiscoverViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = false
         presenter.updateRecipes()
     }
     
@@ -109,7 +110,6 @@ extension DiscoverViewController : UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(123)
         if recipes.count != 0 {
             let seletedItemData = recipes[indexPath.row]
             self.navigationController?.pushViewController(DetailViewController(recipeInfoData: seletedItemData), animated: true)

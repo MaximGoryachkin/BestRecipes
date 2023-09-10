@@ -107,6 +107,7 @@ class SearchResultsAlert {
             resultsTableView.trailingAnchor.constraint(equalTo: alertView.trailingAnchor),
             resultsTableView.bottomAnchor.constraint(equalTo: alertView.bottomAnchor)
         ])
+        
     }
     
     @objc func dismissAlert() {

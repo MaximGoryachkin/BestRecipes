@@ -39,8 +39,8 @@ class SearchResultsTableViewCell: UITableViewCell {
     
     private let iconBubleView : UIView = {
         let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        view.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 30).isActive = true
         view.layer.cornerRadius = 8
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -60,16 +60,15 @@ class SearchResultsTableViewCell: UITableViewCell {
         let lb = UILabel()
         lb.font = .poppinsBold16
         lb.textColor = .neutral100
-        lb.textAlignment = .left
-        lb.text = "Serves fdsfdssdfdsadasdaasdadsasdads"
+        lb.textAlignment = .center
+        lb.text = "Serves"
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     
-    private lazy var actionButton : UIButton = {
-        let btn = UIButton()
-        btn.setImage(.arrowRight, for: .normal)
-        btn.addTarget(self, action: #selector(taped(_:)), for: .touchUpInside)
+    private lazy var actionButton : UIImageView = {
+        let btn = UIImageView()
+        btn.image = .arrowRight
         btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
         btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
         btn.translatesAutoresizingMaskIntoConstraints = false
