@@ -20,6 +20,12 @@ class TabBarController: UITabBarController {
     }()
     
     // MARK: - Override Methods
+    override func loadView() {
+        super.loadView()
+        self.tabBar.addSubview(plusButton)
+        setupCustomTabBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupItems()
@@ -27,12 +33,7 @@ class TabBarController: UITabBarController {
                                   y: 0,
                                   width: 48,
                                   height: 48)
-    }
-    
-    override func loadView() {
-        super.loadView()
-        self.tabBar.addSubview(plusButton)
-        setupCustomTabBar()
+        setupAppearance()
     }
     
     override func viewDidLayoutSubviews() {
@@ -66,7 +67,7 @@ class TabBarController: UITabBarController {
         home.tabBarItem.image = .homeInactive
         home.tabBarItem.selectedImage = .homeActive
         
-        let bookmarks = DiscoverViewController()
+        let bookmarks = UINavigationController(rootViewController: DiscoverViewController())
         bookmarks.tabBarItem.image = .bookmarkInactive
         bookmarks.tabBarItem.selectedImage = .bookmarkActive
         
@@ -116,5 +117,15 @@ class TabBarController: UITabBarController {
         path.addLine(to: CGPoint(x: minX, y: -20))
         path.close()
         return path.cgPath
+    }
+    
+    private func setupAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = .none
+        appearance.backgroundImageContentMode = .scaleAspectFill
+        appearance.shadowColor = .clear
+        
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
     }
 }

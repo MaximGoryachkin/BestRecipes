@@ -629,7 +629,7 @@ extension AuthViewController : UIImagePickerControllerDelegate & UINavigationCon
         if let imgUrl = info[UIImagePickerController.InfoKey.imageURL] as? URL{
             let imgName = imgUrl.lastPathComponent
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-            let localPath = documentDirectory?.appending(imgName)
+            _ = documentDirectory?.appending(imgName)
             // self.imageLocalPath = localPath!
         }
         

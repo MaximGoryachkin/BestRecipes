@@ -46,6 +46,11 @@ class TrendingViewController: UIViewController {
         titleLabel.text = titleLabelString
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = false
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     init(dataArray: [RecipeDataModel], titleLabelString: String) {
         self.dataArray = dataArray
         self.titleLabelString = titleLabelString
@@ -69,7 +74,7 @@ class TrendingViewController: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
