@@ -16,7 +16,7 @@
  "userEmail" - String
  "avatarLocalPath" - String
  */
- 
+
 
 
 import UIKit
@@ -27,18 +27,6 @@ class ProfileViewController: UIViewController {
     
     var recipesArray : [CustomRecipes] = []
     
-    private func loadUserRecipes() {
-        if  let data = try? Data(contentsOf: dataFilePathForRecipes!) {
-             let decoder = PropertyListDecoder()
-            do {
-                self.recipesArray = try decoder.decode([CustomRecipes].self, from: data)
-            }
-            catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     // MARK: - Data
     
     var documentsUrl: URL {
@@ -48,7 +36,7 @@ class ProfileViewController: UIViewController {
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Users.plist")
     
     var usersArray = [UsersDataModel]()
-        
+    
     // MARK: - UI
     
     private let imagePicker = UIImagePickerController()
@@ -85,7 +73,7 @@ class ProfileViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-        
+    
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "Avatar")
@@ -155,6 +143,8 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = false
         safeLoadANdUpdateAvatar()
         loadUserRecipes()
         self.collectionView.reloadData()
@@ -187,17 +177,17 @@ class ProfileViewController: UIViewController {
             myProfileLabel.leadingAnchor.constraint(equalTo: myProfileView.leadingAnchor, constant: 21),
             myProfileLabel.heightAnchor.constraint(equalToConstant: 29),
             myProfileLabel.widthAnchor.constraint(equalToConstant: 122),
-
+            
             moreButton.centerYAnchor.constraint(equalTo: myProfileLabel.centerYAnchor),
             moreButton.trailingAnchor.constraint(equalTo: myProfileView.trailingAnchor, constant: -20),
             moreButton.heightAnchor.constraint(equalToConstant: 24),
             moreButton.widthAnchor.constraint(equalToConstant: 24),
-
+            
             myRecipesView.topAnchor.constraint(equalTo: myProfileView.bottomAnchor),
             myRecipesView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             myRecipesView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             myRecipesView.heightAnchor.constraint(equalToConstant: 229),
-
+            
             profileImage.topAnchor.constraint(equalTo: myRecipesView.topAnchor, constant: 12),
             profileImage.leadingAnchor.constraint(equalTo: myRecipesView.leadingAnchor, constant: 20.5),
             profileImage.heightAnchor.constraint(equalToConstant: 100),
@@ -215,7 +205,7 @@ class ProfileViewController: UIViewController {
             userEmailLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 10),
             userEmailLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 25),
             userEmailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-
+            
             myRecipesLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 69),
             myRecipesLabel.leadingAnchor.constraint(equalTo: myRecipesView.leadingAnchor, constant: 36),
             myRecipesLabel.heightAnchor.constraint(equalToConstant: 29),
@@ -230,6 +220,18 @@ class ProfileViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MyRecipesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    private func loadUserRecipes() {
+        if  let data = try? Data(contentsOf: dataFilePathForRecipes!) {
+            let decoder = PropertyListDecoder()
+            do {
+                self.recipesArray = try decoder.decode([CustomRecipes].self, from: data)
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -250,6 +252,11 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
         cell.cellData = currentCell
         cell.loadRecipeImage(fileName: currentCell.recipeImageLocalPath)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let seletedItemData = recipesArray[indexPath.row]
+        self.navigationController?.pushViewController(DetailViewController(customRecipeData: seletedItemData), animated: true)
     }
 }
 
@@ -281,18 +288,18 @@ extension ProfileViewController: UIImagePickerControllerDelegate & UINavigationC
         profileImage.image = image
         picker.dismiss(animated: true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-
+    
 }
 
 extension ProfileViewController {
     
     private func loadExistingUsers() {
         if  let data = try? Data(contentsOf: dataFilePath!) {
-             let decoder = PropertyListDecoder()
+            let decoder = PropertyListDecoder()
             do {
                 self.usersArray = try decoder.decode([UsersDataModel].self, from: data)
             }
@@ -317,8 +324,8 @@ extension ProfileViewController {
         let fileName = "FileName"
         let fileURL = documentsUrl.appendingPathComponent(fileName)
         if let imageData = image.jpegData(compressionQuality: 1.0) {
-           try? imageData.write(to: fileURL, options: .atomic)
-           return fileName // ----> Save fileName
+            try? imageData.write(to: fileURL, options: .atomic)
+            return fileName // ----> Save fileName
         }
         print("Error saving image")
         return nil
@@ -329,7 +336,7 @@ extension ProfileViewController {
         let currentUserEmail = UserDefaults.standard.string(forKey: "userEmail")
         let currentUserName = UserDefaults.standard.string(forKey: "userName")
         let currentUserPass = UserDefaults.standard.string(forKey: "userPassword")
-                
+        
         var usersWithoutCurrent = usersArray.filter {$0.email != currentUserEmail!}
         
         let userWithChangedAvatar = UsersDataModel(userName: currentUserName!, email: currentUserEmail!, password: currentUserPass!,userAvatarLocalPath: avatarString)

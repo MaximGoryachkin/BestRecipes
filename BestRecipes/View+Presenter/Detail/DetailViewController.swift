@@ -190,6 +190,22 @@ class DetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    init(customRecipeData : CustomRecipes) {
+        let recipeInfoData = RecipeDataModel(recipeId: 0,
+                                             recipeImage: customRecipeData.recipeImageLocalPath,
+                                             recipeRating: "",
+                                             cookDuration: "",
+                                             recipeTitle: customRecipeData.recipeTitle,
+                                             authorAvatar: UIImage(),
+                                             authorName: customRecipeData.userName,
+                                             isSavedToFavorite: false,
+                                             coockingSteps: [],
+                                             ingredients: [],
+                                             categoryName: "")
+        self.recipeInfoData = recipeInfoData
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -271,8 +287,12 @@ class DetailViewController: UIViewController {
     private func setupUIData() {
         titleLabel.text = recipeInfoData.recipeTitle
         ratingbutton.setTitle(recipeInfoData.recipeRating, for: .normal)
-        loadRecipeImage(recipeInfoData.recipeImage)
         itemCountLabel.text = String(recipeInfoData.ingredients.count)
+        if recipeInfoData.recipeId == 0 {
+            loadRecipeImage(fileName: recipeInfoData.recipeImage)
+        } else {
+            loadRecipeImage(recipeInfoData.recipeImage)
+        }
     }
     
     private func saveToRecents(_ recipe: RecipeDataModel) {
@@ -292,6 +312,18 @@ class DetailViewController: UIViewController {
             self.reviewsLabel.text = "(\(Int.random(in: 2000...3999)) Reviews)"
         } else {
             self.reviewsLabel.text = "(\(Int.random(in: 1...1999)) Reviews)"
+        }
+    }
+    
+    func loadRecipeImage(fileName: String) {
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            DispatchQueue.main.async {
+                self.reciptImage.image = UIImage(data: imageData)
+            }
+        } catch {
+            print("Error loading image : \(error)")
         }
     }
 }

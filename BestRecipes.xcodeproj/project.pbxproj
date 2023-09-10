@@ -50,7 +50,6 @@
 		890A2CAE2AA2038700CA2533 /* DiscoverModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A2CAD2AA2038700CA2533 /* DiscoverModel.swift */; };
 		895093E82AA4510500370420 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895093E72AA4510500370420 /* Constants.swift */; };
 		8982B15E2A9B4E0800C471E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */; };
-		8982B1602A9B4E0800C471E6 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B15F2A9B4E0800C471E6 /* TestViewController.swift */; };
 		8982B1652A9B4E0900C471E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8982B1642A9B4E0900C471E6 /* Assets.xcassets */; };
 		8982B1682A9B4E0900C471E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8982B1662A9B4E0900C471E6 /* LaunchScreen.storyboard */; };
 		8982B1762A9B4E8400C471E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1752A9B4E8400C471E6 /* AppDelegate.swift */; };
@@ -75,7 +74,6 @@
 		8982B1B12A9D176E00C471E6 /* Ingridients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B02A9D176E00C471E6 /* Ingridients.swift */; };
 		8982B1B32A9D178700C471E6 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B22A9D178700C471E6 /* Instruction.swift */; };
 		8982B1B52A9D179B00C471E6 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8982B1B42A9D179B00C471E6 /* Step.swift */; };
-		89F5EB5A2A9F81A400A249A5 /* TestPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F5EB592A9F81A400A249A5 /* TestPresenter.swift */; };
 		D5605A132AA75ECB00EF6F86 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */; };
 		D5D534162A9F875B008B733C /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D534152A9F875B008B733C /* TrendingViewController.swift */; };
 		D5D534182A9F879E008B733C /* TrendingNowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D534172A9F879E008B733C /* TrendingNowCell.swift */; };
@@ -126,7 +124,6 @@
 		895093E72AA4510500370420 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8982B1582A9B4E0800C471E6 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8982B15D2A9B4E0800C471E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8982B15F2A9B4E0800C471E6 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		8982B1642A9B4E0900C471E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8982B1672A9B4E0900C471E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8982B1692A9B4E0900C471E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -152,7 +149,6 @@
 		8982B1B02A9D176E00C471E6 /* Ingridients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingridients.swift; sourceTree = "<group>"; };
 		8982B1B22A9D178700C471E6 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		8982B1B42A9D179B00C471E6 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
-		89F5EB592A9F81A400A249A5 /* TestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPresenter.swift; sourceTree = "<group>"; };
 		D5605A122AA75ECB00EF6F86 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaunchViewController.swift; path = BestRecipes/LaunchViewController.swift; sourceTree = SOURCE_ROOT; };
 		D5D534152A9F875B008B733C /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingViewController.swift; path = "BestRecipes/View+Presenter/TrendingViewController.swift"; sourceTree = SOURCE_ROOT; };
 		D5D534172A9F879E008B733C /* TrendingNowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingNowCell.swift; path = "BestRecipes/View+Presenter/TrendingNowCell.swift"; sourceTree = SOURCE_ROOT; };
@@ -339,7 +335,6 @@
 				8982B1A12A9BA88600C471E6 /* Discover */,
 				8982B1A02A9BA87F00C471E6 /* Main */,
 				5296B3D42AA20D5900B043C5 /* Onboarding */,
-				89F5EB582A9F818900A249A5 /* Test */,
 				57A1CED72A9BC0CB0061B0D3 /* CustomButton.swift */,
 			);
 			path = "View+Presenter";
@@ -488,15 +483,6 @@
 			path = Recipes;
 			sourceTree = "<group>";
 		};
-		89F5EB582A9F818900A249A5 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				8982B15F2A9B4E0800C471E6 /* TestViewController.swift */,
-				89F5EB592A9F81A400A249A5 /* TestPresenter.swift */,
-			);
-			path = Test;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -606,14 +592,12 @@
 				8982B1812A9B504A00C471E6 /* UIFont+PoppinsBold.swift in Sources */,
 				895093E82AA4510500370420 /* Constants.swift in Sources */,
 				8982B1B52A9D179B00C471E6 /* Step.swift in Sources */,
-				89F5EB5A2A9F81A400A249A5 /* TestPresenter.swift in Sources */,
 				8982B1822A9B504A00C471E6 /* UIFont+PoppinsRegular.swift in Sources */,
 				57B5E0582A9F9F9600E36DED /* UIImage+Resize.swift in Sources */,
 				8982B1912A9B5C3F00C471E6 /* UIImage+TabBar.swift in Sources */,
 				8982B1A72A9CDBEC00C471E6 /* Recipes.swift in Sources */,
 				5743D2772A9D533D00FCC596 /* UISearchBar+ Extension.swift in Sources */,
 				5799551B2AA117E100AAA410 /* RecipeDataModel.swift in Sources */,
-				8982B1602A9B4E0800C471E6 /* TestViewController.swift in Sources */,
 				579DA5B92A9E426500DD66BE /* RecentRecipeCollectionViewCell.swift in Sources */,
 				5799551F2AA14EBD00AAA410 /* MainPresenter.swift in Sources */,
 				579DA5BF2A9E8FD900DD66BE /* DiscoverViewController.swift in Sources */,
